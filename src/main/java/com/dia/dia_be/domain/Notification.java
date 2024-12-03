@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalTime;
 
 @Getter
+@Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Notification {

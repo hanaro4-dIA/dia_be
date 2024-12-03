@@ -39,7 +39,7 @@ public class Reserve {
 	@JoinColumn(name = "consulting_id")
 	private Consulting consulting;
 
-	private Reserve(String content, boolean approve, LocalDateTime date) {
+	public Reserve(String content, boolean approve, LocalDateTime date) {
 		this.content = content;
 		this.approve = approve;
 		this.date = date;
