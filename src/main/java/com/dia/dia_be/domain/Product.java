@@ -31,17 +31,20 @@ public class Product {
 	@Column(nullable = false, columnDefinition = "VARCHAR(150)")
 	private String product_url;
 
+	@Column(nullable = false, columnDefinition = "VARCHAR(150)")
+	private String image_url;
+
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Journal_product> journal_product = new ArrayList<>();
 
-	private Product(String name, String product_url) {
+	private Product(String name, String product_url, String image_url) {
 		this.name = name;
 		this.product_url = product_url;
+		this.image_url = image_url;
 	}
 
 	@Builder
-	public static Product create(String name, String product_url) {
-		return new Product(name, product_url);
+	public static Product create(String name, String product_url, String image_url) {
+		return new Product(name, product_url, image_url);
 	}
-
 }

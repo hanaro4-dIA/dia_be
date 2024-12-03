@@ -29,9 +29,6 @@ public class Reserve {
 	@Column(nullable = false, columnDefinition = "VARCHAR(500)")
 	private String content;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
-	private String file_url;
-
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	private boolean approve;
 
@@ -42,16 +39,15 @@ public class Reserve {
 	@JoinColumn(name = "consulting_id")
 	private Consulting consulting;
 
-	private Reserve(String content, String file_url, boolean approve, LocalDateTime date) {
+	private Reserve(String content, boolean approve, LocalDateTime date) {
 		this.content = content;
-		this.file_url = file_url;
 		this.approve = approve;
 		this.date = date;
 	}
 
 	@Builder
 	public static Reserve create(String content, String file_url, boolean approve, LocalDateTime date) {
-		return new Reserve(content, file_url, approve, date);
+		return new Reserve(content, approve, date);
 	}
 
 	protected void setConsulting(Consulting consulting) {
