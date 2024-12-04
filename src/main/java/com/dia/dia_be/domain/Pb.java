@@ -58,7 +58,7 @@ public class Pb {
 	private List<Customer_pb> customer_pb = new ArrayList<>();
 
 	@OneToMany(mappedBy = "pb", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Pb_hashtag> pb_hashtag = new ArrayList<>();
+	private List<Hashtag> hashtag = new ArrayList<>();
 
 	private Pb(String password, String name, String image_url, String introduce, String office, String career,
 		String login_id, String tel, boolean availability) {

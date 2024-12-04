@@ -7,31 +7,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
-@Setter(AccessLevel.PACKAGE)
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Hashtag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(20)")
-    private String name;
+	@ManyToOne
+	@JoinColumn(name = "pb_id", nullable = false, columnDefinition = "INT UNSIGNED")
+	private Pb pb;
 
-    private Hashtag(String name) {
-        this.name = name;
-    }
+	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
+	private String name;
 
-    @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL)
-    private List<Pb_hashtag> pb_hashtag = new ArrayList<>();
+	public Hashtag(String name) {
+		this.name = name;
+	}
 
-    @Builder
-    public static Hashtag create(String hashtag) {
-        return new Hashtag(hashtag);
-    }
+	@Builder
+	public static Hashtag create(Pb pb, String name) {
+		Hashtag pb_hashtag = new Hashtag(name);
+		pb_hashtag.addPb(pb);
+		return pb_hashtag;
+	}
+
+	private void addPb(Pb pb) {
+		this.pb = pb;
+		pb.getHashtag().add(this);
+	}
+
 }
