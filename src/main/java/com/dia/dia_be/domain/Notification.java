@@ -2,6 +2,7 @@ package com.dia.dia_be.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalTime;
 
@@ -26,13 +27,14 @@ public class Notification {
 	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
 	private String content;
 
-	@Column(nullable = false, columnDefinition = "TIMESTAMP")
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "timestamp default current_timestamp")
 	private LocalTime date;
 
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	private Boolean is_read;
 
-	public Notification(String title, String content, LocalTime date, Boolean is_read) {
+	private Notification(String title, String content, LocalTime date, Boolean is_read) {
 		this.title = title;
 		this.content = content;
 		this.date = date;

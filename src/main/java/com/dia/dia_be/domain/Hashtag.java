@@ -23,7 +23,7 @@ public class Hashtag {
 	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
 	private String name;
 
-	public Hashtag(String name) {
+	private Hashtag(String name) {
 		this.name = name;
 	}
 

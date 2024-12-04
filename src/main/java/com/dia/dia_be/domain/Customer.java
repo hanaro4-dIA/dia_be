@@ -58,7 +58,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Notification> notification = new ArrayList<>();
 
-    public Customer(LocalDate date, Long id, int count, String memo, String email, String password, String name, String tel, String address) {
+    private Customer(LocalDate date, Long id, int count, String memo, String email, String password, String name, String tel, String address) {
         this.date = date;
         this.id = id;
         this.count = count;

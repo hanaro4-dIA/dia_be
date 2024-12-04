@@ -31,7 +31,7 @@ public class Keyword {
 	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Journal_keyword> journal_keyword = new ArrayList<>();
 
-	public Keyword(String title, String content, String url) {
+	private Keyword(String title, String content, String url) {
 		this.title = title;
 		this.content = content;
 		this.url = url;

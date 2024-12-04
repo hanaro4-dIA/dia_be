@@ -53,7 +53,7 @@ public class Consulting {
     @OneToOne(mappedBy = "consulting", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Journal journal;
 
-    public Consulting(String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
+    private Consulting(String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
         this.title = title;
         this.hope_date = hope_date;
         this.hope_time = hope_time;
