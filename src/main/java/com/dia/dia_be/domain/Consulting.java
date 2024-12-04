@@ -47,8 +47,8 @@ public class Consulting {
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="customer_pb_id")
-    private Customer_pb customer_pb;
+    @JoinColumn(name="customer_id")
+    private Customer customer;
 
     @OneToOne(mappedBy = "consulting", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Journal journal;
@@ -63,10 +63,10 @@ public class Consulting {
     }
 
     @Builder
-    public static Consulting create(Category category, Customer_pb customer_pb, String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
+    public static Consulting create(Category category, Customer customer, String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
         Consulting consulting = new Consulting(title,hope_date, hope_time,reserve_date,content,approve);
         consulting.addCategory(category);
-        consulting.addCustomer_pb(customer_pb);
+        consulting.addCustomer(customer);
         consulting.addJournal(new Journal());
         return consulting;
     }
@@ -76,9 +76,9 @@ public class Consulting {
         category.getConsulting().add(this);
     }
 
-    private void addCustomer_pb(Customer_pb customer_pb) {
-        this.customer_pb = customer_pb;
-        customer_pb.getConsulting().add(this);
+    private void addCustomer(Customer customer_) {
+        this.customer = customer_;
+        customer_.getConsulting().add(this);
     }
 
     private void addJournal(Journal journal) {

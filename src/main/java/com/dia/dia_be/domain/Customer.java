@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +16,23 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Customer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pb_id")
+    private Pb pb;
+
+
+    @Column(nullable = false, updatable = false)
+    private LocalDate date;
+
+    @Column(columnDefinition = "INT UNSIGNED")
+    private int count;
+
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String memo;
 
     @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
     private String email;
@@ -37,12 +50,19 @@ public class Customer {
     private String address;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Customer_pb> customer_pb = new ArrayList<>();
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Journal_keyword> journal_keyword = new ArrayList<>();
 
-    private Customer(String email, String password, String name, String tel, String address) {
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Consulting> consulting = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Notification> notification = new ArrayList<>();
+
+    public Customer(LocalDate date, Long id, int count, String memo, String email, String password, String name, String tel, String address) {
+        this.date = date;
+        this.id = id;
+        this.count = count;
+        this.memo = memo;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -51,7 +71,17 @@ public class Customer {
     }
 
     @Builder
-    public static Customer create(String email, String password, String name, String tel, String address) {
-        return new Customer(email,password,name,tel,address);
+    public static Customer create(Pb pb, LocalDate date, Long id, int count, String memo, String email, String password, String name, String tel, String address) {
+        Customer customer= new Customer(date, id, count, memo, email, password, name, tel, address);
+        customer.addPb(pb);
+        return customer;
     }
+
+    private void addPb(Pb pb) {
+        this.pb = pb;
+        pb.getCustomer().add(this);
+    }
+
+
+
 }

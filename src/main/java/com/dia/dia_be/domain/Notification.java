@@ -17,8 +17,8 @@ public class Notification {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_pb_id")
-	private Customer_pb customer_pb;
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(30)")
 	private String title;
@@ -40,15 +40,15 @@ public class Notification {
 	}
 
 	@Builder
-	public Notification create(Customer_pb customer_pb, String title, String content, LocalTime date, Boolean is_read) {
+	public Notification create(Customer customer_, String title, String content, LocalTime date, Boolean is_read) {
 		Notification notification = new Notification(title, content, date, is_read);
-		notification.addCustomer_pb(customer_pb);
+		notification.addCustomer(customer);
 		return notification;
 	}
 
-	private void addCustomer_pb(Customer_pb customer_pb) {
-		this.customer_pb = customer_pb;
-		customer_pb.getNotification().add(this);
+	private void addCustomer(Customer customer) {
+		this.customer = customer;
+		customer.getNotification().add(this);
 	}
 
 

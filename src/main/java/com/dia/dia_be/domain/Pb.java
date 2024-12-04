@@ -55,7 +55,7 @@ public class Pb {
 	private boolean availability;
 
 	@OneToMany(mappedBy = "pb", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Customer_pb> customer_pb = new ArrayList<>();
+	private List<Customer> customer = new ArrayList<>();
 
 	@OneToMany(mappedBy = "pb", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Hashtag> hashtag = new ArrayList<>();
