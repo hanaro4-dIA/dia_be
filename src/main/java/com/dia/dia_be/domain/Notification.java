@@ -17,7 +17,7 @@ public class Notification {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_pb_id", nullable = false)
+	@JoinColumn(name = "customer_pb_id")
 	private Customer_pb customer_pb;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(30)")
@@ -30,13 +30,13 @@ public class Notification {
 	private LocalTime date;
 
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	private Boolean read;
+	private Boolean confirm;
 
-	public Notification(String title, String content, LocalTime date, Boolean read) {
+	public Notification(String title, String content, LocalTime date, Boolean confirm) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
-		this.read = read;
+		this.confirm = confirm;
 	}
 
 	@Builder
