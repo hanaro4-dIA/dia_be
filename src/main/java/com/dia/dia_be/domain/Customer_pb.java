@@ -34,7 +34,7 @@ public class Customer_pb {
     @Column(columnDefinition = "INT UNSIGNED")
     private int count;
 
-    @Column(columnDefinition = "VARCHAR(300)")
+    @Column(columnDefinition = "VARCHAR(50)")
     private String memo;
 
     @OneToMany(mappedBy = "customer_pb", cascade = CascadeType.ALL)
