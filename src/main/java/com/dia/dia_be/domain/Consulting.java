@@ -6,8 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -24,10 +26,21 @@ public class Consulting {
     private String title;
 
     @Column(nullable = false, updatable = false)
-    private LocalDate date;
+    private LocalDate hope_date;
+
 
     @Column(nullable = false, updatable = false)
-    private LocalTime time;
+    private LocalTime hope_time;
+
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime reserve_date;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(500)")
+    private String content;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean approve;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
@@ -38,23 +51,22 @@ public class Consulting {
     private Customer_pb customer_pb;
 
     @OneToOne(mappedBy = "consulting", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Reserve reserve;
-
-    @OneToOne(mappedBy = "consulting", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Journal journal;
 
-    public Consulting(String title, LocalDate date, LocalTime time) {
+    public Consulting(String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
         this.title = title;
-        this.date = date;
-        this.time = time;
+        this.hope_date = hope_date;
+        this.hope_time = hope_time;
+        this.reserve_date = reserve_date;
+        this.content = content;
+        this.approve = approve;
     }
 
     @Builder
-    public static Consulting create(Category category, Customer_pb customer_pb, String title, LocalDate date, LocalTime time) {
-        Consulting consulting = new Consulting(title, date, time);
+    public static Consulting create(Category category, Customer_pb customer_pb, String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
+        Consulting consulting = new Consulting(title,hope_date, hope_time,reserve_date,content,approve);
         consulting.addCategory(category);
         consulting.addCustomer_pb(customer_pb);
-        consulting.addReserve(new Reserve());
         consulting.addJournal(new Journal());
         return consulting;
     }
@@ -67,11 +79,6 @@ public class Consulting {
     private void addCustomer_pb(Customer_pb customer_pb) {
         this.customer_pb = customer_pb;
         customer_pb.getConsulting().add(this);
-    }
-
-    private void addReserve(Reserve reserve) {
-        this.reserve = reserve;
-        reserve.setConsulting(this);
     }
 
     private void addJournal(Journal journal) {
