@@ -30,10 +30,6 @@ public class Customer {
     @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar(10)")
-    private Gender gender;
-
     @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
     private String tel;
 
@@ -46,17 +42,16 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Journal_keyword> journal_keyword = new ArrayList<>();
 
-    private Customer(String email, String password, String name, Gender gender, String tel, String address) {
+    private Customer(String email, String password, String name, String tel, String address) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.gender = gender;
         this.tel = tel;
         this.address = address;
     }
 
     @Builder
-    public static Customer create(String email, String password, String name, Gender gender, String tel, String address) {
-        return new Customer(email,password,name, gender,tel,address);
+    public static Customer create(String email, String password, String name, String tel, String address) {
+        return new Customer(email,password,name,tel,address);
     }
 }
