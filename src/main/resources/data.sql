@@ -1043,3 +1043,242 @@ insert into product(id,name,product_url,image_url) values(15,'교보생명_교�
 insert into product(id,name,product_url,image_url) values(16,'모바일_KDB생명_(무)하이브리드연금저축보험','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080305/1504570_136204.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
 insert into product(id,name,product_url,image_url) values(17,'iM라이프_iM 플러스변액연금보험 무배당 2410','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080306/1503948_136205.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
 insert into product(id,name,product_url,image_url) values(18,'BNP파리바카디프생명_(무)플러스자산관리저축보험Ⅳ','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080307/1503937_136206.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
+
+/******************consulting*****************/
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(1,'1','3','비상계엄령에 따른 포트폴리오 재구성에 대한 상담 요청','최근 한국 내 비상계엄령으로 인해 주식시장의 변동성이 극도로 심화되며, 기존 투자 포트폴리오의 손실 규모가 확대되었습니다. 어떻게하면 좋은 포트폴리오를 가질 수 있을까요.','2024.01.02','15:00','2024.01.02','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(2,'1','3','자산 리밸런싱에 대해 상담 요청드립니다.','시장 환경 변화에 따라 현재 자산 포트폴리오의 균형을 재조정하고자 합니다. 효율적이고 안정적인 수익 구조를 만들기 위한 리밸런싱 방법과 필요한 조치들에 대해 상세히 상담받고 싶습니다.','2024.04.02','16:00','2024.03.14','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(3,'1','3','장기적인 자산 관리 방안에 대해 알고 싶습니다.','장기적인 관점에서 자산을 체계적으로 관리하고 싶습니다. 안정성과 성장 가능성을 모두 고려한 자산 운용 전략과 미래 대비를 위한 구체적인 계획을 세우고 싶습니다.','2024.05.19','13:00','2024.05.01','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(4,'7','2','은퇴 후 소득 관리에 대해 조언 부탁드립니다.','은퇴 후에도 안정적인 소득을 유지하기 위해 준비해야 할 부분과 자산을 효율적으로 활용할 방법을 알고 싶습니다. 은퇴 시 필요한 자금과 적합한 수익 창출 방안에 대해 상담받고 싶습니다.','2024.06.25','10:00','2024.06.21','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(5,'1','2','월급 관리를 체계적으로 하고 싶은데 좋은 방법이 있을까요?','고정지출과 변동지출을 나누고, 적정 저축 비율을 알고 싶어요. 매달 불필요한 지출을 줄일 수 있는 방법도 조언해주세요.','2024.07.20','09:00','2024.07.10','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(6,'1','3','변액보험의 수익성과 위험성에 대해 상세히 알고 싶습니다.','수익률은 어떤지, 원금 손실 가능성은 어느 정도인지 궁금합니다. 저에게 맞는지 확인해보고 싶습니다.','2024.07.30','10:00','2024.07.22','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(7,'1','4','단기 투자와 장기 투자의 장단점과 적합성을 비교해 주세요.','단기 투자와 장기 투자 중 무엇이 제 상황에 적합할지 알고 싶습니다. 각각의 장단점과 추천 상품을 비교해주세요.','2024.08.11','11:00','2024.08.01','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(8,'1','5','펀드와 ETF 중 어느 쪽이 제 투자 성향에 맞는지 상담받고 싶습니다.','초보 투자자로서 관리 편의성과 수익성을 중요하게 생각합니다. 각 상품의 구조와 리스크를 구체적으로 비교해 주세요.','2024.08.22','12:00','2024.08.19','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(9,'1','3','소규모 창업 자금 마련 및 운영 계획에 대해 조언을 받고 싶어요.','운영 자금을 위한 대출과 투자 상품을 추천받고 싶어요. 예상 비용과 수익 흐름을 고려한 플랜을 상담받고 싶습니다.','2024.09.03','13:00','2024.08.30','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(10,'7','2','은퇴를 위한 최적의 재정 계획을 상담하고 싶습니다.','은퇴 후 여유로운 생활을 위해 지금부터 준비해야 할 재정 계획이 궁금합니다. 구체적인 자금 목표 설정과 자산 분배 전략을 포함한 맞춤형 상담을 요청드립니다.','2024.12.31','15:00','2024.12.01','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(11,'10','3','미래를 대비한 자산 관리 방안을 알고 싶습니다.','미래를 대비하기 위해 현재 자산을 어떻게 관리하고 운용해야 할지 고민입니다. 변화하는 시장 상황에 맞춰 안정적으로 성장할 수 있는 종합적인 관리 방안을 알고 싶습니다.','2025.01.02','16:00','2024.12.03','0');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(12,'1','5','내집 마련을 위해 어떤 대출 상품이 적합한지 알고 싶어요.','소득 대비 적합한 대출 상품과 조건을 알고 싶습니다. 상환 기간과 금리 혜택을 고려한 추천 부탁드립니다.','2025.01.20','09:00','2024.12.20','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(13,'1','5','은퇴 후 안정적인 소득을 유지할 방법에 대해 상담받고 싶습니다.','현재 저축 상태로 얼마나 준비가 부족한지 궁금합니다. 연금과 투자 상품을 조합한 전략을 추천받고 싶습니다.','2025.01.20','10:00','2024.12.20','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(14,'13','4','주택 구입 및 대출 관련 조언 부탁드립니다.','주택 구입을 계획 중인데, 적합한 대출 상품과 자금 계획에 대해 구체적으로 알고 싶습니다. 현재 재정 상황에 맞춘 합리적인 대출 상환 전략과 자산 활용 방안에 대해 상담받고 싶습니다.','2025.01.03','13:00','2024.12.20','0');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(15,'14','3','포트폴리오 구성에 대한 조언이 필요합니다.','현재 자산을 가장 효율적으로 운영하기 위한 포트폴리오 구성을 새롭게 하고 싶습니다. 수익성과 안정성을 모두 고려한 투자 전략과 최적의 자산 배분 비율에 대해 조언을 부탁드립니다.','2025.01.02','10:00','2024.12.21','1');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(16,'18','5','가족과의 행복한 삶을 위한 재정 계획 상담.','가족의 행복과 안정적인 생활을 위한 재정 계획을 세우고 싶습니다. 교육, 주거, 여가 등 다양한 측면에서 필요한 자금 준비와 효과적인 관리 방법을 알고 싶습니다.','2025.01.24','11:00','2024.12.24','0');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(17,'19','3','현 자산 운영 상태를 점검하고 싶습니다.','현재 운영 중인 자산의 상태를 체계적으로 점검받고 싶습니다. 자산이 제대로 활용되고 있는지 평가하고, 개선이 필요한 부분과 추가적인 조치를 상담받고 싶습니다.','2025.01.25','09:00','2024.12.25','0');
+insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,approve) values(18,'20','5','삶의 목표를 실현하기 위한 재정 계획이 필요합니다.','삶에서 이루고 싶은 목표를 실현하기 위해 구체적인 재정 계획을 세우고 싶습니다. 장기적인 자금 관리 방안과 실천 가능한 재무 전략에 대한 조언을 요청드립니다.','2025.01.26','16:00','2024.12.27','0');
+
+/***************journal*****************/
+insert into journal(id,consulting_id,contents,complete) values(1,'1',"금융 전략:
+단기적으로 안정적인 예금 및 금리 연동형 상품 활용
+개인퇴직계좌를 통한 세제 혜택 확보
+글로벌 자산 및 분산 투자로 장기적 위험 대비
+
+결과:
+손님은 추천 상품과 전략에 대해 긍정적 반응을 보였으나, 결정을 미루기로 함.
+추후에 재상담 일정 예약 예정. 손님의 가용자본을 확인
+
+추가 계획:
+손님이 문의할 가능성이 높은 해외 투자 상품 및 포트폴리오 예시 자료 준비
+
+금융 키워드:
+1. 가용자본
+[경영상 직면한 손실위험을 보전할 목적으로 은행이 실질적으로 보유하고 있는 자기자본 규모를 의미한다. 은행은 일정시점을 기준으로 은행이 사용 가능한 실질적인 자본을 가용자본으로 정의하고, 합리적인 산정방안을 마련하여 일관성있게 적용하여야 한다. 가용자본 산정방안은 자본 관리 목적(예: 주주이익 보호, 예금자 보호), 비상시 완충자본(buffer) 기능 가능 여부, 은행이 통제가능한 자원인지 여부, 국내외 산업관행 등을 고려하여 선정한다.]
+
+2. 가장매매
+[외관상으로는 증권 등의 매매가 이루어진 것으로 보이나 실질에 있어서는 권리이전을 목적으로 하지 않는 매매를 말하며, 동일인이 동일 종목에 대해 매수와 매도주문을 같은 시기에 하는 행위가 그 전형이다. 자본시장법은 동일한 계산주체에 의한 매매거래와 같이 현실의 수요에 근거하지 않는 거래 그 자체를 금지하는 것이 아니라, 가장매매를 반복함으로써 현실수요를 반영하지 않는 거래량 및 가격변동을 초래할 수 있기 때문에 거래 성황을 오인하도록 할 목적으로 하는 이와 같은 행위를 시세조종 행위로 금지하고 있다.]
+
+3. 개인퇴직계좌
+[「근로자퇴직급여보장법」 개정에 의해 2012년 7월에 도입되었으며, 개인형퇴직연금제도(기업형)와 개인형퇴직연금제도가 있다. 개인형퇴직연금제도(기업형)은 상시근로자 10인 미만 사업장에 한해 적용되는 제도로서 개인형퇴직연금제도(기업형)를 도입한 경우 확정기여형 제도를 도입한 것과 그 효과가 동일하다. 따라서 퇴직급여 지급을 위해 회사가 외부 금융회사에 적립한 금액을 근로자가 직접 운용하고 운용성과에 따라 퇴직급여 규모가 변동된다. 개인형퇴직연금제도는 근로자가 이직 및 퇴직할 때 받은 퇴직급여를 통산하여 적립하거나, 본인 부담으로 추가 납입한 자금을 만 55세 이후 연금화 할 수 있도록 하는 제도이다]
+
+4. 시장 리스크
+[시장리스크는 금리, 주가, 환율 등 시장가격의 변동으로 인하여 금융회사의 자산 가치가 변동할 가능성을 의미하며 단기매매나 시장가 변동으로부터 매매차익을 얻을 목적으로 취하는 트레이딩 포지션을 관리대상으로 한다. 예를 들어 트레이딩 목적으로 A회사(기존문구 대체 - '삼성전자') 주식 10주를 주당 500,000원의 가격으로 매수하였으나 익일 490,000원으로 가격이 하락하였다면 총 100,000원의 손실을 보게 되므로 이 주식에 대해서 시장리스크를 관리하여야 한다. 우리나라에서는 2002년부터 일정규모 이상의 트레이딩 포지션을 보유하고 있는 은행에 대하여 시장리스크에 상응하는 자기자본을 보유하도록 규제하고 있다.]",'1');
+insert into journal(id,consulting_id,contents,complete) values(2,'2',"자산 현황:
+주식 50%, 채권 30%, 현금성 자산 20%로 구성된 포트폴리오.
+시장 변화로 인해 주식 비중이 높아 리스크를 줄이고 안정성을 강화하고자 상담 요청.
+투자 성향: 안정형과 성장형 혼합 선호.
+리스크 관리 목표: 안정적인 수익 구조를 위한 리밸런싱 및 리스크 최소화.
+
+주식 조정:
+IT 및 헬스케어 업종 중심의 주식 보유.
+단기 변동성 완화를 위해 일부 매도 후 안전자산으로 전환 권장.
+성장 가능성이 높은 종목은 비율 조정을 통해 유지.
+
+채권 투자:
+기존 채권 유지하며 만기 조정 권장.
+신규 채권 투자 시 단기 만기 상품으로 금리 변동에 대비.
+
+현금성 자산 활용:
+유동성 유지를 위해 일정 비율 유지.
+일부 자산은 머니마켓펀드 등을 통해 수익성을 강화.
+
+시장 리스크 대응:
+정기적인 자산 점검과 조정 권장.
+금융감독원 금융자문서비스 활용 제안.
+
+리스크 중심 관리:
+손님 투자 성향 및 리스크 감내 수준에 맞는 포트폴리오 설계.
+
+상담 결과:
+손님은 상담 내용을 바탕으로 제안 상품을 검토한 후, 구체적인 실행 방안을 논의하기로 함.
+
+추후 계획:
+상품 가입 절차와 구체적인 자산 배분 비율 논의.
+필요 시 리밸런싱 관련 추가 상품 검토.
+상담 내용 정리 후 일지로 공유 예정.
+문의사항 발생 시 즉시 지원 약속.
+
+금융 키워드:
+1. 시장리스크
+[시장리스크는 금리, 주가, 환율 등 시장가격의 변동으로 인하여 금융회사의 자산 가치가 변동할 가능성을 의미하며 단기매매나 시장가 변동으로부터 매매차익을 얻을 목적으로 취하는 트레이딩 포지션을 관리대상으로 한다. 예를 들어 트레이딩 목적으로 A회사(기존문구 대체 - '삼성전자') 주식 10주를 주당 500,000원의 가격으로 매수하였으나 익일 490,000원으로 가격이 하락하였다면 총 100,000원의 손실을 보게 되므로 이 주식에 대해서 시장리스크를 관리하여야 한다. 우리나라에서는 2002년부터 일정규모 이상의 트레이딩 포지션을 보유하고 있는 은행에 대하여 시장리스크에 상응하는 자기자본을 보유하도록 규제하고 있다.]
+
+2. 머니마켓펀드
+[펀드 재산을 5년 만기 이내의 국채증권, 1년 만기 이내의 지방채증권, 특수채증권, 사채권, 기업어음(CP), 어음, 6개월 만기 이내의 양도성 예금증서(CD) 등의 단기금융상품에 주로 투자하고, 수시 입출금이 가능한 펀드를 의미한다. MMF는 현금등가물로서의 가치를 유지하기 위하여 금리변동위험, 신용위험, 환율변동위험을 엄격하게 통제하도록 하고 있으며 주식 등 위험이 높은 자산에 대한 투자를 금지하고 있다. 이에 따라 다른 펀드와는 달리 편입되는 자산의 만기, 펀드 보유자산의 가중평균잔존만기, 투자 가능한 채권, 기업어음의 신용등급 제한, 외화자산 투자금지의 자산운용규제가 적용된다. MMF는 시중 금리의 변동에 큰 영향 없이 안정적인 수익 추구가 가능하고 환매수수료 없이 언제든지 환매가 가능하기 때문에 단기로 자금을 운용하는 투자자에게 적합한 상품이다.]",'1');
+insert into journal(id,consulting_id,contents,complete) values(3,'3',"상담 내용:
+장기적인 자산 관리 방안과 안정성 및 성장성을 모두 고려한 전략 논의.
+
+추가 조치:
+손님의 투자 성향에 따라 추가 상품 제안.
+개인종합자산관리계좌와 변액보험 관련 세부 자료 제공 예정.
+
+금융 키워드:
+1. 고객알기제도
+[손님알기제도는 금융회사와 금융시스템을 보호하고 다른 한편으로는 금융에 대한 전문성이 부족한 손님을 보호하기 위하여 금융회사로 하여금 금융거래를 하기 전에 손님에 대한 정보를 파악하도록 하는 제도로서 ‘손님정보파악의무’로도 알려져 있다. 2001년 9월 제정된 「특정금융거래정보의 보고 및 이용 등에 관한 법률 」에 따르면, 금융회사는 금융서비스가 자금세탁 등 불법행위에 이용되지 않도록 손님의 신원, 실제 당사자 여부, 거래목적 등을 확인함으로써 손님에 대해 적절한 주의를 기울이도록 하고 있다. 2007년 7월 제정된 「자본시장과 금융투자업에 관한 법률」에 따르면, 금융투자회사는 투자자가 일반투자자인지 전문투자자인지의 여부를 확인해야 하며, 투자권유를 하기 전에 일반투자자의 경우 면담ㆍ질문 등을 통하여 투자목적, 재산상황, 투자경험 등의 정보를 파악하고 그 일반투자자로부터 서명 등의 확인을 받아 이를 유지ㆍ관리하여야 한다.]
+
+2. 개인종합자산관리계좌
+[여러 업권의 다양한 금융상품을 한 계좌에 모아 투자하면서 세제혜택도 받을 수 있는 종합 자산관리 계좌이다. 편입할 수 있는 상품은 예,적금, 공모펀드, 리츠(REITS) 등이며, 유형별로는 신탁형과 일임형, 가입대상별로는 서민형, 일반형 등으로 구분된다. 근로, 사업소득이 있는 근로자, 자영업자, 농어민으로서 직전연도 금융소득종합과세대상자가 아닌 경우 가입이 가능하다. 연간 2,000만원씩 총 1억원까지 납입이 가능하며 세제혜택을 받기 위한 의무 가입기간은 서민형 등은 3년, 일반형은 5년이다. 가입기간 도중 계좌에서 발생한 이익과 손실을 통산한 순이익에 대하여 서민형은 250만원, 일반형은 200만원까지 비과세하고 비과세 한도를 초과하는 순이익은 저율(9.9%)로 분리과세하는 세제혜택이 있다.]
+
+3. 변액보험
+[변액보험은 계약자가 납입한 보험료 중 일부를 특별계정으로 분류하여 주식이나 채권펀드 등에 투자하고, 그 운용실적에 따라 보험금과 해지환급금이 변동하는 상품이며, 변액종신보험, 변액연금보험, 변액유니버셜보험 등으로 구분된다. 보험금과 해지환급금이 투자 실적에 따라 달라지므로 원금 손실이 발생할 수 있으며, 펀드변경 및 추가납입 등 계약자의 지속적인 수익률 관리가 필요하다.]",'1');
+insert into journal(id,consulting_id,contents,complete) values(4,'4','상담 내용:
+손님은 은퇴 후 안정적인 소득원을 확보하고 자산을 효율적으로 운용하기 위한 방법에 대해 상담을 요청. 은퇴 자금 추정 및 목표 설정을 위해 현재 자산 상태를 기반으로 필요한 자금을 계산하였음.
+
+상담 진행:
+
+개인연금과 은퇴 자금 추정 및 목표 설정를 하여 손님의 현재 자산 상태를 바탕으로 필요한 은퇴 자금을 계산하고, 이를 충족하기 위한 목표를 설정.
+손님에게 자산 운용 보고서를 제공하며, 이를 기반으로 은퇴 후 자산 배분 및 운용 방법을 설명.
+손님에게 금융소비자보호 실태평가 결과를 공유하고, 안정적인 금융 상품 선택을 위한 정보를 제공.
+손님이 자산 유동화에 대한 관심을 보였기에, 자산유동화 및 보험계리업자 상담을 통해 보험 상품과 관련된 최적화된 제안을 추가로 논의할 예정.
+
+손님 반응:
+제안된 상품에 긍정적인 관심을 보였으며, 향후 포트폴리오를 구체화하는 추가 상담을 희망. 손님은 안정적인 수익과 자산 증식에 높은 관심을 보임.
+
+추후계획:
+손님은 다음 상담에서 구체적인 자산 배분과 세부 플랜을 제시할 필요가 있음. 손님의 자산 상태와 목표에 맞춰 세부 투자 계획서를 작성하고, 다양한 시나리오에 따른 예상 수익과 리스크를 제시할 예정.
+추가적으로, 손님의 은퇴 후 소득 관리를 위한 다양한 금융 상품을 검토하고, 이를 기반으로 구체적인 투자 계획을 세울 예정.
+
+금융 키워드:
+1. 개인연금
+[노후에 연금을 지급받을 수 있는 금융상품으로서 납입금에 대해 세액공제 혜택을 제공하는 세제적격개인연금과 세제비적격개인연금으로 구분된다. 세제적격개인연금은 소득세법 상 연금저축이 있으며, 은행, 증권, 보험회사에서 판매하고 있다. 또한 현재 판매가 중단되었지만 조세특례제한법에 따라 판매되었던 개인연금저축도 세제적격개인연금에 포함된다. 반면 세제비적격개인연금상품은 소득세법상의 세제혜택이 제공되지 않으며 현재 생명보험회사에서 판매하고 있다.]
+
+2. 자산운용보고서
+[자산운용보고서는 펀드운용결과를 설명하는 보고서로서 자산운용회사는 신탁업자의 확인을 받아 판매회사를 통하여 3개월마다 1회 이상 투자자에게 제공하여야 한다. 주요 내용으로 집합투자기구의 자산, 부채 및 기준가격, 운용경과 및 손익상황, 투자자산별 평가액 및 전체자산 대비 비율, 매매주식총수, 매매금액, 매매회전율 등이 포함된다. 투자자는 판매회사로 부터 직접 또는 우편(전자우편) 등의 방법으로 자산운용보고서를 제공받을 수 있으며, 단기금융간접투자기구의 경우에는 집합투자업자, 판매회사, 금융투자협회의 인터넷 홈페이지를 통하여 자산운용보고서를 공시하는 경우 투자자에게 별도 교부를 하지 않을 수 있다. 자산운용보고서를 작성하고 제공하는데 드는 비용은 집합투자업자가 부담한다.]
+
+3. 금융소비자보호 실태평가
+[기존 민원건수 위주의 평가를 대체하고 금융회사의 소비자보호 노력과 활동을 다면적(계량 5개, 비계량 5개 부문)으로 평가하기 위해 2015년에 도입ㆍ운영하고 있는 제도이다. 매년 민원발생 건수와 영업규모를 고려하여 평가대상회사를 선정하고, 민원건수ㆍ처리기간 등으로 대표되는 계량 5개 부문과 소비자보호 조직ㆍ제도, 상품개발ㆍ판매과정 등의 소비자보호체계 관련 비계량 5개부문을 각 부문별로 4등급(우수-양호-보통-미흡)으로 평가하고 있다. 동 제도의 목적은 금융소비자에게는 거래 금융회사 선택에 필요한 유용한 정보를 제공하는 한편, 금융회사의 소비자보호 인식을 제고시켜 소비자보호 중심의 경영 문화를 유도하는데 있다.]
+
+4. 자산유동화
+[자산유동화란 일반적으로 SPV(Special Purpose Vehicle, 특수목적기구 : 회사ㆍ신탁)가 자산보유자로부터 유동화자산을 양도 또는 신탁받아 이를 기초로 유동화증권을 발행하고 해당 유동화자산의 관리ㆍ운용ㆍ처분에 의한 수익이나 차입금등으로 유동화증권의 원리금 또는 배당금을 지급하는 일련의 행위를 말한다. 「자산유동화에 관한 법률」에서는 이 같은 유동화증권을 발행할 수 있는 자로서 유동화전문회사, 자산유동화업무를 전업으로 하는 외국법인, 「자본시장과 금융투자업에 관한 법률」에 의한 신탁업자를 정하고 있다. 자산유동화는 자산보유자의 신용과 분리하여 유동화자산 그 자체에서 발생되는 현금흐름을 바탕으로 자금을 조달하는 새로운 금융기법으로서 자산보유자의 재무구조 개선, 자금조달 코스트 절감 및 투자자 확대 등의 이점이 있다.]
+
+5. 보험계리업자
+[보험회사의 보험에 관한 기초서류의 내용 및 배당금계상 등의 정당성 여부를 확인하는 업무를 업으로 하는 자를 말한다. 보험회사는 보험계리에 관한 업무를 보험계리사를 고용하여 담당하게 하거나, 보험계리업자에게 위탁하여야 하며, 보험계리를 업으로 하고자 하는 자는 일정한 수 이상의 보험계리사를 보유하고 금융위원회(금융감독원에 위탁)에 등록하여야 한다. 한편, 보험계리사가 되기 위해서는 시험에 합격하고 일정기간의 실무수습을 마친 후 금융위원회(금융감독원에 위탁)에 등록하여야 한다.]
+
+6. 개인종합자산관리계좌
+[여러 업권의 다양한 금융상품을 한 계좌에 모아 투자하면서 세제혜택도 받을 수 있는 종합 자산관리 계좌이다. 편입할 수 있는 상품은 예,적금, 공모펀드, 리츠(REITS) 등이며, 유형별로는 신탁형과 일임형, 가입대상별로는 서민형, 일반형 등으로 구분된다. 근로, 사업소득이 있는 근로자, 자영업자, 농어민으로서 직전연도 금융소득종합과세대상자가 아닌 경우 가입이 가능하다. 연간 2,000만원씩 총 1억원까지 납입이 가능하며 세제혜택을 받기 위한 의무 가입기간은 서민형 등은 3년, 일반형은 5년이다. 가입기간 도중 계좌에서 발생한 이익과 손실을 통산한 순이익에 대하여 서민형은 250만원, 일반형은 200만원까지 비과세하고 비과세 한도를 초과하는 순이익은 저율(9.9%)로 분리과세하는 세제혜택이 있다.]','1');
+insert into journal(id,consulting_id,contents,complete) values(5,'5','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(6,'6','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(7,'7','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(8,'8','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(9,'9','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(10,'10','null','0');
+insert into journal(id,consulting_id,contents,complete) values(11,'11','null','0');
+insert into journal(id,consulting_id,contents,complete) values(12,'12','null','0');
+insert into journal(id,consulting_id,contents,complete) values(13,'13','null','0');
+insert into journal(id,consulting_id,contents,complete) values(14,'14','null','0');
+insert into journal(id,consulting_id,contents,complete) values(15,'15','null','0');
+insert into journal(id,consulting_id,contents,complete) values(16,'16','null','0');
+insert into journal(id,consulting_id,contents,complete) values(17,'17','null','0');
+insert into journal(id,consulting_id,contents,complete) values(18,'18','null','0');
+
+/*******************script************************/
+insert into script(id,journal_id,script_sequence,speaker,content) values(1,'1','1','PB','안녕하세요, 손님. 빠른상담 요청을 하셨더라구요. 비상계엄령으로 인한 금융시장 변동성 때문에 걱정이 크시죠? 우선 손님의 자산 상황과 목표를 구체적으로 듣고, 최적의 포트폴리오 전략을 제안드리겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(2,'1','2','VIP','네, 주식 가치가 많이 떨어져서 손실이 컸습니다. 어떻게 해야 수익률을 회복할 수 있을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(3,'1','3','PB','현재 시장은 높은 불확실성을 보이고 있습니다. 이럴 때는 단기적으로 안정적인 자산으로 포트폴리오를 조정하고, 향후 경제 회복 시를 대비한 장기 전략을 병행하는 것이 중요합니다. 먼저 손님의 가용자본 규모와 투자 목표를 말씀해 주시겠어요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(4,'1','4','VIP','손실된 금액을 최대한 복구하고, 향후에는 안정적인 수익을 추구하고 싶습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(5,'1','5','PB','이해했습니다. 현재 비상 상황에서 안정적인 예금 상품과 분산 투자가 유리합니다. 추가적으로, 금융기관의 신뢰도와 상품의 유동성을 꼼꼼히 점검해야 합니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(6,'1','6','PB','손님께 적합한 두 가지 상품을 추천드리겠습니다. 3·6·9 정기예금은 짧은 주기로 금리가 갱신되며, 경제 상황에 따라 유리한 금리 혜택을 누릴 수 있는 상품입니다. 고단위 플러스(금리연동형)는 금리에 따라 수익률이 달라지며, 안전성과 수익성을 동시에 고려할 수 있습니다. 이 두 상품은 가장매매 리스크를 최소화하면서, 안정적인 자산 관리를 지원할 수 있는 구조로 설계되었습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(7,'1','7','PB','추천 상품에 따라 자산을 배분하고, 추가적으로 개인퇴직계좌를 활용해 세제 혜택과 안정성을 강화할 수 있습니다. 또한, 현 상황에서 시장 리스크를 줄이기 위해 글로벌 자산 투자로 포트폴리오를 다각화하는 것도 검토해 보시는 것이 좋겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(8,'1','8','VIP','괜찮은 제안 같아요. 하지만 지금 바로 결정을 내리기는 어렵네요.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(9,'1','9','PB','충분히 이해합니다. 고민하시면서 추가적인 질문이나 필요사항이 있으시면 언제든지 연락 주세요.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(10,'1','10','PB','오늘 말씀드린 전략이 손님의 자산 안정화에 도움이 되기를 바랍니다. 다음 상담 일정은 언제로 잡을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(11,'1','11','VIP','좀 생각해보고 예약 남기겠습니다!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(12,'1','12','PB','감사합니다. 다음에 뵙겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(13,'2','1','PB','안녕하세요, 손님. 오늘 상담 예약을 해주셔서 감사합니다. 저는 하나은행 PB 손흥민 입니다. 손님께서 요청하신 자산 리밸런싱과 관련된 상담 도와드리겠습니다. 우선 현재 자산 포트폴리오와 리밸런싱 목표에 대해 간단히 말씀해 주시겠어요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(14,'2','2','VIP','네, 현재 자산의 균형을 다시 조정하고 싶어서 상담을 요청드렸습니다. 시장 환경 변화로 인해 기존 포트폴리오가 적절하지 않다는 생각이 들었습니다. 안정적인 수익 구조를 만들기 위해 어떤 조치를 취해야 할지 알고 싶습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(15,'2','3','PB','잘 이해했습니다. 현재 시장은 금리 변동과 경기 불확실성이 커지고 있는 상황입니다. 안정성과 수익성을 모두 고려한 리밸런싱 전략이 중요합니다. 우선 손님의 주요 투자 자산과 비율을 알 수 있을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(16,'2','4','VIP','현재는 주식 50%, 채권 30%, 현금성 자산 20%로 분배되어 있습니다. 주식 비중이 다소 높은 것 같아서 조정을 고민하고 있습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(17,'2','5','PB','네, 주식 비중이 높다면 시장 변동성이 클 경우 리스크가 확대될 수 있습니다. 손님의 투자 성향과 리스크 감내 수준에 따라 조정이 필요할 것 같습니다. 예를 들어, 하나은행의 3·6·9 정기예금은 고정 금리를 제공하며 안정적인 수익을 기대할 수 있는 상품입니다. 이와 함께 하나 청년전세론 같은 대출 상품을 활용하면 추가적인 자금 활용 계획도 가능하십니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(18,'2','6','VIP','음, 정기예금 상품은 안정적인 것 같아 관심이 가네요. 그런데 현재 주식은 계속 보유하는 게 나을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(19,'2','7','PB','좋은 질문입니다. 일부 주식 자산을 매도하여 안전자산으로 전환하는 것도 방법입니다. 다만, 보유 주식이 성장 가능성이 높은 종목이라면 전부 매도하기보다는 비율을 낮추는 방향으로 리밸런싱을 고려할 수 있습니다. 혹시 보유 주식의 업종이나 시장에 대해 더 말씀해 주실 수 있나요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(20,'2','8','VIP','주로 IT와 헬스케어 관련 주식입니다. 최근 변동성이 심해서 고민이 많습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(21,'2','9','PB','IT와 헬스케어는 장기적으로 성장 가능성이 높은 업종입니다. 다만, 단기적인 변동성을 줄이기 위해 일부 매도를 고려하시고, 안전 자산으로 전환하는 방법이 좋겠습니다. 예를 들어, 정기예금과 더불어 고단위 플러스(금리연동형) 상품은 금리 변동에 따라 수익을 기대할 수 있는 상품입니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(22,'2','10','VIP','고단위 플러스 상품도 괜찮아 보이네요. 그러면 채권은 어떻게 하면 좋을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(23,'2','11','PB','현재 채권 금리가 상승 추세라면 기존 채권 보유를 유지하면서 만기를 재조정하는 것도 방법입니다. 또한, 신규 채권 투자를 검토하신다면 만기가 짧은 상품을 선택해 금리 변동성에 대비할 수 있습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(24,'2','12','VIP','감사합니다. 현금성 자산은 그대로 두는 게 나을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(25,'2','13','PB','현금성 자산은 유동성을 고려해 일정 비율을 유지하시는 것이 중요합니다. 다만, 일부는 수익성을 높일 수 있는 자산으로 전환해도 좋습니다. 예를 들어, 머니마켓펀드 같은 상품도 추천드립니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(26,'2','14','VIP','네, 오늘 설명이 정말 도움이 많이 됐습니다. 그럼 말씀하신 상품들을 검토해 보고, 다음 상담에서 구체적인 실행 방안을 논의하면 좋겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(27,'2','15','PB','알겠습니다, 손님. 오늘 상담 내용은 정리해서 일지로 공유드리겠습니다. 필요하신 부분이 있으면 언제든 말씀 주세요. 감사합니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(28,'2','16','VIP','네, 감사합니다!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(29,'3','1','PB','안녕하세요! 하나은행의 프라이빗 뱅커 손흥민입니다. 손님의 장기적인 자산 관리 목표를 돕게 되어 기쁩니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(30,'3','2','VIP','감사합니다. 장기적으로 안정적이면서도 성장 가능성이 있는 자산 관리 방안을 찾고 있습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(31,'3','3','PB','손님의 주요 자산 구성은 어떻게 되어 있나요? 예를 들어 예금, 투자, 부동산 등이 포함되나요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(32,'3','4','VIP','현재 예금 위주로 자산을 보유하고 있으며, 추가 투자도 고려 중입니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(33,'3','5','PB','안정성과 성장성을 모두 고려하시고 싶은데, 보다 구체적인 목표나 우선순위가 있으신가요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(34,'3','6','VIP','안정성을 최우선으로 하되, 일부는 장기적인 성장을 기대하고 있습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(35,'3','7','PB','손님의 목표를 반영하여 다음과 같은 전략을 제안드립니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(36,'3','8','PB','안정적 자산 관리로는 3·6·9 정기예금을 추천합니다. 이는 안정적인 금리를 통해 예측 가능한 수익을 제공하고, 유동성도 고려하여 만기마다 금리 재조정이 가능합니다.
+성장 가능성을 고려한 투자 상품으로는 하나 청년전세론이 있습니다. 이는 저금리의 대출 상품으로 자산 운용의 여력을 키울 수 있습니다. 추가로, 여유 자금을 활용하여 성장성 높은 펀드나 주식형 상품에 분산 투자도 추천드립니다. 또한, 고객알기제도를 통해 손님의 신용도를 분석하여 개인종합자산관리계좌 활용을 고려해 보시길 바랍니다. 보험 상품 중 변액보험은 장기적인 자산 성장을 돕는 상품으로 유연한 투자 전략을 세우실 수 있습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(37,'3','9','PB','오늘 논의한 내용을 바탕으로 손님의 자산 운용 전략을 세부적으로 계획해보겠습니다. 추후 추가 문의가 있으시면 언제든 연락주세요.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(38,'3','10','VIP','네, 감사해요!!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(39,'4','1','PB','안녕하세요, 손님. 상담 요청해주셔서 감사합니다. 은퇴 후 소득 관리에 대해 말씀드릴까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(40,'4','2','VIP','네, 은퇴 후에도 안정적인 소득을 유지하려면 어떤 준비가 필요할지 궁금합니다. 또, 자산을 효율적으로 활용할 방법도 알고 싶어요.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(41,'4','3','PB','은퇴 이후 안정적인 소득을 확보하려면 몇 가지 중요한 요소를 고려하셔야 합니다. 우선, 은퇴 시 필요한 자금을 추정하고 이를 기반으로 소득원을 분산하는 전략이 필요합니다. 손님의 현재 자산과 목표를 바탕으로 계획을 세워보겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(42,'4','4','VIP','네, 은퇴 후의 수익 창출 방법도 추천받고 싶어요.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(43,'4','5','PB','알겠습니다. 손님께서는 연금과 안전한 투자 상품을 통해 안정적인 소득을 창출하실 수 있습니다. 우선, 하나은행의 행복Knowhow 연금예금 상품은 안정적인 이자 수익을 제공하며, 은퇴 자금 마련에 적합합니다. 또, 하나 청년전세론은 젊은 층을 대상으로 낮은 이자율로 주택 마련을 돕는 상품으로, 은퇴 전에 부동산 자산을 확보하는 데 유리합니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(44,'4','6','VIP','두 상품 모두 흥미롭네요. 더 자세히 알려주실 수 있나요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(45,'4','7','PB','물론입니다. 행복Knowhow 연금예금은 고정금리를 제공해 예측 가능한 소득을 만드는데 도움을 드립니다. 그리고 하나 청년전세론은 초기 자금 부담을 줄이며 장기적으로 부동산 가치 상승을 기대할 수 있습니다. 두 상품을 병행하면 안정성과 자산 증식을 모두 노릴 수 있습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(46,'4','8','VIP','좋은 추천 감사합니다. 제가 추가로 알아봐야 할 점이 있을까요?');
+insert into script(id,journal_id,script_sequence,speaker,content) values(47,'4','9','PB','네, 자산 분배와 더불어 개인종합자산관리계좌와 같은 금융상품을 통해 다양한 투자처를 활용하면 포트폴리오의 안정성을 높일 수 있습니다. 다음 상담에서는 이를 포함한 상세한 플랜을 제시하겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(48,'5','1','PB','안녕하세요. 손님!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(49,'5','2','VIP','좋은 상담 감사합니다!!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(50,'6','1','PB','안녕하세요. 손님!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(51,'6','2','VIP','좋은 상담 감사합니다!!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(52,'7','1','PB','안녕하세요. 손님!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(53,'7','2','VIP','좋은 상담 감사합니다!!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(54,'8','1','PB','안녕하세요. 손님!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(55,'8','2','VIP','좋은 상담 감사합니다!!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(56,'9','1','PB','안녕하세요. 손님!');
+insert into script(id,journal_id,script_sequence,speaker,content) values(57,'9','2','VIP','좋은 상담 감사합니다!!');
+
+/***************journal_keyword******************/
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(1,'1','1','2');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(2,'1','1','3');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(3,'1','1','23');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(4,'1','1','248');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(5,'2','1','147');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(6,'2','1','248');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(7,'3','1','22');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(8,'3','1','43');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(9,'3','1','162');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(10,'4','7','19');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(11,'4','7','22');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(12,'4','7','84');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(13,'4','7','166');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(14,'4','7','368');
+insert into journal_keyword(id,journal_id,customer_id,keyword_id) values(15,'4','7','369');
+
+/***************journal_product***********************/
+insert into journal_product(id,journal_id,product_id) values(1,'1','1');
+insert into journal_product(id,journal_id,product_id) values(2,'1','3');
+insert into journal_product(id,journal_id,product_id) values(3,'2','1');
+insert into journal_product(id,journal_id,product_id) values(4,'2','3');
+insert into journal_product(id,journal_id,product_id) values(5,'3','1');
+insert into journal_product(id,journal_id,product_id) values(6,'3','6');
+insert into journal_product(id,journal_id,product_id) values(7,'4','2');
+insert into journal_product(id,journal_id,product_id) values(8,'4','6');

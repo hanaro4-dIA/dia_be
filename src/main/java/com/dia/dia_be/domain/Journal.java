@@ -30,7 +30,7 @@ public class Journal {
 	@Column(columnDefinition = "INT UNSIGNED")
 	private Long id;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(500)")
+	@Column(columnDefinition = "TEXT")
 	private String contents;
 
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")

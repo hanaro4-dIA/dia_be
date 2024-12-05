@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS hashtag (
 CREATE TABLE IF NOT EXISTS journal (
                                        id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                        consulting_id INT UNSIGNED COMMENT '상담아이디',
-                                       contents VARCHAR(500) NOT NULL COMMENT '내용',
+                                       contents TEXT NOT NULL COMMENT '내용',
                                        complete BOOLEAN NOT NULL COMMENT '전송여부',
                                        CONSTRAINT fk_journal_consulting UNIQUE (consulting_id),
                                        CONSTRAINT fk_journal_consulting_id FOREIGN KEY (consulting_id) REFERENCES consulting (id)
