@@ -16,10 +16,10 @@ public class Keyword {
 	@Column(columnDefinition = "INT UNSIGNED")
 	private Long id;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
 	private String title;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(300)")
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
 	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
