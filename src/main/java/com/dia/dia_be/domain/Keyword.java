@@ -22,24 +22,20 @@ public class Keyword {
 	@Column(nullable = false, columnDefinition = "VARCHAR(300)")
 	private String content;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(250)")
-	private String url;
-
 	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Issue> issue = new ArrayList<>();
 
 	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Journal_keyword> journal_keyword = new ArrayList<>();
 
-	private Keyword(String title, String content, String url) {
+	private Keyword(String title, String content) {
 		this.title = title;
 		this.content = content;
-		this.url = url;
 	}
 
 	@Builder
 	public Keyword create(String title, String content, String url) {
-		return new Keyword(title, content, url);
+		return new Keyword(title, content);
 	}
 
 
