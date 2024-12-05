@@ -1186,15 +1186,15 @@ insert into journal(id,consulting_id,contents,complete) values(6,'6','상담을 
 insert into journal(id,consulting_id,contents,complete) values(7,'7','상담을 완료하였음','1');
 insert into journal(id,consulting_id,contents,complete) values(8,'8','상담을 완료하였음','1');
 insert into journal(id,consulting_id,contents,complete) values(9,'9','상담을 완료하였음','1');
-insert into journal(id,consulting_id,contents,complete) values(10,'10','null','0');
-insert into journal(id,consulting_id,contents,complete) values(11,'11','null','0');
-insert into journal(id,consulting_id,contents,complete) values(12,'12','null','0');
-insert into journal(id,consulting_id,contents,complete) values(13,'13','null','0');
-insert into journal(id,consulting_id,contents,complete) values(14,'14','null','0');
-insert into journal(id,consulting_id,contents,complete) values(15,'15','null','0');
-insert into journal(id,consulting_id,contents,complete) values(16,'16','null','0');
-insert into journal(id,consulting_id,contents,complete) values(17,'17','null','0');
-insert into journal(id,consulting_id,contents,complete) values(18,'18','null','0');
+insert into journal(id,consulting_id,contents,complete) values(10,'10',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(11,'11',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(12,'12',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(13,'13',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(14,'14',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(15,'15',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(16,'16',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(17,'17',null,'0');
+insert into journal(id,consulting_id,contents,complete) values(18,'18',null,'0');
 
 /*******************script************************/
 insert into script(id,journal_id,script_sequence,speaker,content) values(1,'1','1','PB','안녕하세요, 손님. 빠른상담 요청을 하셨더라구요. 비상계엄령으로 인한 금융시장 변동성 때문에 걱정이 크시죠? 우선 손님의 자산 상황과 목표를 구체적으로 듣고, 최적의 포트폴리오 전략을 제안드리겠습니다.');
