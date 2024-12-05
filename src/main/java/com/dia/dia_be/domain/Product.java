@@ -28,10 +28,10 @@ public class Product {
 	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
 	private String name;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(150)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(250)")
 	private String product_url;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(150)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(250)")
 	private String image_url;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

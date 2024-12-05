@@ -33,7 +33,7 @@ public class Pb {
 	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
 	private String name;
 
-	@Column(columnDefinition = "VARCHAR(100)")
+	@Column(columnDefinition = "VARCHAR(250)")
 	private String image_url;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(300)")
