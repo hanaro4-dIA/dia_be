@@ -16,14 +16,11 @@ public class Keyword {
 	@Column(columnDefinition = "INT UNSIGNED")
 	private Long id;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
 	private String title;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(300)")
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
-
-	@Column(nullable = false, columnDefinition = "VARCHAR(250)")
-	private String url;
 
 	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Issue> issue = new ArrayList<>();
@@ -31,15 +28,14 @@ public class Keyword {
 	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Journal_keyword> journal_keyword = new ArrayList<>();
 
-	private Keyword(String title, String content, String url) {
+	private Keyword(String title, String content) {
 		this.title = title;
 		this.content = content;
-		this.url = url;
 	}
 
 	@Builder
 	public Keyword create(String title, String content, String url) {
-		return new Keyword(title, content, url);
+		return new Keyword(title, content);
 	}
 
 

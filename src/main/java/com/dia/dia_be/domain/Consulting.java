@@ -33,8 +33,12 @@ public class Consulting {
     private LocalTime hope_time;
 
     @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime reserve_date;
+    @Column(nullable = false, updatable = false, columnDefinition = "DATE")
+    private LocalDate reserve_date;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false, columnDefinition = "TIME")
+    private LocalTime reserve_time;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(500)")
     private String content;
@@ -53,18 +57,19 @@ public class Consulting {
     @OneToOne(mappedBy = "consulting", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Journal journal;
 
-    private Consulting(String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
+    private Consulting(String title, LocalDate hope_date, LocalTime hope_time, LocalDate reserve_date, LocalTime reserve_time, String content, boolean approve) {
         this.title = title;
         this.hope_date = hope_date;
         this.hope_time = hope_time;
         this.reserve_date = reserve_date;
+        this.reserve_time = reserve_time;
         this.content = content;
         this.approve = approve;
     }
 
     @Builder
-    public static Consulting create(Category category, Customer customer, String title, LocalDate hope_date, LocalTime hope_time, LocalDateTime reserve_date, String content, boolean approve) {
-        Consulting consulting = new Consulting(title,hope_date, hope_time,reserve_date,content,approve);
+    public static Consulting create(Category category, Customer customer, String title, LocalDate hope_date, LocalTime hope_time, LocalDate reserve_date, LocalTime reserve_time, String content, boolean approve) {
+        Consulting consulting = new Consulting(title,hope_date, hope_time,reserve_date,reserve_time,content,approve);
         consulting.addCategory(category);
         consulting.addCustomer(customer);
         consulting.addJournal(new Journal());

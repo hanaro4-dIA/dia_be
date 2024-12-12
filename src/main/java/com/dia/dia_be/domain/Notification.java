@@ -24,7 +24,7 @@ public class Notification {
 	@Column(nullable = false, columnDefinition = "VARCHAR(30)")
 	private String title;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String content;
 
 	@CreationTimestamp
