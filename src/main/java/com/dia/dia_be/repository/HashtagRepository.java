@@ -5,5 +5,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import com.dia.dia_be.domain.Hashtag;
 
-public interface PbHashtagRepository extends JpaRepository<Hashtag, Long>, QuerydslPredicateExecutor<Hashtag> {
+public interface HashtagRepository extends JpaRepository<Hashtag, Long>, QuerydslPredicateExecutor<Hashtag> {
 }
