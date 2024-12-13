@@ -3,7 +3,7 @@ package com.dia.dia_be.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-import com.dia.dia_be.domain.Script;
+import com.dia.dia_be.domain.Customer;
 
-public interface Script_repository extends JpaRepository<Script, Long>, QuerydslPredicateExecutor<Script> {
+public interface CustomerRepository extends JpaRepository<Customer, Long>, QuerydslPredicateExecutor<Customer> {
 }

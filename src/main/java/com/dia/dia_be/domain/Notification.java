@@ -32,18 +32,18 @@ public class Notification {
 	private LocalTime date;
 
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	private Boolean is_read;
+	private Boolean isRead;
 
-	private Notification(String title, String content, LocalTime date, Boolean is_read) {
+	private Notification(String title, String content, LocalTime date, Boolean isRead) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
-		this.is_read = is_read;
+		this.isRead = isRead;
 	}
 
 	@Builder
-	public Notification create(Customer customer_, String title, String content, LocalTime date, Boolean is_read) {
-		Notification notification = new Notification(title, content, date, is_read);
+	public Notification create(Customer customer, String title, String content, LocalTime date, Boolean isRead) {
+		Notification notification = new Notification(title, content, date, isRead);
 		notification.addCustomer(customer);
 		return notification;
 	}

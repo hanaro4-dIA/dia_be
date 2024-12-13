@@ -35,7 +35,7 @@ public class Product {
 	private String image_url;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_product> journal_product = new ArrayList<>();
+	private List<JournalProduct> journalProduct = new ArrayList<>();
 
 	private Product(String name, String product_url, String image_url) {
 		this.name = name;

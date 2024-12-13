@@ -21,7 +21,6 @@ import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Journal {
 
@@ -44,14 +43,14 @@ public class Journal {
 	private List<Script> script = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_product> journal_product = new ArrayList<>();
+	private List<JournalProduct> journalProduct = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_keyword> journal_keyword = new ArrayList<>();
+	private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
 	@Builder
-	public Journal(String contents) {
-		this.contents = contents;
+	protected Journal() {
+		this.contents = null;
 		this.complete = false;
 	}
 

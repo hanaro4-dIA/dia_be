@@ -50,7 +50,7 @@ public class Customer {
     private String address;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Journal_keyword> journal_keyword = new ArrayList<>();
+    private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Consulting> consulting = new ArrayList<>();

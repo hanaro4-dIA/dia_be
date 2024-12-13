@@ -17,19 +17,19 @@ public class Issue {
 	private String title;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(250)")
-	private String issue_url;
+	private String issueUrl;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(250)")
-	private String image_url;
+	private String imageUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "keyword_id", nullable = false)
 	private Keyword keyword;
 
-	private Issue(String title, String issue_url, String image_url, Keyword keyword) {
+	private Issue(String title, String issueUrl, String imageUrl, Keyword keyword) {
 		this.title = title;
-		this.issue_url = issue_url;
-		this.image_url = image_url;
+		this.issueUrl = issueUrl;
+		this.imageUrl = imageUrl;
 		this.keyword = keyword;
 	}
 

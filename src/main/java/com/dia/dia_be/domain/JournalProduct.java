@@ -7,7 +7,7 @@ import lombok.*;
 @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Journal_product {
+public class JournalProduct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +23,8 @@ public class Journal_product {
 	private Journal journal;
 
 	@Builder
-	public static Journal_product create(Product product, Journal journal) {
-		Journal_product journalProduct = new Journal_product();
+	public static JournalProduct create(Product product, Journal journal) {
+		JournalProduct journalProduct = new JournalProduct();
 		journalProduct.addProduct(product);
 		journalProduct.addJournal(journal);
 		return journalProduct;
@@ -32,11 +32,11 @@ public class Journal_product {
 
 	public void addProduct(Product product) {
 		this.product = product;
-		product.getJournal_product().add(this);
+		product.getJournalProduct().add(this);
 	}
 
 	public void addJournal(Journal journal) {
 		this.journal = journal;
-		journal.getJournal_product().add(this);
+		journal.getJournalProduct().add(this);
 	}
 }

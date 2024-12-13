@@ -26,7 +26,7 @@ public class Script {
 	private Long id;
 
 	@Column(nullable = false, columnDefinition = "INT UNSIGNED")
-	private int script_sequence;
+	private int scriptSequence;
 
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String speaker;
@@ -38,8 +38,8 @@ public class Script {
 	@JoinColumn(name = "journal_id")
 	private Journal journal;
 
-	private Script(int script_sequence, String speaker, String content) {
-		this.script_sequence = script_sequence;
+	private Script(int scriptSequence, String speaker, String content) {
+		this.scriptSequence = scriptSequence;
 		this.speaker = speaker;
 		this.content = content;
 	}

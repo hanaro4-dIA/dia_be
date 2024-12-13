@@ -34,7 +34,7 @@ public class Pb {
 	private String name;
 
 	@Column(columnDefinition = "VARCHAR(250)")
-	private String image_url;
+	private String imageUrl;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(300)")
 	private String introduce;
@@ -46,7 +46,7 @@ public class Pb {
 	private String career;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
-	private String login_id;
+	private String loginId;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
 	private String tel;
@@ -60,23 +60,22 @@ public class Pb {
 	@OneToMany(mappedBy = "pb", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Hashtag> hashtag = new ArrayList<>();
 
-	private Pb(String password, String name, String image_url, String introduce, String office, String career,
-		String login_id, String tel, boolean availability) {
+	private Pb(String password, String name, String imageUrl, String introduce, String office, String career,
+		String loginId, String tel, boolean availability) {
 		this.password = password;
 		this.name = name;
-		this.image_url = image_url;
+		this.imageUrl = imageUrl;
 		this.introduce = introduce;
 		this.office = office;
 		this.career = career;
-		this.login_id = login_id;
+		this.loginId = loginId;
 		this.tel = tel;
 		this.availability = availability;
 	}
 
 	@Builder
-	public static Pb create(String password, String name, String image_url, String introduce, String office,
-		String career,
-		String login_id, String tel, boolean availability) {
-		return new Pb(password, name, image_url, introduce, office, career, login_id, tel, availability);
+	public static Pb create(String password, String name, String imageUrl, String introduce, String office,
+		String career, String loginId, String tel, boolean availability) {
+		return new Pb(password, name, imageUrl, introduce, office, career, loginId, tel, availability);
 	}
 }
