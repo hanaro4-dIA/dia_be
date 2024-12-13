@@ -50,9 +50,9 @@ public class Journal {
 	private List<Journal_keyword> journal_keyword = new ArrayList<>();
 
 	@Builder
-	public Journal(String contents, Boolean complete) {
+	public Journal(String contents) {
 		this.contents = contents;
-		this.complete = complete;
+		this.complete = false;
 	}
 
 	protected void setConsulting(Consulting consulting) {
