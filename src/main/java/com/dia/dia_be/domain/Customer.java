@@ -77,6 +77,16 @@ public class Customer {
         return customer;
     }
 
+    public Customer update(String memo){
+        this.memo = memo;
+        return this;
+    }
+
+    public Customer plusCount(){
+        this.count +=1;
+        return this;
+    }
+
     private void addPb(Pb pb) {
         this.pb = pb;
         pb.getCustomer().add(this);

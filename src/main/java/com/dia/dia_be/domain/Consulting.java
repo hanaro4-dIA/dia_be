@@ -75,6 +75,13 @@ public class Consulting {
         return consulting;
     }
 
+    public Consulting update(String title, String content, boolean approve){
+        this.title = title;
+        this.content = content;
+        this.approve = approve;
+        return this;
+    }
+
     private void addCategory(Category category) {
         this.category = category;
         category.getConsulting().add(this);

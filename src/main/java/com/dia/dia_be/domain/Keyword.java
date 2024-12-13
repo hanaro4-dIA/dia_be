@@ -34,9 +34,13 @@ public class Keyword {
 	}
 
 	@Builder
-	public Keyword create(String title, String content, String url) {
+	public Keyword create(String title, String content) {
 		return new Keyword(title, content);
 	}
 
-
+	public Keyword update(String title, String content) {
+		this.title = title;
+		this.content = content;
+		return this;
+	}
 }

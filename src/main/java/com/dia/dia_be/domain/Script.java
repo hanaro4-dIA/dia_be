@@ -51,6 +51,13 @@ public class Script {
 		return script;
 	}
 
+	public Script update(int scriptSequence, String speaker, String content){
+		this.scriptSequence = scriptSequence;
+		this.speaker = speaker;
+		this.content = content;
+		return this;
+	}
+
 	private void addJournal(Journal journal) {
 		this.journal = journal;
 		journal.getScript().add(this);

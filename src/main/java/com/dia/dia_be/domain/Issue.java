@@ -40,6 +40,13 @@ public class Issue {
 		return issue;
 	}
 
+	public Issue update(String title, String issueUrl, String imageUrl){
+		this.title = title;
+		this.issueUrl = issueUrl;
+		this.imageUrl = imageUrl;
+		return this;
+	}
+
 	public void addKeyword(Keyword keyword) {
 		this.keyword = keyword;
 		keyword.getIssue().add(this);

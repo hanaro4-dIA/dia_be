@@ -34,6 +34,11 @@ public class Hashtag {
 		return pbHashtag;
 	}
 
+	public Hashtag update(String name){
+		this.name = name;
+		return this;
+	}
+
 	private void addPb(Pb pb) {
 		this.pb = pb;
 		pb.getHashtag().add(this);

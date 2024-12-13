@@ -21,6 +21,7 @@ import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Journal {
 
@@ -32,8 +33,8 @@ public class Journal {
 	@Column(columnDefinition = "TEXT")
 	private String contents;
 
-	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
-	private Boolean complete;
+	@Column(nullable = false, columnDefinition = "TINYINT(1)")
+	private boolean complete;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "consulting_id")
@@ -48,10 +49,9 @@ public class Journal {
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
-	@Builder
-	protected Journal() {
-		this.contents = null;
-		this.complete = false;
+	public Journal update(String contents){
+		this.contents = contents;
+		return this;
 	}
 
 	protected void setConsulting(Consulting consulting) {
