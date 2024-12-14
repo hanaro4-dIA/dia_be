@@ -50,7 +50,7 @@ public class Customer {
     private String address;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Journal_keyword> journal_keyword = new ArrayList<>();
+    private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Consulting> consulting = new ArrayList<>();
@@ -75,6 +75,16 @@ public class Customer {
         Customer customer= new Customer(date, id, count, memo, email, password, name, tel, address);
         customer.addPb(pb);
         return customer;
+    }
+
+    public Customer update(String memo){
+        this.memo = memo;
+        return this;
+    }
+
+    public Customer plusCount(){
+        this.count +=1;
+        return this;
     }
 
     private void addPb(Pb pb) {

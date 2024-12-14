@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
-@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Journal_keyword {
+public class JournalKeyword {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +26,8 @@ public class Journal_keyword {
 	private Customer customer;
 
 	@Builder
-	public static Journal_keyword create(Keyword keyword, Journal journal, Customer customer) {
-		Journal_keyword journalKeyword = new Journal_keyword();
+	public static JournalKeyword create(Keyword keyword, Journal journal, Customer customer) {
+		JournalKeyword journalKeyword = new JournalKeyword();
 		journalKeyword.addKeyword(keyword);
 		journalKeyword.addJournal(journal);
 		journalKeyword.addCustomer(customer);
@@ -37,16 +36,16 @@ public class Journal_keyword {
 
 	public void addKeyword(Keyword keyword) {
 		this.keyword = keyword;
-		keyword.getJournal_keyword().add(this);
+		keyword.getJournalKeyword().add(this);
 	}
 
 	public void addJournal(Journal journal) {
 		this.journal = journal;
-		journal.getJournal_keyword().add(this);
+		journal.getJournalKeyword().add(this);
 	}
 
 	public void addCustomer(Customer customer) {
 		this.customer = customer;
-		customer.getJournal_keyword().add(this);
+		customer.getJournalKeyword().add(this);
 	}
 }

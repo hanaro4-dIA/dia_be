@@ -21,31 +21,36 @@ public class Notification {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(30)")
+	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(30)")
 	private String title;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
+	@Column(nullable = false, updatable = false, columnDefinition = "TEXT")
 	private String content;
 
 	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "timestamp default current_timestamp")
+	@Column(nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
 	private LocalTime date;
 
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	private Boolean is_read;
+	private boolean isRead;
 
-	private Notification(String title, String content, LocalTime date, Boolean is_read) {
+	private Notification(String title, String content, LocalTime date, boolean isRead) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
-		this.is_read = is_read;
+		this.isRead = isRead;
 	}
 
 	@Builder
-	public Notification create(Customer customer_, String title, String content, LocalTime date, Boolean is_read) {
-		Notification notification = new Notification(title, content, date, is_read);
+	public Notification create(Customer customer, String title, String content, LocalTime date, boolean isRead) {
+		Notification notification = new Notification(title, content, date, isRead);
 		notification.addCustomer(customer);
 		return notification;
+	}
+
+	public Notification update(boolean isRead){
+		this.isRead = isRead;
+		return this;
 	}
 
 	private void addCustomer(Customer customer) {

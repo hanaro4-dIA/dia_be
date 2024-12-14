@@ -33,8 +33,8 @@ public class Journal {
 	@Column(columnDefinition = "TEXT")
 	private String contents;
 
-	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
-	private Boolean complete;
+	@Column(nullable = false, columnDefinition = "TINYINT(1)")
+	private boolean complete;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "consulting_id")
@@ -44,15 +44,14 @@ public class Journal {
 	private List<Script> script = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_product> journal_product = new ArrayList<>();
+	private List<JournalProduct> journalProduct = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_keyword> journal_keyword = new ArrayList<>();
+	private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
-	@Builder
-	public Journal(String contents) {
+	public Journal update(String contents){
 		this.contents = contents;
-		this.complete = false;
+		return this;
 	}
 
 	protected void setConsulting(Consulting consulting) {
