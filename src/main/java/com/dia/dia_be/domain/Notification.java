@@ -1,10 +1,22 @@
 package com.dia.dia_be.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.time.LocalTime;
+
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
@@ -34,29 +46,22 @@ public class Notification {
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	private boolean isRead;
 
-	private Notification(String title, String content, LocalTime date, boolean isRead) {
+	@Builder
+	public Notification(String title, String content, LocalTime date, boolean isRead, Customer customer) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
 		this.isRead = isRead;
+		this.customer = customer;
 	}
 
-	@Builder
-	public Notification create(Customer customer, String title, String content, LocalTime date, boolean isRead) {
-		Notification notification = new Notification(title, content, date, isRead);
-		notification.addCustomer(customer);
-		return notification;
-	}
-
-	public Notification update(boolean isRead){
+	public Notification update(boolean isRead) {
 		this.isRead = isRead;
 		return this;
 	}
 
-	private void addCustomer(Customer customer) {
+	public void addCustomer(Customer customer) {
 		this.customer = customer;
 		customer.getNotification().add(this);
 	}
-
-
 }
