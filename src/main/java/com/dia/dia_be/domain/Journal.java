@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ import lombok.Setter;
 @Getter
 @Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
+@Builder
 public class Journal {
 
 	@Id
@@ -49,7 +52,7 @@ public class Journal {
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
-	public Journal update(String contents){
+	public Journal update(String contents) {
 		this.contents = contents;
 		return this;
 	}
