@@ -34,7 +34,7 @@ public class Keyword {
 	}
 
 	@Builder
-	public Keyword create(String title, String content) {
+	public static Keyword create(String title, String content) {
 		return new Keyword(title, content);
 	}
 
