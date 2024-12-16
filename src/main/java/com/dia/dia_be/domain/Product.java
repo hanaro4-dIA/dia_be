@@ -48,7 +48,7 @@ public class Product {
 		return new Product(name, product_url, image_url);
 	}
 
-	public Product update(String name, String product_url, String image_url){
+	public Product update(String name, String product_url, String image_url) {
 		this.name = name;
 		this.product_url = product_url;
 		this.image_url = image_url;
