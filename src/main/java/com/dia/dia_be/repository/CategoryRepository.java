@@ -3,7 +3,7 @@ package com.dia.dia_be.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-import com.dia.dia_be.domain.Journal;
+import com.dia.dia_be.domain.Category;
 
-public interface JournalRepository extends JpaRepository<Journal, Long>, QuerydslPredicateExecutor<Journal> {
+public interface CategoryRepository extends JpaRepository<Category, Long>, QuerydslPredicateExecutor<Category> {
 }

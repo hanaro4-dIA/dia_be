@@ -29,9 +29,14 @@ public class Hashtag {
 
 	@Builder
 	public static Hashtag create(Pb pb, String name) {
-		Hashtag pb_hashtag = new Hashtag(name);
-		pb_hashtag.addPb(pb);
-		return pb_hashtag;
+		Hashtag pbHashtag = new Hashtag(name);
+		pbHashtag.addPb(pb);
+		return pbHashtag;
+	}
+
+	public Hashtag update(String name){
+		this.name = name;
+		return this;
 	}
 
 	private void addPb(Pb pb) {
