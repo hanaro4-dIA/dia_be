@@ -65,7 +65,6 @@ public class CustomerControllerTest {
 		assertThat(customerDto.getDate()).isEqualTo(LocalDate.of(2023, 10, 1));
 	}
 
-
 	//  GET {{base_url}}/pb/customers/search?name={{customerName}}
 	@Test
 	void testSearchCustomer() throws Exception {
