@@ -21,8 +21,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+
+//pb = 1
+//customer = 1
+//로 디폴트 해둔 상태
 @RestController
-@RequestMapping("/pb/customers")
+// @RequestMapping("/pb/customers")
+@RequestMapping("/1/customers")
 @Tag(name = "Customer", description = "Customer API")
 public class CustomerController {
 
@@ -68,7 +73,8 @@ public class CustomerController {
 		@ApiResponse(responseCode = "404", description = "Customer가 존재하지 않음")
 	})
 	public ResponseEntity<CustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId) {
-		return ResponseEntity.ok(customer_service.getCustomerDetail(customerId));
+		// return ResponseEntity.ok(customer_service.getCustomerDetail(customerId));
+		return ResponseEntity.ok(customer_service.getCustomerDetail(1L));
 	}
 
 	// {{base_url}}/pb/customers/{{customerId}}/memo
@@ -85,7 +91,8 @@ public class CustomerController {
 	public ResponseEntity<CustomerDTO> updateCustomerMemo(
 		@PathVariable("customerId") Long customerId,
 		@RequestParam("memo") String memo) {
-		CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(customerId, memo);
+		// CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(customerId, memo);
+		CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(1L, memo);
 		return ResponseEntity.ok(updatedCustomer);
 	}
 
