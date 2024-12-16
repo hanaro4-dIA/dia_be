@@ -59,7 +59,7 @@ public class CustomerController {
 		return ResponseEntity.ok(customers);
 	}
 
-	// {{base_url}}/pb/customers/lists/{{customerId}}
+	// {{base_url}}/pb/customers/list/{{customerId}}
 	@GetMapping("/list/{customerId}")
 	@Operation(summary = "특정 Customer 정보 조회", description = "특정 Customer의 상세 정보를 조회합니다.")
 	@Parameter(name = "customerId", description = "Customer의 ID", example = "1")
