@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dia.dia_be.dto.pb.CustomerDTO;
+
 @Getter
 @Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -90,6 +92,38 @@ public class Customer {
     private void addPb(Pb pb) {
         this.pb = pb;
         pb.getCustomer().add(this);
+    }
+
+    // toDto
+    public CustomerDTO toDto() {
+        return CustomerDTO.builder()
+            .id(this.id)
+            .pbId(this.getPb().getId())
+            .password(this.password)
+            .date(this.date)
+            .count(this.count)
+            .memo(this.memo)
+            .email(this.email)
+            .name(this.name)
+            .tel(this.tel)
+            .address(this.address)
+            .build();
+    }
+
+    // from dto
+    public static Customer fromDto(CustomerDTO dto, Pb pb) {
+        return Customer.create(
+            pb,
+            dto.getDate(),
+            dto.getId(),
+            dto.getCount(),
+            dto.getMemo(),
+            dto.getEmail(),
+            dto.getPassword(),
+            dto.getName(),
+            dto.getTel(),
+            dto.getAddress()
+        );
     }
 
 
