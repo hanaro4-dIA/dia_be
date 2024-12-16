@@ -1,4 +1,4 @@
-package com.dia.dia_be.pb;
+package com.dia.dia_be.controller.pb;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dia.dia_be.dto.pb.CustomerDTO;
-import com.dia.dia_be.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
