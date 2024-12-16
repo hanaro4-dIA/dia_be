@@ -1,9 +1,8 @@
-package com.dia.dia_be.dto.pb.reserves_dto;
+package com.dia.dia_be.dto.pb.ReservesDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.dia.dia_be.domain.Category;
 import com.dia.dia_be.domain.Consulting;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class response_reserves_dto {
+public class ResponseReserveDTO {
 	private Long id;
 	private String title;
 	private LocalDate hopeDate;
@@ -23,10 +22,10 @@ public class response_reserves_dto {
 	private LocalDate reserveDate;
 	private LocalTime reserveTime;
 	private boolean approve;
-	private Category category;
+	private Long categoryId;
 
-	public static response_reserves_dto from(Consulting consulting) {
-		return response_reserves_dto.builder()
+	public static ResponseReserveDTO from(Consulting consulting) {
+		return ResponseReserveDTO.builder()
 			.id(consulting.getId())
 			.title(consulting.getTitle())
 			.hopeDate(consulting.getHopeDate())
@@ -34,7 +33,8 @@ public class response_reserves_dto {
 			.reserveDate(consulting.getReserveDate())
 			.reserveTime(consulting.getReserveTime())
 			.approve(consulting.isApprove())
-			.category(consulting.getCategory())
+			.categoryId(consulting.getCategory().getId())
 			.build();
 	}
+
 }

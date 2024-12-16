@@ -2,10 +2,12 @@ package com.dia.dia_be.repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -39,6 +41,7 @@ public class ConsultingRepositoryTest {
 	Pb pb;
 	Journal journal;
 	Customer customer;
+
 	@BeforeEach
 	void setUp() {
 		category = categoryRepository.findById(1L).get();
@@ -48,8 +51,9 @@ public class ConsultingRepositoryTest {
 	}
 
 	@Test
-	void save(){
-		Consulting consulting = Consulting.create(category,customer,"test", LocalDate.now(), LocalTime.now(),LocalDate.now(),LocalTime.now(),"content",false);
+	void save() {
+		Consulting consulting = Consulting.create(category, customer, "test", LocalDate.now(), LocalTime.now(),
+			LocalDate.now(), LocalTime.now(), "content", false);
 
 		Consulting testConsulting = consultingRepository.save(consulting);
 
@@ -62,16 +66,25 @@ public class ConsultingRepositoryTest {
 	}
 
 	@Test
-	void delete(){
-		Consulting consulting = Consulting.create(category,customer,"test", LocalDate.now(), LocalTime.now(),LocalDate.now(),LocalTime.now(),"content",false);
+	void delete() {
+		Consulting consulting = Consulting.create(category, customer, "test", LocalDate.now(), LocalTime.now(),
+			LocalDate.now(), LocalTime.now(), "content", false);
 		Consulting saveConsulting = consultingRepository.save(consulting);
 		Assertions.assertThat(saveConsulting.getId()).isNotNull();
 
 		consultingRepository.deleteById(saveConsulting.getId());
-		Optional<Consulting> testConsulting =  consultingRepository.findById(saveConsulting.getId());
+		Optional<Consulting> testConsulting = consultingRepository.findById(saveConsulting.getId());
 
 		Assertions.assertThat(testConsulting.isPresent()).isFalse();
 		Assertions.assertThat(testConsulting).isNotIn(category.getConsulting());
 		Assertions.assertThat(testConsulting).isNotIn(customer.getConsulting());
+	}
+
+	@Test
+	@DisplayName("approve 안 된 상담만 가져오는지 테스트")
+	void getApprovedConsultingTest() {
+		List<Consulting> notApprovedConsultings = consultingRepository.findConsultingsByApprove(false);
+
+		Assertions.assertThat(notApprovedConsultings.stream().allMatch(Consulting::isApprove)).isFalse();
 	}
 }
