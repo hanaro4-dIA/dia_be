@@ -13,11 +13,11 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class PbPbReserveServiceImpl implements PbReserveService {
+public class PbReserveServiceImpl implements PbReserveService {
 
 	private final ConsultingRepository consultingRepository;
 
-	public PbPbReserveServiceImpl(ConsultingRepository consultingRepository) {
+	public PbReserveServiceImpl(ConsultingRepository consultingRepository) {
 		this.consultingRepository = consultingRepository;
 	}
 
