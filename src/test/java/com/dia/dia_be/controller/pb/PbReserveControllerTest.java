@@ -31,7 +31,7 @@ import jakarta.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class ReserveControllerTest {
+public class PbReserveControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

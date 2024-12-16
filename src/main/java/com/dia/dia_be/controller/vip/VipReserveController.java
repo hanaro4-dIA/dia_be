@@ -17,11 +17,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/vip/reserves")
-public class ReserveController {
+public class VipReserveController {
 
 	private final ReserveService reserveService;
 
-	public ReserveController(ReserveService reserveService) {
+	public VipReserveController(ReserveService reserveService) {
 		this.reserveService = reserveService;
 	}
 

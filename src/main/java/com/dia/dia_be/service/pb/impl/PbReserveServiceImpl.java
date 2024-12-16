@@ -1,7 +1,6 @@
 package com.dia.dia_be.service.pb.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,11 @@ import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.service.pb.intf.ReserveService;
 
 @Service
-public class ReserveServiceImpl implements ReserveService {
+public class PbReserveServiceImpl implements ReserveService {
 
 	private final ConsultingRepository consultingRepository;
 
-	public ReserveServiceImpl(ConsultingRepository consultingRepository) {
+	public PbReserveServiceImpl(ConsultingRepository consultingRepository) {
 		this.consultingRepository = consultingRepository;
 	}
 
