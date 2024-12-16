@@ -1,12 +1,14 @@
 package com.dia.dia_be.controller.vip;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dia.dia_be.dto.vip.RequestReservePostDTO;
+import com.dia.dia_be.dto.vip.ResponseReserveInfoGetDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.vip.intf.ReserveService;
 
@@ -46,4 +48,18 @@ public class ReserveController {
 		}
 	}
 
+	@GetMapping("/info")
+	@Tag(name = "예약 전 정보 조회", description = "VIP의 상담 예약 전 정보를 조회하는 API")
+	@Operation(summary = "VIP의 예약 전 정보 조회", description = "VIP 이름과 PB 이름을 반환")
+	public ResponseEntity<?> getReserveInfo() {
+		final Long customerId = 1L; // 예시를 위해 하드코딩된 값
+		try {
+			ResponseReserveInfoGetDTO response = reserveService.getInfo(customerId);
+			return ResponseEntity.ok(response);
+		} catch (GlobalException e) {
+			return ResponseEntity.status(400).body(e.getMessage());
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
+	}
 }
