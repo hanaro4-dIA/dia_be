@@ -57,6 +57,17 @@ public class Journal {
 		return this;
 	}
 
+	public Journal update(boolean complete) {
+		this.complete = complete;
+		return this;
+	}
+
+	public Journal update(String contents, boolean complete) {
+		this.contents = contents;
+		this.complete = complete;
+		return this;
+	}
+
 	protected void setConsulting(Consulting consulting) {
 		this.consulting = consulting;
 	}
