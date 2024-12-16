@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,8 +48,19 @@ public class Journal {
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
-	public Journal update(String contents){
+	public Journal update(String contents) {
 		this.contents = contents;
+		return this;
+	}
+
+	public Journal update(boolean complete) {
+		this.complete = complete;
+		return this;
+	}
+
+	public Journal update(String contents, boolean complete) {
+		this.contents = contents;
+		this.complete = complete;
 		return this;
 	}
 
