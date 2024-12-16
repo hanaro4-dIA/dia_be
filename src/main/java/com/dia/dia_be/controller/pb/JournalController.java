@@ -2,6 +2,7 @@ package com.dia.dia_be.controller.pb;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jdk.jshell.spi.ExecutionControlProvider;
 
 @RestController
 @RequestMapping("/pb")
@@ -34,8 +36,12 @@ public class JournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "상담 일지 조회에 실패했습니다.")
 	})
-	public List<ResponseJournalDTO> getJournals(){
-		return journalService.getJournals();
+	public ResponseEntity<?> getJournals(){
+		try{
+			return ResponseEntity.ok(journalService.getJournals());
+		} catch (Exception e){
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
 	}
 
 	@GetMapping("/journals/{id}")
@@ -46,8 +52,12 @@ public class JournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "툭정 상담 일지 조회에 실패했습니다.")
 	})
-	public ResponseJournalDTO getJournal(@PathVariable("id") Long id){
-		return journalService.getJournal(id);
+	public ResponseEntity<?> getJournal(@PathVariable("id") Long id){
+		try{
+			return ResponseEntity.ok(journalService.getJournal(id));
+		} catch (Exception e){
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
 	}
 
 }
