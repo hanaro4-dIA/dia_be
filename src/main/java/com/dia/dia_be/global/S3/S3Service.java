@@ -15,11 +15,11 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-public class S3_service {
+public class S3Service {
     private final AmazonS3 amazonS3;
     private final String bucket;
 
-    public S3_service(AmazonS3 amazonS3, @Value("${cloud.aws.s3.bucket}") String bucket) {
+    public S3Service(AmazonS3 amazonS3, @Value("${cloud.aws.s3.bucket}") String bucket) {
         this.amazonS3 = amazonS3;
         this.bucket = bucket;
     }
