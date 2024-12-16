@@ -1,6 +1,5 @@
 package com.dia.dia_be.controller.pb;
 
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,27 +7,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.journal_dto.ResponseJournalDTO;
 import com.dia.dia_be.service.pb.intf.JournalService;
+import com.dia.dia_be.service.pb.intf.ReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jdk.jshell.spi.ExecutionControlProvider;
 
 @RestController
-@RequestMapping("/pb")
+@RequestMapping("/pb/journals")
 public class JournalController {
 
 	private final JournalService journalService;
+	private final ReserveService reserveService;
 
-	public JournalController(JournalService journalService){
+	public JournalController(JournalService journalService, ReserveService reserveService){
 		this.journalService = journalService;
+		this.reserveService = reserveService;
 	}
 
-	@GetMapping("/journals")
+	@GetMapping()
 	@Tag(name = "상담 일지 가져오기", description = "상담 일지 조회 API")
 	@Operation(summary = "상담 일지 리스트 조회")
 	@ApiResponses(value = {
@@ -44,7 +44,7 @@ public class JournalController {
 		}
 	}
 
-	@GetMapping("/journals/{id}")
+	@GetMapping("/{id}")
 	@Tag(name = "상담 일지 가져오기", description = "상담 일지 조회 API")
 	@Operation(summary = "ID 기반 특정 상담 일지 리스트 조회")
 	@ApiResponses(value = {
@@ -55,6 +55,15 @@ public class JournalController {
 	public ResponseEntity<?> getJournal(@PathVariable("id") Long id){
 		try{
 			return ResponseEntity.ok(journalService.getJournal(id));
+		} catch (Exception e){
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
+	}
+
+	@GetMapping("/consulting/{consulting_id}/content")
+	public ResponseEntity<?> getConsultingContent(@PathVariable("consulting_id") Long id){
+		try{
+			return ResponseEntity.ok(reserveService.getConsultingContent(id));
 		} catch (Exception e){
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
