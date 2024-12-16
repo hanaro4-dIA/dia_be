@@ -7,4 +7,7 @@ import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
 public interface ReserveService {
 
 	public List<ResponseReserveDTO> getApprovedReserves(boolean status);
+
+	public String getContent(Long id);
+
 }

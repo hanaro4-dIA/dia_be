@@ -63,7 +63,7 @@ public class JournalController {
 	@GetMapping("/consulting/{consulting_id}/content")
 	public ResponseEntity<?> getConsultingContent(@PathVariable("consulting_id") Long id){
 		try{
-			return ResponseEntity.ok(reserveService.getConsultingContent(id));
+			return ResponseEntity.ok(reserveService.getContent(id));
 		} catch (Exception e){
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
