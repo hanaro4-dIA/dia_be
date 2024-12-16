@@ -1,86 +1,66 @@
 package com.dia.dia_be.repository;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Notification;
 import com.dia.dia_be.domain.Pb;
 
+import jakarta.transaction.Transactional;
+
 @DataJpaTest
+@Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class NotificationRepositoryTest {
 
 	@Autowired
+	private TestEntityManager entityManager;
+
+	@Autowired
 	private NotificationRepository notificationRepository;
 
-	@Autowired
-	private CustomerRepository customerRepository;
-
-	@Autowired
-	private PbRepository pbRepository;
-
-	private Customer customer;
-	private Pb pb;
+	private Customer testCustomer;
 
 	@BeforeEach
-	void setup() {
-		pb = pbRepository.findById(1L).orElseThrow(() -> new IllegalStateException("PB not found"));
-		customer = Customer.builder()
-			.pb(pb)
-			.date(LocalDate.now())
-			.count(3)
-			.memo("강남구 거주, 안정적 자산 관리 필요.")
-			.email("user1@email.com")
-			.password("testUser1234")
-			.name("강재준")
-			.tel("01012345678")
-			.address("강남구")
-			.build();
-		customer = customerRepository.save(customer);
+	public void setUp() {
+		Pb pb = Pb.create("password", "PB Name", "image.url", "Introduce", "Office", "Career", "loginId",
+			"010-1234-5678", true);
+		entityManager.persist(pb);
+
+		testCustomer = Customer.create(pb, LocalDate.now(), null, 0, "Memo", "customer@email.com", "password",
+			"Customer Name", "010-9876-5432", "Address");
+		entityManager.persist(testCustomer);
 	}
 
 	@Test
-	void createNotification() {
-		Notification notification = Notification.builder()
-			.title("알림 제목")
-			.content("알림 내용")
-			.date(LocalTime.now())
-			.isRead(false)
-			.build();
-
-		notification.addCustomer(customer);
-
+	public void testCreateNotification() {
+		Notification notification = Notification.create(testCustomer, "Test Title", "Test Content", LocalDate.now(),
+			false);
 		Notification savedNotification = notificationRepository.save(notification);
 
-		Assertions.assertThat(savedNotification.getId()).isNotNull();
-		Assertions.assertThat(savedNotification.getTitle()).isEqualTo("알림 제목");
-		Assertions.assertThat(savedNotification.getCustomer()).isEqualTo(customer);
+		assertThat(savedNotification).isNotNull();
+		assertThat(savedNotification.getId()).isNotNull();
+		assertThat(savedNotification.getTitle()).isEqualTo("Test Title");
+		assertThat(savedNotification.getCustomer()).isEqualTo(testCustomer);
 	}
 
 	@Test
-	void deleteNotification() {
-		Notification notification = Notification.builder()
-			.title("알림 제목")
-			.content("알림 내용")
-			.date(LocalTime.now())
-			.isRead(false)
-			.build();
-
-		notification.addCustomer(customer);
+	public void testDeleteNotification() {
+		Notification notification = Notification.create(testCustomer, "Delete Test", "Delete Content", LocalDate.now(),
+			false);
 		Notification savedNotification = notificationRepository.save(notification);
 
-		notificationRepository.delete(savedNotification);
-		Optional<Notification> deletedNotification = notificationRepository.findById(savedNotification.getId());
+		notificationRepository.deleteById(savedNotification.getId());
 
-		Assertions.assertThat(deletedNotification).isEmpty();
+		assertThat(notificationRepository.findById(savedNotification.getId())).isEmpty();
 	}
 }

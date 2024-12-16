@@ -1,6 +1,6 @@
 package com.dia.dia_be.domain;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -41,18 +41,23 @@ public class Notification {
 
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "timestamp default current_timestamp")
-	private LocalTime date;
+	private LocalDate date;
 
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	private boolean isRead;
 
-	@Builder
-	public Notification(String title, String content, LocalTime date, boolean isRead, Customer customer) {
+	private Notification(String title, String content, LocalDate date, boolean isRead) {
 		this.title = title;
 		this.content = content;
 		this.date = date;
 		this.isRead = isRead;
-		this.customer = customer;
+	}
+
+	@Builder
+	public static Notification create(Customer customer, String title, String content, LocalDate date, boolean isRead) {
+		Notification notification = new Notification(title, content, date, isRead);
+		notification.addCustomer(customer);
+		return notification;
 	}
 
 	public Notification update(boolean isRead) {
@@ -60,8 +65,9 @@ public class Notification {
 		return this;
 	}
 
-	public void addCustomer(Customer customer) {
+	private void addCustomer(Customer customer) {
 		this.customer = customer;
 		customer.getNotification().add(this);
 	}
+
 }
