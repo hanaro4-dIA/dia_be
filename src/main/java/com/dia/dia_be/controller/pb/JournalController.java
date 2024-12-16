@@ -50,7 +50,7 @@ public class JournalController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
-		@ApiResponse(responseCode = "404", description = "툭정 상담 일지 조회에 실패했습니다.")
+		@ApiResponse(responseCode = "404", description = "특정 상담 일지 조회에 실패했습니다.")
 	})
 	public ResponseEntity<?> getJournal(@PathVariable("id") Long id){
 		try{
@@ -61,6 +61,13 @@ public class JournalController {
 	}
 
 	@GetMapping("/reserves/{reserve_id}/content")
+	@Tag(name = "상담 일지 가져오기", description = "상담 일지 조회 API")
+	@Operation(summary = "상담 일지 내 요청 상담 내용 상세 조회")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청 상담 내용 상세 조회에 실패했습니다.")
+	})
 	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id){
 		try{
 			return ResponseEntity.ok(reserveService.getContent(id));
