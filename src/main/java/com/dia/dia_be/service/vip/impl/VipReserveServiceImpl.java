@@ -6,7 +6,9 @@ import java.time.LocalTime;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
+import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.dto.vip.RequestReservePostDTO;
+import com.dia.dia_be.dto.vip.ResponseReserveInfoGetDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.repository.CategoryRepository;
@@ -46,5 +48,14 @@ public class VipReserveServiceImpl implements VipReserveService {
 		);
 		Consulting consultingToAdd = consultingRepository.save(consulting);
 		return consultingToAdd.getId();
+	}
+
+	@Override
+	public ResponseReserveInfoGetDTO getInfo(Long customerId) {
+		Customer customer = customerRepository.findById(customerId).orElseThrow();
+		String pbName = customer.getPb().getName();
+		String vipName = customer.getName();
+
+		return new ResponseReserveInfoGetDTO(pbName, vipName);
 	}
 }
