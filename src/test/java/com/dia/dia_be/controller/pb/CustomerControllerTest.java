@@ -27,7 +27,8 @@ public class CustomerControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
+	// private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
+	private final String baseUrl = "http://localhost:8080/1/customers"; // 기본으로 묶인 URL
 
 	//  GET {{base_url}}/pb/customers/list
 	@Test
