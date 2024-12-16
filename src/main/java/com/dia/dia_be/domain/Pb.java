@@ -79,7 +79,8 @@ public class Pb {
 		return new Pb(password, name, imageUrl, introduce, office, career, loginId, tel, availability);
 	}
 
-	public Pb update(String password, String name, String imageUrl, String introduce, String office, String career, String tel){
+	public Pb update(String password, String name, String imageUrl, String introduce, String office, String career,
+		String tel) {
 		this.password = password;
 		this.name = name;
 		this.imageUrl = imageUrl;
@@ -90,8 +91,20 @@ public class Pb {
 		return this;
 	}
 
-	public Pb updateAvailability(){
-		this.availability = !this.availability;
+	public Pb update(String imageUrl, String introduce) {
+		if (imageUrl != null) {
+			this.imageUrl = imageUrl;
+		}
+		if (introduce != null) {
+			this.introduce = introduce;
+		}
+		return this;
+	}
+
+	public Pb updateAvailability(Boolean availability) {
+		if (availability != null) {
+			this.availability = availability;
+		}
 		return this;
 	}
 }
