@@ -33,7 +33,7 @@ public class CustomerDTO {
 	public static CustomerDTO from(Customer customer) {
 		return CustomerDTO.builder()
 			.id(customer.getId())
-			.pbId(customer.getPbId())
+			.pbId(customer.getPb().getId())
 			.password(customer.getPassword())
 			.date(customer.getDate())
 			.count(customer.getCount())
