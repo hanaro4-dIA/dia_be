@@ -82,7 +82,7 @@ public class CustomerControllerTest {
 	}
 
 
-	//  GET {{base_url}}/pb/customers/lists/{{customerId}}
+	//  GET {{base_url}}/pb/customers/list/{{customerId}}
 	@Test
 	void testGetCustomerDetail() throws Exception {
 		long customerId = 1L;
