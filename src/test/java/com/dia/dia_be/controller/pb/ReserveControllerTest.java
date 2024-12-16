@@ -1,4 +1,4 @@
-package com.dia.dia_be.controller;
+package com.dia.dia_be.controller.pb;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
