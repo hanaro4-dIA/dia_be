@@ -1,4 +1,4 @@
-package com.dia.dia_be.controller;
+package com.dia.dia_be.controller.vip;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
