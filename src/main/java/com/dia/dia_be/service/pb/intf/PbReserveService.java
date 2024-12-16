@@ -8,5 +8,5 @@ public interface PbReserveService {
 
 	public List<ResponseReserveDTO> getApprovedReserves(boolean status);
 
-	void approveReserves(Long id);
+	void approveReserve(Long id);
 }

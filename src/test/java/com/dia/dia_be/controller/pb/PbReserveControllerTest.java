@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,8 +31,9 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
-public class PbPbReserveControllerTest {
+public class PbReserveControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -125,5 +127,51 @@ public class PbPbReserveControllerTest {
 
 		Assertions.assertThat(consulting1.getId()).isIn((Object[])ids);
 		Assertions.assertThat(consulting2.getId()).isNotIn((Object[])ids);
+	}
+
+	@Test
+	void testPutPbApproveReserve() throws Exception {
+		// 승인되지 않은 상담 요청의 ID
+		Long idToApprove = consulting1.getId();
+
+		// 1. PUT 요청 전에 상담 요청이 승인되지 않았음을 확인
+		mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=false"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(result -> {
+				String responseBody = result.getResponse().getContentAsString();
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.findAndRegisterModules();
+				ResponseReserveDTO[] getApprovedReserves = objectMapper.readValue(responseBody,
+					ResponseReserveDTO[].class);
+				Assertions.assertThat(getApprovedReserves).isNotNull();
+				Assertions.assertThat(Arrays.stream(getApprovedReserves)
+					.anyMatch(reserve -> reserve.getId().equals(idToApprove))).isTrue();
+			});
+
+		// 2. PUT 요청을 보내 상담 요청을 승인 상태로 변경
+		mockMvc.perform(MockMvcRequestBuilders.put(baseUrl + "?id=" + idToApprove))
+			.andExpect(MockMvcResultMatchers.status().isOk());
+
+		// 3. PUT 요청 후 상담 요청이 승인되었는지 확인
+		mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=true"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(result -> {
+				String responseBody = result.getResponse().getContentAsString();
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.findAndRegisterModules();
+				ResponseReserveDTO[] getApprovedReserves = objectMapper.readValue(responseBody,
+					ResponseReserveDTO[].class);
+				Assertions.assertThat(getApprovedReserves).isNotNull();
+				Assertions.assertThat(Arrays.stream(getApprovedReserves)
+					.anyMatch(reserve -> reserve.getId().equals(idToApprove))).isTrue();
+			});
+
+		// 4. 이미 승인된 상담 요청을 다시 승인하려 할 경우, 500 오류가 발생
+		mockMvc.perform(MockMvcRequestBuilders.put(baseUrl + "?id=" + consulting2.getId()))
+			.andExpect(MockMvcResultMatchers.status().is5xxServerError());
+
+		// 5. 존재하지 않는 ID에 대한 PUT 요청 시 500 오류 발생
+		mockMvc.perform(MockMvcRequestBuilders.put(baseUrl + "?id=99999"))
+			.andExpect(MockMvcResultMatchers.status().is5xxServerError());
 	}
 }

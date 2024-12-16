@@ -30,7 +30,7 @@ public class PbPbReserveServiceImpl implements PbReserveService {
 	}
 
 	@Override
-	public void approveReserves(Long id) {
+	public void approveReserve(Long id) {
 		Consulting consulting = consultingRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 ID와 일치하는 상담 요청이 존재하지 않습니다."));
 
