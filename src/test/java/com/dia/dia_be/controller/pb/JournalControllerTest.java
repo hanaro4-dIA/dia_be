@@ -1,4 +1,4 @@
-package com.dia.dia_be.controller;
+package com.dia.dia_be.controller.pb;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;

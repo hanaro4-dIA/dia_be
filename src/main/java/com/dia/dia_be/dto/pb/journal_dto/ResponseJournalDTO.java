@@ -24,7 +24,7 @@ public class ResponseJournalDTO {
 			.id(journal.getId())
 			.pbName(journal.getConsulting().getCustomer().getPb().getName())
 			.consultTitle(journal.getConsulting().getTitle())
-			.consultDate(journal.getConsulting().getReserve_date())
+			.consultDate(journal.getConsulting().getReserveDate())
 			.build();
 	}
 }
