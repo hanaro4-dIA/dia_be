@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dia.dia_be.dto.vip.RequestReservePostDTO;
+import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.vip.intf.ReserveService;
 
 @RestController
@@ -24,6 +25,8 @@ public class ReserveController {
 		final Long customerId = 1L;
 		try {
 			return ResponseEntity.ok(reserveService.addReserve(customerId, requestReservePostDTO));
+		} catch (GlobalException e) {
+			return ResponseEntity.status(400).body(e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
