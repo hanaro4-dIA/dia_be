@@ -19,8 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-// 실제 서버 포트에서 실행 & 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) // 실제 서버 포트에서 실행 & 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
 @Transactional
 @AutoConfigureMockMvc
 public class CustomerControllerTest {
@@ -28,7 +27,8 @@ public class CustomerControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
+	// private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
+	private final String baseUrl = "http://localhost:8080/1/customers"; // 기본으로 묶인 URL
 
 	//  GET {{base_url}}/pb/customers/list
 	@Test
@@ -80,6 +80,7 @@ public class CustomerControllerTest {
 		assertThat(responseBody).contains(name);
 	}
 
+
 	//  GET {{base_url}}/pb/customers/list/{{customerId}}
 	@Test
 	void testGetCustomerDetail() throws Exception {
@@ -105,6 +106,7 @@ public class CustomerControllerTest {
 		assertThat(customerDTO.getCount()).isEqualTo(10);
 		assertThat(customerDTO.getMemo()).isEqualTo("강남구 거주, 안정적 자산 관리 필요.");
 	}
+
 
 	//POST {{base_url}}/pb/customers/{{customerId}}/memo
 	@Test

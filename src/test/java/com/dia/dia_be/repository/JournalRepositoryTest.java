@@ -1,18 +1,19 @@
 package com.dia.dia_be.repository;
 
 import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.dia.dia_be.domain.Journal;
+
 import java.util.stream.StreamSupport;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Sort;
 
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalKeyword;
 import com.dia.dia_be.domain.JournalProduct;
 import com.dia.dia_be.domain.QConsulting;
@@ -120,5 +121,4 @@ public class JournalRepositoryTest {
 		Assertions.assertThat(journal.getJournalProduct().size()).isEqualTo(beforeJP);
 		Assertions.assertThat(journal.getJournalProduct()).doesNotContain(jpToAdd);
 	}
-
 }

@@ -44,13 +44,13 @@ public class Journal {
 	private Consulting consulting;
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Script> script = new ArrayList<>();
+	private final List<Script> script = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<JournalProduct> journalProduct = new ArrayList<>();
+	private final List<JournalProduct> journalProduct = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<JournalKeyword> journalKeyword = new ArrayList<>();
+	private final List<JournalKeyword> journalKeyword = new ArrayList<>();
 
 	public Journal update(String contents) {
 		this.contents = contents;
