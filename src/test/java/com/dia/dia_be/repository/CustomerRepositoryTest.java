@@ -30,7 +30,7 @@ public class CustomerRepositoryTest {
 		Optional<Customer> foundCustomer = customerRepository.findById(1L);
 		assertThat(foundCustomer).isPresent();
 
-		CustomerDTO customerDto = foundCustomer.get().toDto();
+		CustomerDTO customerDto = CustomerDTO.toDto(foundCustomer.get());
 
 		assertThat(customerDto.getName()).isEqualTo("강재준");
 		assertThat(customerDto.getPbId()).isEqualTo(1L); // Pb_id
