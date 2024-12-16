@@ -1,4 +1,4 @@
-package com.dia.dia_be.pb;
+package com.dia.dia_be.controller.pb;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -15,12 +15,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dia.dia_be.dto.pb.CustomerDTO;
-import com.dia.dia_be.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) // 실제 서버 포트에서 실행 & 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+// 실제 서버 포트에서 실행 & 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
 @Transactional
 @AutoConfigureMockMvc
 public class CustomerControllerTest {
@@ -65,7 +65,6 @@ public class CustomerControllerTest {
 		assertThat(customerDto.getDate()).isEqualTo(LocalDate.of(2023, 10, 1));
 	}
 
-
 	//  GET {{base_url}}/pb/customers/search?name={{customerName}}
 	@Test
 	void testSearchCustomer() throws Exception {
@@ -80,7 +79,6 @@ public class CustomerControllerTest {
 
 		assertThat(responseBody).contains(name);
 	}
-
 
 	//  GET {{base_url}}/pb/customers/list/{{customerId}}
 	@Test
@@ -107,7 +105,6 @@ public class CustomerControllerTest {
 		assertThat(customerDTO.getCount()).isEqualTo(10);
 		assertThat(customerDTO.getMemo()).isEqualTo("강남구 거주, 안정적 자산 관리 필요.");
 	}
-
 
 	//POST {{base_url}}/pb/customers/{{customerId}}/memo
 	@Test

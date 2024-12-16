@@ -1,7 +1,6 @@
 package com.dia.dia_be.controller.pb;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +28,9 @@ public class ProfileController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "PB 프로필을 찾을 수 없습니다.")
 	})
-	@GetMapping("/profile/{pbId}")
-	public ResponseProfileDTO getProfile(@PathVariable Long pbId) {
+	@GetMapping("/profile")
+	public ResponseProfileDTO getProfile() {
+		Long pbId = 1L;
 		return profileService.getProfile(pbId);
 	}
 
