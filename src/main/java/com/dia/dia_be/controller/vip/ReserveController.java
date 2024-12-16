@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/vip/reserve")
+@RequestMapping("/vip/reserves")
 public class ReserveController {
 
 	private final ReserveService reserveService;

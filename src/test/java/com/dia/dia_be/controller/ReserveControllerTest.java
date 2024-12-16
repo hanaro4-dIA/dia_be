@@ -31,7 +31,7 @@ public class ReserveControllerTest {
 
 	@Test
 	void addReserveTest() throws Exception {
-		final String url = "/vip/reserve";
+		final String url = "/vip/reserves";
 
 		RequestReservePostDTO sampleDTO = new RequestReservePostDTO(LocalDate.now().plusDays(1), LocalTime.of(14, 0),
 			2L,
