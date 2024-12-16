@@ -57,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
 		if (customerOptional.isPresent()) {
 			return convertToDto(customerOptional.get());
 		} else {
-			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);  // 고객을 찾을 수 없는 경우
+			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);
 		}
 	}
 
@@ -70,12 +70,11 @@ public class CustomerServiceImpl implements CustomerService {
 		Optional<Customer> customerOptional = customerRepository.findById(customerId);
 		if (customerOptional.isPresent()) {
 			Customer customer = customerOptional.get();
-			// update 메서드를 사용하여 memo 수정
 			customer.update(memo);
-			customerRepository.save(customer); // 메모 수정 후 저장
-			return convertToDto(customer); // 수정된 고객 정보를 DTO로 변환하여 반환
+			customerRepository.save(customer);
+			return convertToDto(customer);
 		} else {
-			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);  // 고객을 찾을 수 없는 경우
+			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);
 		}
 	}
 

@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) // 실제 서버 포트에서 실행
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT) // 실제 서버 포트에서 실행 & 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
 @Transactional
 @AutoConfigureMockMvc
 public class CustomerControllerTest {
@@ -48,7 +48,7 @@ public class CustomerControllerTest {
 		for (int i = 0; i < customerList.length; i++) {
 			CustomerDTO customerDTO = customerList[i];
 
-			assertThat(customerDTO.getId()).isEqualTo(i + 1);  // id는 1부터 시작한다고 가정
+			assertThat(customerDTO.getId()).isEqualTo(i + 1);
 			assertThat(customerDTO.getName()).isNotEmpty();
 			assertThat(customerDTO.getEmail()).isNotEmpty();
 		}
