@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
 
-public interface ReserveService {
+public interface PbReserveService {
 
 	public List<ResponseReserveDTO> getApprovedReserves(boolean status);
+
+	void approveReserves(Long id);
 }
