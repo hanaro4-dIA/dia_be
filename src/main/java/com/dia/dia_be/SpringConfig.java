@@ -35,5 +35,4 @@ public class SpringConfig implements WebMvcConfigurer {
 			.title("dIA API")
 			.description("하나은행 디지털하나로 개발4기 1차 프로젝트 dIA팀 API");
 	}
-
 }
