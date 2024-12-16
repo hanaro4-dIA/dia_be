@@ -45,11 +45,7 @@ public class Product {
 
 	@Builder
 	public static Product create(String name, String product_url, String image_url) {
-		return Product.builder()
-			.name(name)
-			.product_url(product_url)
-			.image_url(image_url)
-			.build();
+		return new Product(name, product_url, image_url);
 	}
 
 	public Product update(String name, String product_url, String image_url) {
