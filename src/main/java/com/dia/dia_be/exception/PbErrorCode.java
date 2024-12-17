@@ -29,7 +29,8 @@ public enum PbErrorCode implements ErrorCode {
 	PROFILE_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "프로필 수정에 실패했습니다."),
 	RESERVE_APPROVAL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "상담 예약 승인에 실패했습니다."),
 	JOURNAL_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "상담 일지 저장에 실패했습니다."),
-	NOTIFICATION_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "쪽지 전송에 실패했습니다.");
+	NOTIFICATION_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "쪽지 전송에 실패했습니다."),
+	RECORD_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "녹음 파일을 가져오는데 실패했습니다.");
 
 	private final HttpStatus httpStatus;
 	private final int code;

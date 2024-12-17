@@ -1,6 +1,14 @@
 package com.dia.dia_be.controller.pb;
 
-import java.util.List;
+
+import static com.dia.dia_be.exception.PbErrorCode.*;
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
-import com.dia.dia_be.dto.pb.productDTO.ResponseProductDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
+import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.dia.dia_be.service.pb.intf.PbProductService;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
@@ -22,6 +32,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/pb/journals")
@@ -125,4 +136,31 @@ public class PbJournalController {
 		}
 	}
 
+
+	@PostMapping("{journal_id}/transcripts")
+	public ResponseEntity<ScriptListResponseDTO> createScriptsAndKeyword(@PathVariable("journal_id") Long journal_id,
+		@RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest req) {
+
+		String uploadPath = req.getServletContext().getRealPath("/upload");
+		Path uploadPath_path = Paths.get(uploadPath);
+		if (!Files.exists(uploadPath_path)) {
+			try {
+				Files.createDirectories(uploadPath_path); // 디렉토리가 없다면 생성
+			} catch (IOException e){
+				throw new GlobalException(RECORD_SAVE_FAILED);
+			}
+		}
+		String fileName = uploadFile.getOriginalFilename();
+		String filePath = uploadPath + "/" + fileName;
+
+		try {
+			BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(filePath));
+			os.write(uploadFile.getBytes());
+			os.close();
+		} catch (Exception e) {
+			throw new GlobalException(RECORD_SAVE_FAILED);
+		}
+
+		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
+	}
 }

@@ -2,6 +2,8 @@ package com.dia.dia_be.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,8 +30,9 @@ public class Script {
 	@Column(nullable = false, columnDefinition = "INT UNSIGNED")
 	private int scriptSequence;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
-	private String speaker;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
+	private Speaker speaker;
 
 	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String content;
@@ -38,20 +41,20 @@ public class Script {
 	@JoinColumn(name = "journal_id")
 	private Journal journal;
 
-	private Script(int scriptSequence, String speaker, String content) {
+	private Script(int scriptSequence, Speaker speaker, String content) {
 		this.scriptSequence = scriptSequence;
 		this.speaker = speaker;
 		this.content = content;
 	}
 
 	@Builder
-	public static Script create(Journal journal, int script_sequence, String speaker, String content) {
+	public static Script create(Journal journal, int script_sequence, Speaker speaker, String content) {
 		Script script = new Script(script_sequence, speaker, content);
 		script.addJournal(journal);
 		return script;
 	}
 
-	public Script update(int scriptSequence, String speaker, String content){
+	public Script update(int scriptSequence, Speaker speaker, String content){
 		this.scriptSequence = scriptSequence;
 		this.speaker = speaker;
 		this.content = content;
