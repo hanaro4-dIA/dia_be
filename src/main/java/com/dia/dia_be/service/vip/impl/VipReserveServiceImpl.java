@@ -15,13 +15,13 @@ import com.dia.dia_be.repository.CustomerRepository;
 import com.dia.dia_be.service.vip.intf.ReserveService;
 
 @Service
-public class ReserveServiceImpl implements ReserveService {
+public class VipReserveServiceImpl implements ReserveService {
 
 	private final ConsultingRepository consultingRepository;
 	private final CategoryRepository categoryRepository;
 	private final CustomerRepository customerRepository;
 
-	public ReserveServiceImpl(ConsultingRepository consultingRepository, CategoryRepository categoryRepository,
+	public VipReserveServiceImpl(ConsultingRepository consultingRepository, CategoryRepository categoryRepository,
 		CustomerRepository customerRepository) {
 		this.consultingRepository = consultingRepository;
 		this.categoryRepository = categoryRepository;

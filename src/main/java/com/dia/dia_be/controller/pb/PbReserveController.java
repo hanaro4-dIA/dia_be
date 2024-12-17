@@ -21,10 +21,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/pb/reserves")
-public class ReserveController {
+public class PbReserveController {
 	private final ReserveService reserveService;
 
-	public ReserveController(ReserveService reserveService) {
+	public PbReserveController(ReserveService reserveService) {
 		this.reserveService = reserveService;
 	}
 

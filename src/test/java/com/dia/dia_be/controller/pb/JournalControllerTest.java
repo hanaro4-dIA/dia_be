@@ -43,4 +43,16 @@ public class JournalControllerTest {
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
+
+	@Test
+	@DisplayName("journal controller test - 요청 상담 내용 자세히보기 조회")
+	void getConsultingContent() throws Exception {
+		String url = "/pb/journals/reserves/" + 1 + "/content";
+
+		// response data가 string인지 검증
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8"))
+			.andDo(print());
+	}
 }

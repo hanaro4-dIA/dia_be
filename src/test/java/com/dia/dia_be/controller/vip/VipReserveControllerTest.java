@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ReserveControllerTest {
+public class VipReserveControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

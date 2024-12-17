@@ -1,4 +1,4 @@
-package com.dia.dia_be.controller;
+package com.dia.dia_be.controller.pb;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,7 +31,7 @@ import jakarta.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class ReserveControllerTest {
+public class PbReserveControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
