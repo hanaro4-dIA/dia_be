@@ -2,15 +2,15 @@ package com.dia.dia_be.service.pb.intf;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.dto.pb.customerDTO.ResponseCustomerDTO;
 
 public interface PbCustomerService {
 
-	List<CustomerDTO> getCustomerList();
+	List<ResponseCustomerDTO> getCustomerList();
 
-	CustomerDTO getCustomerDetail(Long customerId);
+	ResponseCustomerDTO getCustomerDetail(Long customerId);
 
-	List<CustomerDTO> searchCustomer(String name);
+	List<ResponseCustomerDTO> searchCustomer(String name);
 
-	CustomerDTO updateCustomerMemo(Long customerId, String memo);
+	ResponseCustomerDTO updateCustomerMemo(Long customerId, String memo);
 }
