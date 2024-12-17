@@ -27,4 +27,26 @@ public class VipJournalControllerTest {
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andDo(print());
 	}
+
+	@Test
+	void findByJournalIdTest() throws Exception {
+		final String journalId = "1";
+		final String url = "/vip/journals/" + journalId;
+
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andDo(print());
+	}
+
+	@Test
+	void findJournalScriptByJournalIdTest() throws Exception {
+		final String journalId = "1";
+		final String url = "/vip/journals/" + journalId + "/scripts";
+
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andDo(print());
+	}
 }
