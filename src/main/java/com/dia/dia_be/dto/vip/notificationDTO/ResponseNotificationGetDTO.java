@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.vip;
+package com.dia.dia_be.dto.vip.notificationDTO;
 
 import com.dia.dia_be.domain.Notification;
 

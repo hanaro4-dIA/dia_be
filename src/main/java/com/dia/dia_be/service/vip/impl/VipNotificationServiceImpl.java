@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Notification;
 import com.dia.dia_be.domain.QNotification;
-import com.dia.dia_be.dto.vip.ResponseNotificationGetDTO;
+import com.dia.dia_be.dto.vip.notificationDTO.ResponseNotificationGetDTO;
 import com.dia.dia_be.repository.NotificationRepository;
 import com.dia.dia_be.service.vip.intf.VipNotificationService;
 

@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.vip;
+package com.dia.dia_be.dto.vip.journalDTO;
 
 import com.dia.dia_be.domain.Script;
 
