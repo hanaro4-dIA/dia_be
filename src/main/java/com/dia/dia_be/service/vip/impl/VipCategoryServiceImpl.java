@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Category;
-import com.dia.dia_be.dto.vip.categoryDTO.ResponseCategoryGetDTO;
+import com.dia.dia_be.dto.vip.categoryDTO.ResponseCategoryDTO;
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.service.vip.intf.VipCategoryService;
 
@@ -18,8 +18,8 @@ public class VipCategoryServiceImpl implements VipCategoryService {
 	}
 
 	@Override
-	public List<ResponseCategoryGetDTO> getCategories() {
+	public List<ResponseCategoryDTO> getCategories() {
 		List<Category> categories = categoryRepository.findAll();
-		return categories.stream().map(ResponseCategoryGetDTO::from).toList();
+		return categories.stream().map(ResponseCategoryDTO::from).toList();
 	}
 }

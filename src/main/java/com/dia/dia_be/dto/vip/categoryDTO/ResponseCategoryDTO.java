@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponseCategoryGetDTO {
+public class ResponseCategoryDTO {
 	@Schema(description = "아이디", example = "2")
 	private Long id;
 	@Schema(description = "카테고리명", example = "은퇴설계")
 	private String name;
 
-	public static ResponseCategoryGetDTO from(Category category) {
-		return ResponseCategoryGetDTO.builder()
+	public static ResponseCategoryDTO from(Category category) {
+		return ResponseCategoryDTO.builder()
 			.id(category.getId())
 			.name(category.getName())
 			.build();
