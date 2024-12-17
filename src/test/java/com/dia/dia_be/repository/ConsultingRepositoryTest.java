@@ -82,11 +82,31 @@ public class ConsultingRepositoryTest {
 
 	@Test
 	@DisplayName("approve 안 된 상담만 가져오는지 테스트")
-	void getApprovedConsultingsTest() {
+	void getApprovedConsultingTest() {
 		List<Consulting> notApprovedConsultings = consultingRepository.findConsultingsByApprove(false);
 
 		Assertions.assertThat(notApprovedConsultings.stream().allMatch(Consulting::isApprove)).isFalse();
 	}
+
+	@Test
+	@DisplayName("특정 날짜와 PB ID에 대해 승인된 상담만 가져오는지 테스트")
+	void findByHopeDateAndApproveTrueAndCustomer_Pb_IdTest() {
+
+		LocalDate hopeDate = LocalDate.of(2024, 12, 20);
+		Long pbId = pb.getId();
+
+		List<Consulting> result = consultingRepository.findByHopeDateAndApproveTrueAndCustomer_Pb_Id(hopeDate, pbId);
+
+		// Then
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).hasSize(1);
+		Consulting consulting = result.get(0);
+		Assertions.assertThat(consulting.getTitle()).isEqualTo("Approved Consulting");
+		Assertions.assertThat(consulting.getHopeDate()).isEqualTo(hopeDate);
+		Assertions.assertThat(consulting.isApprove()).isTrue();
+		Assertions.assertThat(consulting.getCustomer().getPb().getId()).isEqualTo(pbId);
+	}
+
 
 	@Test
 	@DisplayName("hopeDate가 미래인 상담만 가져오는지 테스트")
