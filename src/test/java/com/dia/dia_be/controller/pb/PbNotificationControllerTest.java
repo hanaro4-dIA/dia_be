@@ -17,7 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.dia.dia_be.dto.pb.NotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.RequestNotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.ResponseNotificationDTO;
 import com.dia.dia_be.service.pb.intf.PbNotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,14 +34,14 @@ class PbNotificationControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	private NotificationDTO notificationDTO1;
-	private NotificationDTO notificationDTO2;
-	private NotificationDTO notificationDTO3;
+	private ResponseNotificationDTO notificationDTO1;
+	private ResponseNotificationDTO notificationDTO2;
+	private ResponseNotificationDTO notificationDTO3;
 
 	@BeforeEach
 	void setUp() {
 		// 첫 번째
-		notificationDTO1 = NotificationDTO.builder()
+		notificationDTO1 = ResponseNotificationDTO.builder()
 			.id(1L)
 			.customerId(1L)
 			.title("Test Title 1")
@@ -50,7 +51,7 @@ class PbNotificationControllerTest {
 			.build();
 
 		// 두 번째
-		notificationDTO2 = NotificationDTO.builder()
+		notificationDTO2 = ResponseNotificationDTO.builder()
 			.id(2L)
 			.customerId(2L)
 			.title("Test Title 2")
@@ -60,7 +61,7 @@ class PbNotificationControllerTest {
 			.build();
 
 		// 세 번째
-		notificationDTO3 = NotificationDTO.builder()
+		notificationDTO3 = ResponseNotificationDTO.builder()
 			.id(3L)
 			.customerId(3L)
 			.title("Test Title 3")
@@ -73,7 +74,7 @@ class PbNotificationControllerTest {
 	// GET - 전체 쪽지 조회 테스트
 	@Test
 	void testGetAllNotifications() throws Exception {
-		List<NotificationDTO> notifications = Arrays.asList(notificationDTO1, notificationDTO2, notificationDTO3);
+		List<ResponseNotificationDTO> notifications = Arrays.asList(notificationDTO1, notificationDTO2, notificationDTO3);
 
 		Mockito.when(pbNotificationService.getAllNotifications()).thenReturn(notifications);
 
@@ -88,7 +89,7 @@ class PbNotificationControllerTest {
 	// GET - 특정 고객에게 보낸 쪽지 조회 테스트
 	@Test
 	void testGetNotificationsByCustomerIds() throws Exception {
-		List<NotificationDTO> notifications = Arrays.asList(notificationDTO1, notificationDTO2);
+		List<ResponseNotificationDTO> notifications = Arrays.asList(notificationDTO1, notificationDTO2);
 
 		Mockito.when(pbNotificationService.getNotificationsByCustomerIds(anyList())).thenReturn(notifications);
 
@@ -114,9 +115,9 @@ class PbNotificationControllerTest {
 	// POST - 여러 고객에게 쪽지 전송 테스트
 	@Test
 	void testSendNotifications() throws Exception {
-		List<NotificationDTO> sentNotifications = Arrays.asList(notificationDTO1, notificationDTO2, notificationDTO3);
+		List<ResponseNotificationDTO> sentNotifications = Arrays.asList(notificationDTO1, notificationDTO2, notificationDTO3);
 
-		Mockito.when(pbNotificationService.sendNotifications(any(NotificationDTO.class))).thenReturn(sentNotifications);
+		Mockito.when(pbNotificationService.sendNotifications(any(RequestNotificationDTO.class))).thenReturn(sentNotifications);
 
 		mockMvc.perform(post("/pb/notifications/send")
 				.param("customerIds", "1", "2", "3")
