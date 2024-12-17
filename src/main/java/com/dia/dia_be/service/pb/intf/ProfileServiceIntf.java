@@ -1,10 +1,9 @@
 package com.dia.dia_be.service.pb.intf;
 
-import com.dia.dia_be.dto.pb.profileDTO.RequestProfileDTO;
-import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
+import com.dia.dia_be.dto.pb.profileDTO.ResponseEditProfileDTO;
+
+import java.util.List;
 
 public interface ProfileServiceIntf {
-	ResponseProfileDTO getProfile(Long pbId);
-
-	RequestProfileDTO updateProfile(Long pbId, RequestProfileDTO profileDTO);
+	ResponseEditProfileDTO updateProfile(Long pbId, String introduce, String imgUrl, List<String> hashTags);
 }

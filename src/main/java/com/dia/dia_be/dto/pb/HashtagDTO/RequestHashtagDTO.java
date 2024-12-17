@@ -2,12 +2,7 @@ package com.dia.dia_be.dto.pb.HashtagDTO;
 
 import com.dia.dia_be.domain.Hashtag;
 import com.dia.dia_be.domain.Pb;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -15,23 +10,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class RequestHashtagDTO {
-	private Long id;
-	private Long pbId;
 	private String name;
 
-	public Hashtag toEntity(Pb pb) {
-		return Hashtag.builder()
-			.pb(pb)
-			.name(this.name)
-			.build();
-
+	public static RequestHashtagDTO of(String name) {
+		return RequestHashtagDTO.builder()
+				.name(name)
+				.build();
 	}
 
-	// DTO 객체 생성 - of 메서드
-	public static RequestHashtagDTO of(Long pbId, String name) {
+	public static RequestHashtagDTO from(Hashtag hashtag) { // Hashtag은 실제 도메인 객체로 가정
 		return RequestHashtagDTO.builder()
-			.pbId(pbId)
-			.name(name)
-			.build();
+				.name(hashtag.getName())
+				.build();
+	}
+
+	public static Hashtag toEntity(Pb pb, String name){
+		return Hashtag.create(pb, name);
 	}
 }

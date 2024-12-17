@@ -14,21 +14,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class ResponseHashtagDTO {
-	private Long pbId;
 	private String name;
 
 	// Entity -> DTO 변환
 	public static ResponseHashtagDTO from(Hashtag hashtag) {
 		return ResponseHashtagDTO.builder()
-			.pbId(hashtag.getPb().getId())
 			.name(hashtag.getName())
 			.build();
 	}
 
 	// DTO 객체 생성 - of 메서드
-	public static ResponseHashtagDTO of(Long pbId, String name) {
+	public static ResponseHashtagDTO of(String name) {
 		return ResponseHashtagDTO.builder()
-			.pbId(pbId)
 			.name(name)
 			.build();
 	}
