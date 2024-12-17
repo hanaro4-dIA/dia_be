@@ -38,7 +38,7 @@ public class VipNotificationController {
 
 	// GET {{base_url}}/vip/notifications/delete
 	// 해당 customerId의 전체 알림 삭제
-	@DeleteMapping("/delete")
+	@DeleteMapping("/")
 	@Operation(summary = "특정 VIP의 모든 알림 삭제 API")
 	public ResponseEntity<?> deleteAllNotifications() {
 		final Long customerId = 1L;
@@ -48,7 +48,7 @@ public class VipNotificationController {
 
 	// GET {{base_url}}/vip/notifications/read
 	// 해당 customerId의 전체 알림 읽음 처리
-	@PatchMapping("/read")
+	@PatchMapping("/")
 	@Operation(summary = "특정 VIP의 모든 알림 읽음 처리 API")
 	public ResponseEntity<?> markAllNotificationsAsRead() {
 		final Long customerId = 1L;
