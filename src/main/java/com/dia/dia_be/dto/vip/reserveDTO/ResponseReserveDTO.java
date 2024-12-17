@@ -26,7 +26,6 @@ public class ResponseReserveDTO {
 	@Schema(description = "카테고리명", example = "은퇴설계")
 	private String categoryName;
 	@Schema(description = "상담희망일", example = "2024-12-30")
-	@JsonFormat(pattern = "yyyy.MM.dd")
 	private LocalDate date;
 	@Schema(description = "상담희망시", example = "14:00")
 	@JsonFormat(pattern = "HH:mm")

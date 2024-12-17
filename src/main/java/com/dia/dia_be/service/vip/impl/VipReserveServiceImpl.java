@@ -27,6 +27,7 @@ public class VipReserveServiceImpl implements VipReserveService {
 	private final ConsultingRepository consultingRepository;
 	private final CategoryRepository categoryRepository;
 	private final CustomerRepository customerRepository;
+	private final QConsulting qConsulting = QConsulting.consulting;
 
 	public VipReserveServiceImpl(ConsultingRepository consultingRepository, CategoryRepository categoryRepository,
 		CustomerRepository customerRepository) {
@@ -66,9 +67,25 @@ public class VipReserveServiceImpl implements VipReserveService {
 
 	@Override
 	public List<ResponseReserveDTO> getReserves(Long customerId) {
-		QConsulting qConsulting = QConsulting.consulting;
 		List<Consulting> reserves = StreamSupport.stream(consultingRepository.findAll(
-			qConsulting.customer.id.eq(customerId)).spliterator(), false).toList();
+				qConsulting.customer.id.eq(customerId).and(qConsulting.hopeDate.after(LocalDate.now()))).spliterator(),
+			false).toList();
 		return reserves.stream().map(ResponseReserveDTO::from).toList();
+	}
+
+	@Override
+	public ResponseReserveDTO getReserveByConsultingId(Long consultingId) {
+		Consulting consulting = consultingRepository.findOne(
+			qConsulting.id.eq(consultingId)
+		).orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		return ResponseReserveDTO.from(consulting);
+	}
+
+	@Override
+	public Long deleteReserve(Long consultingId) {
+		Consulting consultingToDelete = consultingRepository.findById(consultingId)
+			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		consultingRepository.delete(consultingToDelete);
+		return consultingToDelete.getId();
 	}
 }

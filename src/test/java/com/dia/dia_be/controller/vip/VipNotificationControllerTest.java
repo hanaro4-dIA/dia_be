@@ -37,7 +37,7 @@ public class VipNotificationControllerTest {
 	@Test
 	void deleteAllNotificationsTest() throws Exception {
 		Long customerId = 1L;
-		final String url = "/vip/notifications/" + customerId;
+		final String url = "/vip/notifications/";
 
 		mockMvc.perform(delete(url).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
@@ -50,7 +50,7 @@ public class VipNotificationControllerTest {
 	@Test
 	void markAllNotificationsAsReadTest() throws Exception {
 		Long customerId = 1L;
-		final String url = "/vip/notifications/" + customerId + "/read";
+		final String url = "/vip/notifications/";
 
 		mockMvc.perform(patch(url).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
