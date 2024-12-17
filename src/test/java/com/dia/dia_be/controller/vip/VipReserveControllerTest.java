@@ -102,4 +102,19 @@ public class VipReserveControllerTest {
 			.andExpect(jsonPath("$.time", is(reserves.get(0).getTime().toString())))
 			.andDo(print());
 	}
+
+	@Test
+	@Transactional
+	void deleteReserveByIdTest() throws Exception {
+		final Long customerId = 1L;
+		List<ResponseReserveDTO> reserves = vipReserveService.getReserves(customerId);
+		reserves = reserves.stream().filter(reserve -> reserve.getDate().isAfter(LocalDate.now())).toList();
+		Long reserveId = reserves.get(0).getId();
+
+		final String url = "/vip/reserves/" + reserveId;
+		mockMvc.perform(delete(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andDo(print());
+	}
 }

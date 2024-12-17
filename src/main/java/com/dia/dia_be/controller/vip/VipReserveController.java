@@ -3,6 +3,7 @@ package com.dia.dia_be.controller.vip;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,6 +85,18 @@ public class VipReserveController {
 		final Long customerId = 1L;
 		try {
 			return ResponseEntity.ok(vipReserveService.getReserveByConsultingId(consultingId));
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
+	}
+
+	@DeleteMapping("/{id}")
+	@Operation(summary = "예약 삭제", description = "예약을 삭제합니다.")
+	public ResponseEntity<?> deleteReserve(@PathVariable("id") Long consultingId) {
+		try {
+			return ResponseEntity.ok(vipReserveService.deleteReserve(consultingId));
+		} catch (GlobalException e) {
+			return ResponseEntity.status(400).body(e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}

@@ -80,4 +80,12 @@ public class VipReserveServiceImpl implements VipReserveService {
 		).orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
 		return ResponseReserveDTO.from(consulting);
 	}
+
+	@Override
+	public Long deleteReserve(Long consultingId) {
+		Consulting consultingToDelete = consultingRepository.findById(consultingId)
+			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		consultingRepository.delete(consultingToDelete);
+		return consultingToDelete.getId();
+	}
 }
