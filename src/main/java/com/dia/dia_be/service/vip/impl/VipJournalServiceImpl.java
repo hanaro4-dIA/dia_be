@@ -12,25 +12,31 @@ import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Product;
 import com.dia.dia_be.domain.QConsulting;
 import com.dia.dia_be.domain.QProduct;
+import com.dia.dia_be.domain.QScript;
 import com.dia.dia_be.dto.vip.ResponseJournalDTO;
+import com.dia.dia_be.dto.vip.ResponseJournalScriptDTO;
 import com.dia.dia_be.dto.vip.ResponseSimpleJournalDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.VipErrorCode;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.ProductRepository;
+import com.dia.dia_be.repository.ScriptRepository;
 import com.dia.dia_be.service.vip.intf.VipJournalService;
 
 @Service
 public class VipJournalServiceImpl implements VipJournalService {
 	private final ConsultingRepository consultingRepository;
 	private final ProductRepository productRepository;
+	private final ScriptRepository scriptRepository;
 	private final QConsulting qConsulting = QConsulting.consulting;
 	private final QProduct qProduct = QProduct.product;
+	private final QScript qScript = QScript.script;
 
 	public VipJournalServiceImpl(ConsultingRepository consultingRepository,
-		ProductRepository productRepository) {
+		ProductRepository productRepository, ScriptRepository scriptRepository) {
 		this.consultingRepository = consultingRepository;
 		this.productRepository = productRepository;
+		this.scriptRepository = scriptRepository;
 	}
 
 	@Override
@@ -76,5 +82,12 @@ public class VipJournalServiceImpl implements VipJournalService {
 			journalProducts);
 		System.out.println(ret);
 		return ret;
+	}
+
+	@Override
+	public List<ResponseJournalScriptDTO> getJournalScripts(Long journalId) {
+		return StreamSupport.stream(scriptRepository.findAll(
+			qScript.journal.id.eq(journalId)
+		).spliterator(), false).map(ResponseJournalScriptDTO::from).toList();
 	}
 }
