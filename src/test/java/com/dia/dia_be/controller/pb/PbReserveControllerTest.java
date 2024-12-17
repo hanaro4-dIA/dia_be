@@ -8,7 +8,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +21,6 @@ import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Pb;
 import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
-
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;
@@ -52,10 +50,13 @@ public class PbReserveControllerTest {
 	@Autowired
 	private PbRepository pbRepository;
 
+	private final ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+
 	private final String baseUrl = "http://localhost:8080/pb/reserves";
 
 	Consulting consulting1;
 	Consulting consulting2;
+	Consulting consulting3;
 
 	@BeforeEach
 	void setUp() {
@@ -83,7 +84,7 @@ public class PbReserveControllerTest {
 			category,
 			customer,
 			"Consulting Title 1",
-			LocalDate.of(2024, 12, 20),
+			LocalDate.of(2024, 01, 30),
 			LocalTime.of(14, 0),
 			LocalDate.now(),
 			LocalTime.now(),
@@ -97,7 +98,7 @@ public class PbReserveControllerTest {
 			category,
 			customer,
 			"Consulting Title 2",
-			LocalDate.of(2024, 12, 21),
+			LocalDate.of(2024, 03, 07),
 			LocalTime.of(15, 0),
 			LocalDate.now(),
 			LocalTime.now(),
@@ -105,8 +106,23 @@ public class PbReserveControllerTest {
 			true
 		);
 		consulting2 = consultingRepository.save(consulting2);
+
+		// approve = true && hope_date > CURRENT_DATE
+		consulting3 = Consulting.create(
+			category,
+			customer,
+			"Consulting Title 3",
+			LocalDate.of(2024, 12, 24),
+			LocalTime.of(18, 0),
+			LocalDate.now(),
+			LocalTime.now(),
+			"Consulting Content 3",
+			true
+		);
+		consulting3 = consultingRepository.save(consulting3);
 	}
 
+	// 들어온 상담 요청 조회 test (status=false)
 	@Test
 	void testGetPbNotApprovedReservesList() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=false"))
@@ -114,9 +130,6 @@ public class PbReserveControllerTest {
 			.andReturn();
 
 		String responseBody = result.getResponse().getContentAsString();
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.findAndRegisterModules();
 
 		ResponseReserveDTO[] getApprovedReserves = objectMapper.readValue(responseBody,
 			ResponseReserveDTO[].class);
@@ -129,8 +142,33 @@ public class PbReserveControllerTest {
 
 		Assertions.assertThat(consulting1.getId()).isIn((Object[])ids);
 		Assertions.assertThat(consulting2.getId()).isNotIn((Object[])ids);
+		Assertions.assertThat(consulting3.getId()).isNotIn((Object[])ids);
 	}
 
+	// 예정된 상담 일정 조회 test (status=true&type=upcoming)
+	@Test
+	void testGetPbApprovedAndUpcomingReservesList() throws Exception {
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=true&type=upcoming"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andReturn();
+
+		String responseBody = result.getResponse().getContentAsString();
+
+		ResponseReserveDTO[] getUpcomingReserves = objectMapper.readValue(responseBody,
+			ResponseReserveDTO[].class);
+
+		Assertions.assertThat(getUpcomingReserves).isNotNull();
+
+		Long[] ids = Arrays.stream(getUpcomingReserves)
+			.map(ResponseReserveDTO::getId)
+			.toArray(Long[]::new);
+
+		Assertions.assertThat(consulting1.getId()).isNotIn((Object[])ids);
+		Assertions.assertThat(consulting2.getId()).isNotIn((Object[])ids);
+		Assertions.assertThat(consulting3.getId()).isIn((Object[])ids);
+	}
+
+	// 들어온 상담 요청 승인 test
 	@Test
 	void testPutPbApproveReserve() throws Exception {
 		// 승인되지 않은 상담 요청의 ID
@@ -141,8 +179,7 @@ public class PbReserveControllerTest {
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(result -> {
 				String responseBody = result.getResponse().getContentAsString();
-				ObjectMapper objectMapper = new ObjectMapper();
-				objectMapper.findAndRegisterModules();
+
 				ResponseReserveDTO[] getApprovedReserves = objectMapper.readValue(responseBody,
 					ResponseReserveDTO[].class);
 				Assertions.assertThat(getApprovedReserves).isNotNull();
@@ -159,8 +196,7 @@ public class PbReserveControllerTest {
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(result -> {
 				String responseBody = result.getResponse().getContentAsString();
-				ObjectMapper objectMapper = new ObjectMapper();
-				objectMapper.findAndRegisterModules();
+
 				ResponseReserveDTO[] getApprovedReserves = objectMapper.readValue(responseBody,
 					ResponseReserveDTO[].class);
 				Assertions.assertThat(getApprovedReserves).isNotNull();

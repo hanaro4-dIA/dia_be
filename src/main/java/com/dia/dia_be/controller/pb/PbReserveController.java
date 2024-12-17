@@ -2,12 +2,10 @@ package com.dia.dia_be.controller.pb;
 
 import java.util.List;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,16 +34,23 @@ public class PbReserveController {
 
 	@GetMapping
 	@Tag(name = "들어온 상담 요청 관리", description = "PB의 상담 요청 관리 API")
-	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회")
+	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회 및 캘린더 내 전체 상담 일정 조회")
 	@Parameters({
-		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false")
+		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false"),
+		@Parameter(name = "type", description = "예정된 상담 일정", example = "upcoming")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public List<ResponseReserveDTO> getReserves(@RequestParam boolean status) {
+	public List<ResponseReserveDTO> getReserves(@RequestParam boolean status,
+		@RequestParam(required = false) String type) {
+		// status가 true이고 type=upcoming인 경우
+		if (status && "upcoming".equalsIgnoreCase(type)) {
+			return pbReserveService.getUpcomingReserves();
+		}
 		return pbReserveService.getApprovedReserves(status);
+
 	}
 
 	@PutMapping

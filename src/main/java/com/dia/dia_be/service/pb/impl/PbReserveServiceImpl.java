@@ -1,5 +1,6 @@
 package com.dia.dia_be.service.pb.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -26,6 +28,15 @@ public class PbReserveServiceImpl implements PbReserveService {
 	@Override
 	public List<ResponseReserveDTO> getApprovedReserves(boolean status) {
 		return consultingRepository.findConsultingsByApprove(status)
+			.stream()
+			.map(ResponseReserveDTO::from)
+			.toList();
+	}
+
+	@Override
+	public List<ResponseReserveDTO> getUpcomingReserves() {
+		// status=true 이면서 hopeDate가 오늘 날짜 이후인 예약 목록 가져오기
+		return consultingRepository.findByApproveTrueAndHopeDateAfter(LocalDate.now())
 			.stream()
 			.map(ResponseReserveDTO::from)
 			.toList();

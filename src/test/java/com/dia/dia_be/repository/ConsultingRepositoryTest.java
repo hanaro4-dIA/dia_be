@@ -82,9 +82,32 @@ public class ConsultingRepositoryTest {
 
 	@Test
 	@DisplayName("approve 안 된 상담만 가져오는지 테스트")
-	void getApprovedConsultingTest() {
+	void getApprovedConsultingsTest() {
 		List<Consulting> notApprovedConsultings = consultingRepository.findConsultingsByApprove(false);
 
 		Assertions.assertThat(notApprovedConsultings.stream().allMatch(Consulting::isApprove)).isFalse();
 	}
+
+	@Test
+	@DisplayName("hopeDate가 미래인 상담만 가져오는지 테스트")
+	void getUpcomingConsultingsTest() {
+		// hopeDate가 미래인 Consulting 추가
+		Consulting futureConsulting = Consulting.create(category, customer, "test", LocalDate.now().plusDays(1),
+			LocalTime.now(),
+			LocalDate.now().plusDays(1), LocalTime.now(), "content", true);
+		consultingRepository.save(futureConsulting);
+
+		Consulting pastConsulting = Consulting.create(category, customer, "test", LocalDate.now().minusDays(1),
+			LocalTime.now(),
+			LocalDate.now().minusDays(1), LocalTime.now(), "content", true);
+		consultingRepository.save(pastConsulting);
+
+		List<Consulting> upcomingConsultings = consultingRepository.findByApproveTrueAndHopeDateAfter(LocalDate.now());
+
+		Assertions.assertThat(upcomingConsultings).isNotEmpty();
+		Assertions.assertThat(upcomingConsultings.stream().allMatch(Consulting::isApprove)).isTrue();
+		Assertions.assertThat(upcomingConsultings.stream().allMatch(c -> c.getHopeDate().isAfter(LocalDate.now())))
+			.isTrue();
+	}
+
 }
