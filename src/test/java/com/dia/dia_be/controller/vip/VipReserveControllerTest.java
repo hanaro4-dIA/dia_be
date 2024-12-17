@@ -78,7 +78,28 @@ public class VipReserveControllerTest {
 			.andExpect(jsonPath("$", hasSize(reserves.size())))
 			.andExpect(jsonPath("$[0].id", is(reserves.get(0).getId().intValue())))
 			.andExpect(jsonPath("$[0].title", is(reserves.get(0).getTitle())))
+			.andExpect(jsonPath("$[0].date", is(reserves.get(0).getDate().toString())))
 			.andExpect(jsonPath("$[0].time", is(reserves.get(0).getTime().toString())))
+			.andDo(print());
+	}
+
+	@Test
+	@Transactional
+	void getReserveByIdTest() throws Exception {
+		final Long customerId = 1L;
+		List<ResponseReserveDTO> reserves = vipReserveService.getReserves(customerId);
+		reserves = reserves.stream().filter(reserve -> reserve.getDate().isAfter(LocalDate.now())).toList();
+		Long reserveId = reserves.get(0).getId();
+
+		final String url = "/vip/reserves/" + reserveId;
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.pbName", notNullValue()))
+			.andExpect(jsonPath("$.customerName", notNullValue()))
+			.andExpect(jsonPath("$.title", is(reserves.get(0).getTitle())))
+			.andExpect(jsonPath("$.date", is(reserves.get(0).getDate().toString())))
+			.andExpect(jsonPath("$.time", is(reserves.get(0).getTime().toString())))
 			.andDo(print());
 	}
 }

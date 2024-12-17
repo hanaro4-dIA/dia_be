@@ -43,7 +43,7 @@ public class VipJournalServiceImpl implements VipJournalService {
 	public List<ResponseSimpleJournalDTO> getSimpleJournals(Long customerId) {
 		List<ResponseSimpleJournalDTO> journalsDTO = new ArrayList<>();
 		Iterable<Consulting> consultingIterable = consultingRepository.findAll(
-			qConsulting.customer.id.eq(customerId).and(qConsulting.journal.complete.eq(true))
+			qConsulting.customer.id.eq(customerId).and(qConsulting.hopeDate.before(LocalDate.now()))
 		);
 		for (Consulting consulting : consultingIterable) {
 			Long id = consulting.getJournal().getId();
