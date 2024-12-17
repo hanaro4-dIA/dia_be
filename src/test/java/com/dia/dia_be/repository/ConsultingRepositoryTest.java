@@ -48,6 +48,34 @@ public class ConsultingRepositoryTest {
 		pb = pbRepository.findById(1L).get();
 		journal = journalRepository.findById(1L).get();
 		customer = customerRepository.findById(1L).get();
+		//승인된 Consulting
+		Consulting approvedConsulting = Consulting.create(
+			category,
+			customer,
+			"Approved Consulting",
+			LocalDate.of(2024, 12, 20),
+			LocalTime.of(14, 0),
+			LocalDate.now(),
+			LocalTime.now(),
+			"Content for approved consulting",
+			true // approve = true
+		);
+		consultingRepository.save(approvedConsulting);
+
+		//승인되지 않은 Consulting
+		Consulting notApprovedConsulting = Consulting.create(
+			category,
+			customer,
+			"Not Approved Consulting",
+			LocalDate.of(2024, 12, 21),
+			LocalTime.of(15, 0),
+			LocalDate.now(),
+			LocalTime.now(),
+			"Content for not approved consulting",
+			false // approve = false
+		);
+		consultingRepository.save(notApprovedConsulting);
+
 	}
 
 	@Test
@@ -106,7 +134,6 @@ public class ConsultingRepositoryTest {
 		Assertions.assertThat(consulting.isApprove()).isTrue();
 		Assertions.assertThat(consulting.getCustomer().getPb().getId()).isEqualTo(pbId);
 	}
-
 
 	@Test
 	@DisplayName("hopeDate가 미래인 상담만 가져오는지 테스트")

@@ -57,8 +57,8 @@ public class PbReserveControllerTest {
 
 	Consulting consulting1;
 	Consulting consulting2;
-	Consulting consulting3;
 	Pb pb;
+	Consulting consulting3;
 
 	@BeforeEach
 	void setUp() {
@@ -218,7 +218,7 @@ public class PbReserveControllerTest {
 	@Test
 	void testGetReservesByDate_ReturnsApprovedConsulting() throws Exception {
 
-		LocalDate date = LocalDate.of(2024, 12, 21);
+		LocalDate date = LocalDate.of(2024, 03, 07);
 		Long pbId = pb.getId();
 
 		mockMvc.perform(MockMvcRequestBuilders.get(baseUrl)

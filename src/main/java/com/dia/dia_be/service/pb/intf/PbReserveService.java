@@ -17,4 +17,5 @@ public interface PbReserveService {
 	public List<ResponseReserveByDateDTO> getReservesByDate(LocalDate date, Long pbId);
 
 	public List<ResponseReserveDTO> getUpcomingReserves();
+
 }
