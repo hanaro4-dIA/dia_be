@@ -52,7 +52,8 @@ public class VipReserveServiceImpl implements VipReserveService {
 
 	@Override
 	public ResponseReserveInfoGetDTO getInfo(Long customerId) {
-		Customer customer = customerRepository.findById(customerId).orElseThrow();
+		Customer customer = customerRepository.findById(customerId)
+			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
 		String pbName = customer.getPb().getName();
 		String vipName = customer.getName();
 

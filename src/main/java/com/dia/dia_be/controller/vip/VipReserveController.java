@@ -54,7 +54,7 @@ public class VipReserveController {
 	public ResponseEntity<?> getReserveInfo() {
 		final Long customerId = 1L;
 		try {
-			ResponseReserveInfoGetDTO response = reserveService.getInfo(customerId);
+			ResponseReserveInfoGetDTO response = vipReserveService.getInfo(customerId);
 			return ResponseEntity.ok(response);
 		} catch (GlobalException e) {
 			return ResponseEntity.status(400).body(e.getMessage());
