@@ -16,4 +16,6 @@ public interface VipReserveService {
 
 	public ResponseReserveDTO getReserveByConsultingId(Long consultingId);
 
+	public Long deleteReserve(Long consultingId);
+
 }
