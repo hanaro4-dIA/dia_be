@@ -42,10 +42,19 @@ public class VipJournalController {
 		try {
 			return ResponseEntity.ok(vipJournalService.getJournal(customerId, journalId));
 		} catch (GlobalException e) {
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			return ResponseEntity.status(404).body(e.getMessage());
 		} catch (Exception e) {
-			System.out.println("???????????????????????????????????????");
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
+	}
+
+	@GetMapping("/{id}/scripts")
+	@Tag(name = "상담내역 가져오기", description = "상담이 완료된 상담 일지")
+	@Operation(summary = "상담 스크립트")
+	public ResponseEntity<?> findScriptsByJournalId(@PathVariable("id") Long journalId) {
+		try {
+			return ResponseEntity.ok(vipJournalService.getJournalScripts(journalId));
+		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
