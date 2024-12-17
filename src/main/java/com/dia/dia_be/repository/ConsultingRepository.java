@@ -11,5 +11,8 @@ import com.dia.dia_be.domain.Consulting;
 public interface ConsultingRepository extends JpaRepository<Consulting, Long>, QuerydslPredicateExecutor<Consulting> {
 	public List<Consulting> findConsultingsByApprove(boolean status);
 
+	List<Consulting> findByHopeDateAndApproveTrueAndCustomer_Pb_Id(LocalDate date, Long pbId);
+
 	public List<Consulting> findByApproveTrueAndHopeDateAfter(LocalDate currentDate);
+
 }

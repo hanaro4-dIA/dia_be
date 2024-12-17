@@ -1,5 +1,6 @@
 package com.dia.dia_be.controller.pb;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveByDateDTO;
 import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
 
@@ -72,5 +74,22 @@ public class PbReserveController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
+	}
+
+	@Tag(name = "전체 상담 일정 캘린더", description = "PB의 상담 일정 캘린더 API")
+	@Operation(summary = "특정날짜 상담 일정", description = "특정날짜 상담 일정 조회")
+	@Parameters({
+		@Parameter(name = "date", description = "상담날짜", example = "2024-12-15")
+	})
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다."),
+		@ApiResponse(responseCode = "400", description = "유효하지 않은 요청"),
+		@ApiResponse(responseCode = "404", description = "특정 날짜 상담일정을 찾을 수 없음"),
+		@ApiResponse(responseCode = "500", description = "이미 승인된 요청입니다")
+	})
+	@GetMapping(params = {"date", "pbId"})
+	public List<ResponseReserveByDateDTO> getReservesByDate(@RequestParam LocalDate date,
+		@RequestParam Long pbId) {
+		return pbReserveService.getReservesByDate(date, pbId);
 	}
 }
