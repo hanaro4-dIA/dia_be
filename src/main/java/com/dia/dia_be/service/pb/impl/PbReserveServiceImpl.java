@@ -1,15 +1,18 @@
 package com.dia.dia_be.service.pb.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveByDateDTO;
 import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -52,5 +55,16 @@ public class PbReserveServiceImpl implements PbReserveService {
 			.orElseThrow(() -> new GlobalException(PbErrorCode.RESERVE_NOT_FOUND));
 
 		return consulting.getContent();
+	}
+
+	@Override
+	public List<ResponseReserveByDateDTO> getReservesByDate(LocalDate date, Long pbId) {
+		List<Consulting> consultings = consultingRepository.findByHopeDateAndApproveTrueAndCustomer_Pb_Id(date,
+			pbId);
+		if (consultings.isEmpty()) {
+			throw new GlobalException(PbErrorCode.RESERVE_NOT_FOUND);
+		}
+
+		return ResponseReserveByDateDTO.fromList(consultings);
 	}
 }

@@ -8,13 +8,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dia.dia_be.domain.Category;
@@ -22,7 +22,6 @@ import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Pb;
 import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
-
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;
@@ -56,13 +55,14 @@ public class PbReserveControllerTest {
 
 	Consulting consulting1;
 	Consulting consulting2;
+	Pb pb;
 
 	@BeforeEach
 	void setUp() {
 		Category category = Category.create("Finance");
 		categoryRepository.save(category);
 
-		Pb pb = pbRepository.findById(1L).orElseThrow(() -> new RuntimeException("PB not found"));
+		pb = pbRepository.findById(1L).orElseThrow(() -> new RuntimeException("PB not found"));
 
 		Customer customer = Customer.create(
 			pb,
@@ -175,5 +175,24 @@ public class PbReserveControllerTest {
 		// 5. 존재하지 않는 ID에 대한 PUT 요청 시 500 오류 발생
 		mockMvc.perform(MockMvcRequestBuilders.put(baseUrl + "?id=99999"))
 			.andExpect(MockMvcResultMatchers.status().is5xxServerError());
+	}
+
+	@Test
+	void testGetReservesByDate_ReturnsApprovedConsulting() throws Exception {
+
+		LocalDate date = LocalDate.of(2024, 12, 21);
+		Long pbId = pb.getId();
+
+		mockMvc.perform(MockMvcRequestBuilders.get(baseUrl)
+				.param("date", date.toString())
+				.param("pbId", pbId.toString()))
+			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingId").value(consulting2.getId()))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingDate").value(date.toString()))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingTime").value("15:00:00"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].category").value("Finance"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].vipName").value("Test Customer"));
 	}
 }

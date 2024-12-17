@@ -1,5 +1,6 @@
 package com.dia.dia_be.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +10,6 @@ import com.dia.dia_be.domain.Consulting;
 
 public interface ConsultingRepository extends JpaRepository<Consulting, Long>, QuerydslPredicateExecutor<Consulting> {
 	public List<Consulting> findConsultingsByApprove(boolean status);
+
+	List<Consulting> findByHopeDateAndApproveTrueAndCustomer_Pb_Id(LocalDate date, Long pbId);
 }
