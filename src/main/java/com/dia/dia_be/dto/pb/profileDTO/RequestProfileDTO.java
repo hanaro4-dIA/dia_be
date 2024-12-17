@@ -2,7 +2,7 @@ package com.dia.dia_be.dto.pb.profileDTO;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.hashtagDTO.RequestHashtagDTO;
+import com.dia.dia_be.dto.pb.HashtagDTO.RequestHashtagDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

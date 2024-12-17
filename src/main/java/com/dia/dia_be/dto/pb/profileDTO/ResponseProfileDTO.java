@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.dia.dia_be.domain.Pb;
-import com.dia.dia_be.dto.pb.hashtagDTO.ResponseHashtagDTO;
+import com.dia.dia_be.dto.pb.HashtagDTO.ResponseHashtagDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
