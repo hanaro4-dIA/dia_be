@@ -43,4 +43,17 @@ public class VipReserveControllerTest {
 			.andExpect(content().string(not("")))
 			.andDo(print());
 	}
+
+	@Test
+	void getReserveInfoTest() throws Exception {
+		final String url = "/vip/reserves/info";
+
+		mockMvc.perform(get(url)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.pbName", notNullValue()))
+			.andExpect(jsonPath("$.vipName", notNullValue()))
+			.andDo(print());
+	}
 }
