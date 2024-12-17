@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Category;
-import com.dia.dia_be.dto.vip.ResponseCategoryGetDTO;
+import com.dia.dia_be.dto.vip.categoryDTO.ResponseCategoryGetDTO;
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.service.vip.intf.VipCategoryService;
 

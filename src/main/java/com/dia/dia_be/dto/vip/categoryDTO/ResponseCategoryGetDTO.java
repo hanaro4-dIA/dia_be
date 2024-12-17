@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.vip;
+package com.dia.dia_be.dto.vip.categoryDTO;
 
 import com.dia.dia_be.domain.Category;
 

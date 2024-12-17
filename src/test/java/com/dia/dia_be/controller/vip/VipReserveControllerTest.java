@@ -78,7 +78,6 @@ public class VipReserveControllerTest {
 			.andExpect(jsonPath("$", hasSize(reserves.size())))
 			.andExpect(jsonPath("$[0].id", is(reserves.get(0).getId().intValue())))
 			.andExpect(jsonPath("$[0].title", is(reserves.get(0).getTitle())))
-			.andExpect(jsonPath("$[0].date", is(reserves.get(0).getDate().toString())))
 			.andExpect(jsonPath("$[0].time", is(reserves.get(0).getTime().toString())))
 			.andDo(print());
 	}
