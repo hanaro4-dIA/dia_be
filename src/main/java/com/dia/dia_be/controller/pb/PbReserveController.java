@@ -34,9 +34,10 @@ public class PbReserveController {
 
 	@GetMapping
 	@Tag(name = "들어온 상담 요청 관리", description = "PB의 상담 요청 관리 API")
-	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회")
+	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회 및 캘린더 내 전체 상담 일정 조회")
 	@Parameters({
-		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false")
+		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false"),
+		@Parameter(name = "type", description = "예정된 상담 일정", example = "upcoming")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
