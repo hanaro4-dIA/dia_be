@@ -30,7 +30,7 @@ public class Pb {
 	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
 	private String password;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(100)")
 	private String name;
 
 	@Column(columnDefinition = "VARCHAR(250)")

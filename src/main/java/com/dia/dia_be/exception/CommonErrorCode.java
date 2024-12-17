@@ -16,7 +16,8 @@ public enum CommonErrorCode implements ErrorCode {
 
 	// 500
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500, "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."),
-	ILLEGAL_STATE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500, "서버 상태가 올바르지 않습니다.");
+	ILLEGAL_STATE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500, "서버 상태가 올바르지 않습니다."),
+	ILLEGAL_S3_REQUEST(HttpStatus.INTERNAL_SERVER_ERROR,500,"S3 upload failed");
 
 	private final HttpStatus httpStatus;
 	private final int code;
