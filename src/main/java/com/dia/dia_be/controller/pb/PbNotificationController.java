@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.NotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.RequestNotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.ResponseNotificationDTO;
 import com.dia.dia_be.service.pb.intf.PbNotificationService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/pb/notifications")
-@Tag(name = "Notification", description = "Notification API")
+@Tag(name = "PbNotification", description = "Notification API")
 public class PbNotificationController {
 
 	private final PbNotificationService pbNotificationService;
@@ -41,7 +42,7 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "200", description = "쪽지 리스트 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
-	public ResponseEntity<List<NotificationDTO>> getAllNotifications() {
+	public ResponseEntity<List<ResponseNotificationDTO>> getAllNotifications() {
 		return ResponseEntity.ok(pbNotificationService.getAllNotifications());
 	}
 
@@ -58,7 +59,7 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "400", description = "잘못된 요청"),
 		@ApiResponse(responseCode = "404", description = "쪽지가 존재하지 않음")
 	})
-	public ResponseEntity<List<NotificationDTO>> getNotificationsByCustomerIds(
+	public ResponseEntity<List<ResponseNotificationDTO>> getNotificationsByCustomerIds(
 		@RequestParam(name = "id") List<Long> customerIds) {
 		return ResponseEntity.ok(pbNotificationService.getNotificationsByCustomerIds(customerIds));
 	}
@@ -72,7 +73,7 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "200", description = "쪽지 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "쪽지가 존재하지 않음")
 	})
-	public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable Long NotificationId) {
+	public ResponseEntity<ResponseNotificationDTO> getNotificationById(@PathVariable Long NotificationId) {
 		return ResponseEntity.ok(pbNotificationService.getNotificationById(NotificationId));
 	}
 
@@ -90,12 +91,11 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "400", description = "잘못된 요청"),
 		@ApiResponse(responseCode = "404", description = "고객이 존재하지 않음")
 	})
-	public ResponseEntity<List<NotificationDTO>> sendNotifications(
+	public ResponseEntity<List<ResponseNotificationDTO>> sendNotifications(
 		@RequestParam List<Long> customerIds,
-		@RequestBody NotificationDTO notificationRequest) {
-
+		@RequestBody RequestNotificationDTO notificationRequest) {
 		notificationRequest.setCustomerIds(customerIds);
-		List<NotificationDTO> sentNotifications = pbNotificationService.sendNotifications(notificationRequest);
+		List<ResponseNotificationDTO> sentNotifications = pbNotificationService.sendNotifications(notificationRequest);
 		return ResponseEntity.ok(sentNotifications);
 	}
 

@@ -2,14 +2,15 @@ package com.dia.dia_be.service.pb.intf;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.NotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.RequestNotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.ResponseNotificationDTO;
 
 public interface PbNotificationService {
-	List<NotificationDTO> getAllNotifications();
+	List<ResponseNotificationDTO> getAllNotifications();
 
-	NotificationDTO getNotificationById(Long id);
+	ResponseNotificationDTO getNotificationById(Long id);
 
-	List<NotificationDTO> getNotificationsByCustomerIds(List<Long> customerIds);
+	List<ResponseNotificationDTO> getNotificationsByCustomerIds(List<Long> customerIds);
 
-	List<NotificationDTO> sendNotifications(NotificationDTO notificationDTO);
+	List<ResponseNotificationDTO> sendNotifications(RequestNotificationDTO notificationDTO);
 }
