@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
 
@@ -31,11 +32,13 @@ public class PbReserveServiceImpl implements PbReserveService {
 
 	@Override
 	public void approveReserve(Long id) {
+		// 해당 ID와 일치하는 상담 요청이 존재하지 않음
 		Consulting consulting = consultingRepository.findById(id)
-			.orElseThrow(() -> new RuntimeException("해당 ID와 일치하는 상담 요청이 존재하지 않습니다."));
+			.orElseThrow(() -> new RuntimeException(PbErrorCode.RESERVE_NOT_FOUND.getMessage()));
 
+		// 이미 승인된 요청
 		if (consulting.isApprove()) {
-			throw new IllegalStateException("이미 승인된 요청입니다: " + consulting.getId());
+			throw new IllegalStateException(PbErrorCode.INVALID_RESERVE_APPROVAL.getMessage());
 		}
 
 		consulting.setApprove(true);
