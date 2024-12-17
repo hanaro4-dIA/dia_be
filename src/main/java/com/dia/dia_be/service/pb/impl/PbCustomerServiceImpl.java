@@ -7,18 +7,18 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.dto.pb.CustomerDTO;
+import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.CustomerRepository;
-import com.dia.dia_be.service.pb.intf.CustomerService;
+import com.dia.dia_be.service.pb.intf.PbCustomerService;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class PbCustomerServiceImpl implements PbCustomerService {
 
 	private final CustomerRepository customerRepository;
 
-	public CustomerServiceImpl(CustomerRepository customerRepository) {
+	public PbCustomerServiceImpl(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
 

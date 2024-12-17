@@ -11,12 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.dia.dia_be.service.vip.intf.CategoryService;
+import com.dia.dia_be.service.vip.intf.VipCategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CategoryControllerTest {
+public class VipCategoryControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -24,7 +24,7 @@ public class CategoryControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 	@Autowired
-	private CategoryService categoryService;
+	private VipCategoryService vipCategoryService;
 
 	@Test
 	void findAll() throws Exception {

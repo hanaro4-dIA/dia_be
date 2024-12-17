@@ -1,24 +1,25 @@
 package com.dia.dia_be.repository;
 
-import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.dto.pb.CustomerDTO;
-import com.dia.dia_be.exception.GlobalException;
-import com.dia.dia_be.exception.PbErrorCode;
+import static org.assertj.core.api.Assertions.*;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
+import com.dia.dia_be.domain.Customer;
+import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.exception.GlobalException;
+import com.dia.dia_be.exception.PbErrorCode;
 
 import jakarta.transaction.Transactional;
 
 @Transactional
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+// 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
 @DataJpaTest
 public class CustomerRepositoryTest {
 
@@ -46,7 +47,8 @@ public class CustomerRepositoryTest {
 	@Test
 	public void testRemoveCustomer() {
 
-		Customer customer = customerRepository.findById(1L).orElseThrow(() -> new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND));
+		Customer customer = customerRepository.findById(1L)
+			.orElseThrow(() -> new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND));
 
 		customerRepository.deleteById(customer.getId());
 

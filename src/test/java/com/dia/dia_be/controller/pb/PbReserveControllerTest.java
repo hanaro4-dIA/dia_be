@@ -19,7 +19,7 @@ import com.dia.dia_be.domain.Category;
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Pb;
-import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;

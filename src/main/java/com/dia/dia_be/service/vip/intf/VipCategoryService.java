@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.dia.dia_be.dto.vip.ResponseCategoryGetDTO;
 
-public interface CategoryService {
+public interface VipCategoryService {
 
 	public List<ResponseCategoryGetDTO> getCategories();
 }

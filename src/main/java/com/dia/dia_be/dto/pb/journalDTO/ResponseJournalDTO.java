@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.pb.journal_dto;
+package com.dia.dia_be.dto.pb.journalDTO;
 
 import java.time.LocalDate;
 
@@ -19,7 +19,7 @@ public class ResponseJournalDTO {
 	private String consultTitle;
 	private LocalDate consultDate;
 
-	public static ResponseJournalDTO from(Journal journal){
+	public static ResponseJournalDTO from(Journal journal) {
 		return ResponseJournalDTO.builder()
 			.id(journal.getId())
 			.pbName(journal.getConsulting().getCustomer().getPb().getName())

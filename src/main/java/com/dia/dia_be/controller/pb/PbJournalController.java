@@ -1,14 +1,21 @@
 package com.dia.dia_be.controller.pb;
 
+<<<<<<< HEAD:src/main/java/com/dia/dia_be/controller/pb/JournalController.java
 
+=======
+>>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정):src/main/java/com/dia/dia_be/controller/pb/PbJournalController.java
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+<<<<<<< HEAD:src/main/java/com/dia/dia_be/controller/pb/JournalController.java
 import com.dia.dia_be.service.pb.intf.JournalService;
 import com.dia.dia_be.service.pb.intf.ReserveService;
+=======
+import com.dia.dia_be.service.pb.intf.PbJournalService;
+>>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정):src/main/java/com/dia/dia_be/controller/pb/PbJournalController.java
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+<<<<<<< HEAD:src/main/java/com/dia/dia_be/controller/pb/JournalController.java
 @RequestMapping("/pb/journals")
 public class JournalController {
 
@@ -26,6 +34,15 @@ public class JournalController {
 	public JournalController(JournalService journalService, ReserveService reserveService){
 		this.journalService = journalService;
 		this.reserveService = reserveService;
+=======
+@RequestMapping("/pb")
+public class PbJournalController {
+
+	private final PbJournalService pbJournalService;
+
+	public PbJournalController(PbJournalService pbJournalService) {
+		this.pbJournalService = pbJournalService;
+>>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정):src/main/java/com/dia/dia_be/controller/pb/PbJournalController.java
 	}
 
 	@GetMapping()
@@ -36,10 +53,10 @@ public class JournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "상담 일지 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getJournals(){
-		try{
-			return ResponseEntity.ok(journalService.getJournals());
-		} catch (Exception e){
+	public ResponseEntity<?> getJournals() {
+		try {
+			return ResponseEntity.ok(pbJournalService.getJournals());
+		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
@@ -52,10 +69,10 @@ public class JournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "특정 상담 일지 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getJournal(@PathVariable("id") Long id){
-		try{
-			return ResponseEntity.ok(journalService.getJournal(id));
-		} catch (Exception e){
+	public ResponseEntity<?> getJournal(@PathVariable("id") Long id) {
+		try {
+			return ResponseEntity.ok(pbJournalService.getJournal(id));
+		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}

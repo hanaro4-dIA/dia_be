@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.service.vip.intf.CategoryService;
+import com.dia.dia_be.service.vip.intf.VipCategoryService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,12 +14,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/vip/categories")
-public class CategoryController {
+public class VipCategoryController {
 
-	private final CategoryService categoryService;
+	private final VipCategoryService vipCategoryService;
 
-	public CategoryController(CategoryService categoryService) {
-		this.categoryService = categoryService;
+	public VipCategoryController(VipCategoryService vipCategoryService) {
+		this.vipCategoryService = vipCategoryService;
 	}
 
 	@GetMapping
@@ -31,7 +31,7 @@ public class CategoryController {
 	})
 	public ResponseEntity<?> findAll() {
 		try {
-			return ResponseEntity.ok(categoryService.getCategories());
+			return ResponseEntity.ok(vipCategoryService.getCategories());
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}

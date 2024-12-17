@@ -2,9 +2,9 @@ package com.dia.dia_be.service.pb.intf;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.journal_dto.ResponseJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
 
-public interface JournalService {
+public interface PbJournalService {
 
 	public List<ResponseJournalDTO> getJournals();
 

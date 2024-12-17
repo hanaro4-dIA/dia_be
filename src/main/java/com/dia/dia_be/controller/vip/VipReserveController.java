@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dia.dia_be.dto.vip.RequestReservePostDTO;
 import com.dia.dia_be.exception.GlobalException;
-import com.dia.dia_be.service.vip.intf.ReserveService;
+import com.dia.dia_be.service.vip.intf.VipReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,10 +19,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/vip/reserves")
 public class VipReserveController {
 
-	private final ReserveService reserveService;
+	private final VipReserveService vipReserveService;
 
+<<<<<<< HEAD
 	public VipReserveController(ReserveService reserveService) {
 		this.reserveService = reserveService;
+=======
+	public VipReserveController(VipReserveService vipReserveService) {
+		this.vipReserveService = vipReserveService;
+>>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정)
 	}
 
 	@PostMapping
@@ -38,7 +43,7 @@ public class VipReserveController {
 	public ResponseEntity<?> addReserve(@RequestBody RequestReservePostDTO requestReservePostDTO) {
 		final Long customerId = 1L;
 		try {
-			return ResponseEntity.ok(reserveService.addReserve(customerId, requestReservePostDTO));
+			return ResponseEntity.ok(vipReserveService.addReserve(customerId, requestReservePostDTO));
 		} catch (GlobalException e) {
 			return ResponseEntity.status(400).body(e.getMessage());
 		} catch (Exception e) {

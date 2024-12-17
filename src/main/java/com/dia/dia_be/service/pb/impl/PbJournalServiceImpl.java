@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.dia.dia_be.dto.pb.journal_dto.ResponseJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.JournalRepository;
-import com.dia.dia_be.service.pb.intf.JournalService;
+import com.dia.dia_be.service.pb.intf.PbJournalService;
 
 @Service
-public class JournalServiceImpl implements JournalService {
+public class PbJournalServiceImpl implements PbJournalService {
 
 	private final JournalRepository journalRepository;
 
-	public JournalServiceImpl(JournalRepository journalRepository){
+	public PbJournalServiceImpl(JournalRepository journalRepository) {
 		this.journalRepository = journalRepository;
 	}
 
@@ -27,7 +27,8 @@ public class JournalServiceImpl implements JournalService {
 
 	@Override
 	public ResponseJournalDTO getJournal(Long id) {
-		return ResponseJournalDTO.from(journalRepository.findById(id).orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND)));
+		return ResponseJournalDTO.from(
+			journalRepository.findById(id).orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND)));
 	}
 
 }

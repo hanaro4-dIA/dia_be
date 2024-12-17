@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.pb;
+package com.dia.dia_be.dto.pb.customerDTO;
 
 import java.time.LocalDate;
 
@@ -33,7 +33,8 @@ public class CustomerDTO {
 	private String memo;
 
 	// 새로운 DTO를 생성하는 메서드
-	public static CustomerDTO of(Long id, Long pbId, String password,LocalDate date, int count, String memo, String email, String name, String tel, String address) {
+	public static CustomerDTO of(Long id, Long pbId, String password, LocalDate date, int count, String memo,
+		String email, String name, String tel, String address) {
 		return CustomerDTO.builder()
 			.id(id)
 			.pbId(pbId)

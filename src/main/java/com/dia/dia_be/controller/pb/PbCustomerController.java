@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.CustomerDTO;
-import com.dia.dia_be.service.pb.intf.CustomerService;
+import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.service.pb.intf.PbCustomerService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 //pb = 1
 //customer = 1
 //로 디폴트 해둔 상태
@@ -29,12 +28,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 // @RequestMapping("/pb/customers")
 @RequestMapping("/1/customers")
 @Tag(name = "Customer", description = "Customer API")
-public class CustomerController {
+public class PbCustomerController {
 
-	private final CustomerService customer_service;
+	private final PbCustomerService customer_service;
 
-	public CustomerController(CustomerService customerService) {
-		this.customer_service = customerService;
+	public PbCustomerController(PbCustomerService pbCustomerService) {
+		this.customer_service = pbCustomerService;
 	}
 
 	// {{base_url}}/pb/customers/list

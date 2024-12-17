@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
-import com.dia.dia_be.service.pb.intf.ReserveService;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.service.pb.intf.PbReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,10 +22,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/pb/reserves")
 public class PbReserveController {
+<<<<<<< HEAD
 	private final ReserveService reserveService;
 
 	public PbReserveController(ReserveService reserveService) {
 		this.reserveService = reserveService;
+=======
+	private final PbReserveService pbReserveService;
+
+	public PbReserveController(PbReserveService pbReserveService) {
+		this.pbReserveService = pbReserveService;
+>>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정)
 	}
 
 	@GetMapping
@@ -39,6 +46,6 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
 	public List<ResponseReserveDTO> getReserves(@RequestParam boolean status) {
-		return reserveService.getApprovedReserves(status);
+		return pbReserveService.getApprovedReserves(status);
 	}
 }

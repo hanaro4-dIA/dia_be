@@ -2,9 +2,9 @@ package com.dia.dia_be.service.pb.intf;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 
-public interface ReserveService {
+public interface PbReserveService {
 
 	public List<ResponseReserveDTO> getApprovedReserves(boolean status);
 

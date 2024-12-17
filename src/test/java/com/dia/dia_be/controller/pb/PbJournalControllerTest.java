@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import com.dia.dia_be.repository.JournalRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class JournalControllerTest {
+public class PbJournalControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
