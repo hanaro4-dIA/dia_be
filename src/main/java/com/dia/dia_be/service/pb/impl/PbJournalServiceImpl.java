@@ -3,6 +3,7 @@ package com.dia.dia_be.service.pb.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalProduct;
@@ -45,8 +46,9 @@ public class PbJournalServiceImpl implements PbJournalService {
 	}
 
 	@Override
+	@Transactional
 	public void addJournal(RequestJournalDTO body) {
-		consultingRepository.findConsultingByIdAndUpdateTitleAndCategory(body.getConsultingId(),
+		consultingRepository.updateTitleAndCategory(body.getConsultingId(),
 			body.getConsultingTitle(), body.getCategoryId());
 
 		journalRepository.updateContentsById(body.getConsultingId(), body.getJournalContents());
@@ -60,6 +62,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 	}
 
 	@Override
+	@Transactional
 	public void addJournalAndChangeStatusComplete(RequestJournalDTO body) {
 		addJournal(body);
 		journalRepository.updateCompleteStatusById(body.getConsultingId());

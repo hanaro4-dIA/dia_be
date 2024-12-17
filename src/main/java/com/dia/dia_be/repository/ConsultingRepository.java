@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dia.dia_be.domain.Consulting;
 
@@ -15,7 +16,7 @@ public interface ConsultingRepository extends JpaRepository<Consulting, Long>, Q
 
 	@Modifying
 	@Query("UPDATE Consulting c SET c.title = :title, c.category.id = :categoryId WHERE c.id = :id")
-	public void findConsultingByIdAndUpdateTitleAndCategory(
+	public void updateTitleAndCategory(
 		@Param("id") Long consultingId,
 		@Param("title") String consultingTitle,
 		@Param("categoryId") Long categoryId);

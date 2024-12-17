@@ -87,4 +87,16 @@ public class ConsultingRepositoryTest {
 
 		Assertions.assertThat(notApprovedConsultings.stream().allMatch(Consulting::isApprove)).isFalse();
 	}
+
+	@Test
+	void updateTitleAndCategoryIdTest() throws Exception{
+		String newTitle = "테스트용 상담 타이틀";
+		Long newCategoryId = 2L;
+		consultingRepository.updateTitleAndCategory(1L, newTitle, newCategoryId);
+
+		Consulting consulting = consultingRepository.findById(1L).get();
+
+		Assertions.assertThat(consulting.getCategory().getId()).isEqualTo(newCategoryId);
+		Assertions.assertThat(consulting.getTitle()).isEqualTo(newTitle);
+	}
 }

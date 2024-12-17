@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
-import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
 
@@ -80,11 +79,25 @@ public class PbJournalController {
 	}
 
 	@PostMapping()
+	@Tag(name = "상담 일지 저장하기", description = "상담 일지 임시 저장 API")
+	@Operation(summary = "상담 일지 임시 저장")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
 	public void saveJournal(@RequestBody RequestJournalDTO body){
 		pbJournalService.addJournal(body);
 	}
 
 	@PostMapping("/transfer")
+	@Tag(name = "상담 일지 저장하기", description = "상담 일지 전송 API")
+	@Operation(summary = "상담 일지 저장 및 전송 상태 변경")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
 	public void transferJournal(@RequestBody RequestJournalDTO body){
 			pbJournalService.addJournalAndChangeStatusComplete(body);
 	}

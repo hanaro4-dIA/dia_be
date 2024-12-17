@@ -10,12 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dia.dia_be.domain.Journal;
 
 public interface JournalRepository extends JpaRepository<Journal, Long>, QuerydslPredicateExecutor<Journal> {
-	@Transactional
 	@Modifying
 	@Query("UPDATE Journal j SET j.complete = true WHERE j.id = :id")
 	public void updateCompleteStatusById(@Param("id") Long id);
 
-	@Transactional
 	@Modifying
 	@Query("UPDATE Journal j SET j.contents = :contents WHERE j.id = :id")
 	public void updateContentsById(@Param("id") Long id, @Param("contents") String contents);
