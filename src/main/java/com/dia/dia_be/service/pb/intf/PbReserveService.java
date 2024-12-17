@@ -9,7 +9,7 @@ public interface PbReserveService {
 	public List<ResponseReserveDTO> getApprovedReserves(boolean status);
 
 	void approveReserve(Long id);
-  
+
 	public String getContent(Long id);
 
 	public List<ResponseReserveDTO> getUpcomingReserves();
