@@ -88,5 +88,4 @@ public class VipReserveServiceImpl implements VipReserveService {
 		consultingRepository.delete(consultingToDelete);
 		return consultingToDelete.getId();
 	}
-
 }
