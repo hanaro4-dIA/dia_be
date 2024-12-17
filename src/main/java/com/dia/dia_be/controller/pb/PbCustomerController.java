@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.CustomerDTO;
-import com.dia.dia_be.service.pb.intf.CustomerService;
+import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.service.pb.intf.PbCustomerService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 //pb = 1
 //customer = 1
 //로 디폴트 해둔 상태
@@ -29,12 +28,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 // @RequestMapping("/pb/customers")
 @RequestMapping("/1/customers")
 @Tag(name = "Customer", description = "Customer API")
-public class CustomerController {
+public class PbCustomerController {
 
-	private final CustomerService customer_service;
+	private final PbCustomerService pbCustomerService;
 
-	public CustomerController(CustomerService customerService) {
-		this.customer_service = customerService;
+	public PbCustomerController(PbCustomerService pbCustomerService) {
+		this.pbCustomerService = pbCustomerService;
 	}
 
 	// {{base_url}}/pb/customers/list
@@ -45,7 +44,7 @@ public class CustomerController {
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
 	public ResponseEntity<List<CustomerDTO>> getCustomerList() {
-		List<CustomerDTO> customers = customer_service.getCustomerList();
+		List<CustomerDTO> customers = pbCustomerService.getCustomerList();
 		return ResponseEntity.ok(customers);
 	}
 
@@ -60,7 +59,7 @@ public class CustomerController {
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
 	public ResponseEntity<List<CustomerDTO>> searchCustomer(@RequestParam(name = "name") String name) {
-		List<CustomerDTO> customers = customer_service.searchCustomer(name);
+		List<CustomerDTO> customers = pbCustomerService.searchCustomer(name);
 		return ResponseEntity.ok(customers);
 	}
 
@@ -74,7 +73,7 @@ public class CustomerController {
 	})
 	public ResponseEntity<CustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId) {
 		// return ResponseEntity.ok(customer_service.getCustomerDetail(customerId));
-		return ResponseEntity.ok(customer_service.getCustomerDetail(1L));
+		return ResponseEntity.ok(pbCustomerService.getCustomerDetail(1L));
 	}
 
 	// {{base_url}}/pb/customers/{{customerId}}/memo
@@ -92,7 +91,7 @@ public class CustomerController {
 		@PathVariable("customerId") Long customerId,
 		@RequestParam("memo") String memo) {
 		// CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(customerId, memo);
-		CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(1L, memo);
+		CustomerDTO updatedCustomer = pbCustomerService.updateCustomerMemo(1L, memo);
 		return ResponseEntity.ok(updatedCustomer);
 	}
 

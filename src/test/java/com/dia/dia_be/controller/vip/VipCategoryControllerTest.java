@@ -1,11 +1,9 @@
-package com.dia.dia_be.controller.pb;
+package com.dia.dia_be.controller.vip;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,34 +11,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.dia.dia_be.repository.JournalRepository;
+import com.dia.dia_be.service.vip.intf.VipCategoryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class JournalControllerTest {
+public class VipCategoryControllerTest {
 
 	@Autowired
-	MockMvc mockMvc;
+	private MockMvc mockMvc;
 
 	@Autowired
-	JournalRepository journalRepository;
+	private ObjectMapper objectMapper;
+	@Autowired
+	private VipCategoryService vipCategoryService;
 
 	@Test
-	@DisplayName("journal controller test - 상담 일지 리스트 조회")
-	void getJournals() throws Exception {
-		String url = "/pb/journals";
-		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.size()").isNotEmpty())
-			.andDo(print());
-	}
+	void findAll() throws Exception {
+		final String url = "/vip/categories";
 
-	@Test
-	@DisplayName("journal controller test - 특정 상담 일지 조회")
-	void getJournal() throws Exception {
-		String url = "/pb/journals/" + 1;
 		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andDo(print());
+
 	}
 }

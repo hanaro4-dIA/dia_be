@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.pb.ReservesDTO;
+package com.dia.dia_be.dto.pb.reservesDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

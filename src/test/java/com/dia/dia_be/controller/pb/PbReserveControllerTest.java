@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,8 @@ import com.dia.dia_be.domain.Category;
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Pb;
-import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
+
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;

@@ -6,22 +6,25 @@ import java.time.LocalTime;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
+import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.dto.vip.RequestReservePostDTO;
+import com.dia.dia_be.dto.vip.ResponseReserveInfoGetDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;
-import com.dia.dia_be.service.vip.intf.ReserveService;
+import com.dia.dia_be.service.vip.intf.VipReserveService;
 
 @Service
-public class ReserveServiceImpl implements ReserveService {
+
+public class VipReserveServiceImpl implements VipReserveService {
 
 	private final ConsultingRepository consultingRepository;
 	private final CategoryRepository categoryRepository;
 	private final CustomerRepository customerRepository;
 
-	public ReserveServiceImpl(ConsultingRepository consultingRepository, CategoryRepository categoryRepository,
+	public VipReserveServiceImpl(ConsultingRepository consultingRepository, CategoryRepository categoryRepository,
 		CustomerRepository customerRepository) {
 		this.consultingRepository = consultingRepository;
 		this.categoryRepository = categoryRepository;
@@ -45,5 +48,15 @@ public class ReserveServiceImpl implements ReserveService {
 		);
 		Consulting consultingToAdd = consultingRepository.save(consulting);
 		return consultingToAdd.getId();
+	}
+
+	@Override
+	public ResponseReserveInfoGetDTO getInfo(Long customerId) {
+		Customer customer = customerRepository.findById(customerId)
+			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		String pbName = customer.getPb().getName();
+		String vipName = customer.getName();
+
+		return new ResponseReserveInfoGetDTO(pbName, vipName);
 	}
 }

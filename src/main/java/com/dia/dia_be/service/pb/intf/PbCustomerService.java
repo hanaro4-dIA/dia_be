@@ -2,9 +2,9 @@ package com.dia.dia_be.service.pb.intf;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.CustomerDTO;
+import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
 
-public interface CustomerService {
+public interface PbCustomerService {
 
 	List<CustomerDTO> getCustomerList();
 
