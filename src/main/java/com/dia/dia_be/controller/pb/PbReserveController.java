@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
