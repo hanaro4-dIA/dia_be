@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponseNotificationGetDTO {
+public class ResponseNotificationDTO {
 	@Schema(description = "아이디", example = "1")
 	private Long id;
 	@Schema(description = "손님 ID", example = "1")
@@ -24,8 +24,8 @@ public class ResponseNotificationGetDTO {
 	@Schema(description = "읽음 여부", example = "false")
 	private boolean isRead;
 
-	public static ResponseNotificationGetDTO from(Notification notification) {
-		return ResponseNotificationGetDTO.builder()
+	public static ResponseNotificationDTO from(Notification notification) {
+		return ResponseNotificationDTO.builder()
 			.id(notification.getId())
 			.customerId(notification.getCustomer().getId())
 			.title(notification.getTitle())

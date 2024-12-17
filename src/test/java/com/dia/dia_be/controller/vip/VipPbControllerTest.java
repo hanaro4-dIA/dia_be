@@ -13,19 +13,18 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class VipCategoryControllerTest {
+public class VipPbControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
-	void findAll() throws Exception {
-		final String url = "/vip/categories";
+	void getPbProfileTest() throws Exception {
+		final String url = "/vip/pb";
 
 		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andDo(print());
-
 	}
 }

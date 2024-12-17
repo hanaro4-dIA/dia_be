@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Notification;
 import com.dia.dia_be.domain.QNotification;
-import com.dia.dia_be.dto.vip.notificationDTO.ResponseNotificationGetDTO;
+import com.dia.dia_be.dto.vip.notificationDTO.ResponseNotificationDTO;
 import com.dia.dia_be.repository.NotificationRepository;
 import com.dia.dia_be.service.vip.intf.VipNotificationService;
 
@@ -23,11 +23,11 @@ public class VipNotificationServiceImpl implements VipNotificationService {
 	}
 
 	@Override
-	public List<ResponseNotificationGetDTO> getNotifications(Long customerId) {
+	public List<ResponseNotificationDTO> getNotifications(Long customerId) {
 		List<Notification> notifications = StreamSupport.stream(notificationRepository.findAll(
 			qNotification.customer.id.eq(customerId)
 		).spliterator(), false).toList();
-		return notifications.stream().map(ResponseNotificationGetDTO::from).toList();
+		return notifications.stream().map(ResponseNotificationDTO::from).toList();
 	}
 
 	@Override
