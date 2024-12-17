@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.dto.pb.customerDTO.ResponseCustomerDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 
@@ -31,7 +31,7 @@ public class CustomerRepositoryTest {
 		Optional<Customer> foundCustomer = customerRepository.findById(1L);
 		assertThat(foundCustomer).isPresent();
 
-		CustomerDTO customerDto = CustomerDTO.toDto(foundCustomer.get());
+		ResponseCustomerDTO customerDto = ResponseCustomerDTO.toDto(foundCustomer.get());
 
 		assertThat(customerDto.getName()).isEqualTo("강재준");
 		assertThat(customerDto.getPbId()).isEqualTo(1L); // Pb_id

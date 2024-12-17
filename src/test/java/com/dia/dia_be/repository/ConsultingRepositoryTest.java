@@ -48,6 +48,34 @@ public class ConsultingRepositoryTest {
 		pb = pbRepository.findById(1L).get();
 		journal = journalRepository.findById(1L).get();
 		customer = customerRepository.findById(1L).get();
+		//승인된 Consulting
+		Consulting approvedConsulting = Consulting.create(
+			category,
+			customer,
+			"Approved Consulting",
+			LocalDate.of(2024, 12, 20),
+			LocalTime.of(14, 0),
+			LocalDate.now(),
+			LocalTime.now(),
+			"Content for approved consulting",
+			true // approve = true
+		);
+		consultingRepository.save(approvedConsulting);
+
+		//승인되지 않은 Consulting
+		Consulting notApprovedConsulting = Consulting.create(
+			category,
+			customer,
+			"Not Approved Consulting",
+			LocalDate.of(2024, 12, 21),
+			LocalTime.of(15, 0),
+			LocalDate.now(),
+			LocalTime.now(),
+			"Content for not approved consulting",
+			false // approve = false
+		);
+		consultingRepository.save(notApprovedConsulting);
+
 	}
 
 	@Test
@@ -98,5 +126,46 @@ public class ConsultingRepositoryTest {
 
 		Assertions.assertThat(consulting.getCategory().getId()).isEqualTo(newCategoryId);
 		Assertions.assertThat(consulting.getTitle()).isEqualTo(newTitle);
+	}
+
+  @Test
+	@DisplayName("특정 날짜와 PB ID에 대해 승인된 상담만 가져오는지 테스트")
+	void findByHopeDateAndApproveTrueAndCustomer_Pb_IdTest() {
+
+		LocalDate hopeDate = LocalDate.of(2024, 12, 20);
+		Long pbId = pb.getId();
+
+		List<Consulting> result = consultingRepository.findByHopeDateAndApproveTrueAndCustomer_Pb_Id(hopeDate, pbId);
+
+		// Then
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).hasSize(1);
+		Consulting consulting = result.get(0);
+		Assertions.assertThat(consulting.getTitle()).isEqualTo("Approved Consulting");
+		Assertions.assertThat(consulting.getHopeDate()).isEqualTo(hopeDate);
+		Assertions.assertThat(consulting.isApprove()).isTrue();
+		Assertions.assertThat(consulting.getCustomer().getPb().getId()).isEqualTo(pbId);
+	}
+
+	@Test
+	@DisplayName("hopeDate가 미래인 상담만 가져오는지 테스트")
+	void getUpcomingConsultingsTest() {
+		// hopeDate가 미래인 Consulting 추가
+		Consulting futureConsulting = Consulting.create(category, customer, "test", LocalDate.now().plusDays(1),
+			LocalTime.now(),
+			LocalDate.now().plusDays(1), LocalTime.now(), "content", true);
+		consultingRepository.save(futureConsulting);
+
+		Consulting pastConsulting = Consulting.create(category, customer, "test", LocalDate.now().minusDays(1),
+			LocalTime.now(),
+			LocalDate.now().minusDays(1), LocalTime.now(), "content", true);
+		consultingRepository.save(pastConsulting);
+
+		List<Consulting> upcomingConsultings = consultingRepository.findByApproveTrueAndHopeDateAfter(LocalDate.now());
+
+		Assertions.assertThat(upcomingConsultings).isNotEmpty();
+		Assertions.assertThat(upcomingConsultings.stream().allMatch(Consulting::isApprove)).isTrue();
+		Assertions.assertThat(upcomingConsultings.stream().allMatch(c -> c.getHopeDate().isAfter(LocalDate.now())))
+			.isTrue();
 	}
 }

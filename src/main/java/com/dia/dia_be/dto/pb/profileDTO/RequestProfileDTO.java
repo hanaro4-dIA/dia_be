@@ -2,7 +2,8 @@ package com.dia.dia_be.dto.pb.profileDTO;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.hashtagDTO.RequestHashtagDTO;
+import com.dia.dia_be.domain.Pb;
+import com.dia.dia_be.dto.pb.HashtagDTO.RequestHashtagDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,14 @@ public class RequestProfileDTO {
 			.hashTagList(hashTagList)
 			.introduce(introduce)
 			.build();
+	}
+
+	public static RequestProfileDTO from(Pb pb){
+		return RequestProfileDTO.builder()
+				.imageUrl(pb.getImageUrl())
+				.hashTagList(pb.getHashtag().stream()
+				.map(RequestHashtagDTO::from)
+				.toList()).build();
 	}
 
 }

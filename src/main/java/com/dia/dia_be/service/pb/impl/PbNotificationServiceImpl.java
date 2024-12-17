@@ -1,6 +1,5 @@
 package com.dia.dia_be.service.pb.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Notification;
-import com.dia.dia_be.dto.pb.NotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.RequestNotificationDTO;
+import com.dia.dia_be.dto.pb.notificationDTO.ResponseNotificationDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.CustomerRepository;
@@ -29,26 +29,26 @@ public class PbNotificationServiceImpl implements PbNotificationService {
 	}
 
 	@Override
-	public List<NotificationDTO> getAllNotifications() {
+	public List<ResponseNotificationDTO> getAllNotifications() {
 		return notificationRepository.findAll().stream()
 			.map(this::convertToDTO)
 			.collect(Collectors.toList());
 	}
 
 	@Override
-	public NotificationDTO getNotificationById(Long id) {
+	public ResponseNotificationDTO getNotificationById(Long id) {
 		Notification notification = notificationRepository.findById(id)
 			.orElseThrow(() -> new GlobalException(PbErrorCode.NOTIFICATION_NOT_FOUND));
 		return convertToDTO(notification);
 	}
 
 	@Override
-	public List<NotificationDTO> getNotificationsByCustomerIds(List<Long> customerIds) {
+	public List<ResponseNotificationDTO> getNotificationsByCustomerIds(List<Long> customerIds) {
 		List<Notification> notifications = notificationRepository.findByCustomerIdIn(customerIds);
 		return notifications.stream()
-			.map(notification -> new NotificationDTO(
+			.map(notification -> new ResponseNotificationDTO(
 				notification.getId(),
-				Collections.singletonList(notification.getCustomer().getId()),  // List<Long> 형태로 수정
+				notification.getCustomer().getId(),
 				notification.getTitle(),
 				notification.getContent(),
 				notification.getDate(),
@@ -59,7 +59,7 @@ public class PbNotificationServiceImpl implements PbNotificationService {
 
 	@Transactional
 	@Override
-	public List<NotificationDTO> sendNotifications(NotificationDTO notificationDTO) {
+	public List<ResponseNotificationDTO> sendNotifications(RequestNotificationDTO notificationDTO) {
 		List<Long> customerIds = notificationDTO.getCustomerIds();
 
 		return customerIds.stream()
@@ -72,7 +72,7 @@ public class PbNotificationServiceImpl implements PbNotificationService {
 					notificationDTO.getTitle(),
 					notificationDTO.getContent(),
 					notificationDTO.getDate(),
-					notificationDTO.isRead()
+					false
 				);
 
 				notificationRepository.save(notification);
@@ -82,10 +82,11 @@ public class PbNotificationServiceImpl implements PbNotificationService {
 			.collect(Collectors.toList());
 	}
 
-	private NotificationDTO convertToDTO(Notification notification) {
-		return new NotificationDTO(
+
+	private ResponseNotificationDTO convertToDTO(Notification notification) {
+		return new ResponseNotificationDTO(
 			notification.getId(),
-			Collections.singletonList(notification.getCustomer().getId()),  // List<Long> 형태로 수정
+			notification.getCustomer().getId(),
 			notification.getTitle(),
 			notification.getContent(),
 			notification.getDate(),

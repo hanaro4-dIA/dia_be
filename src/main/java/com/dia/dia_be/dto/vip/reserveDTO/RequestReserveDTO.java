@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.vip;
+package com.dia.dia_be.dto.vip.reserveDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RequestReservePostDTO {
+public class RequestReserveDTO {
 	@Schema(description = "상담희망일", example = "2024-12-30")
 	private LocalDate date;
 	@Schema(description = "상담희망시", example = "14:00")

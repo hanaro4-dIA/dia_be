@@ -2,11 +2,17 @@ package com.dia.dia_be.service.vip.impl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
-import com.dia.dia_be.dto.vip.RequestReservePostDTO;
+import com.dia.dia_be.domain.Customer;
+import com.dia.dia_be.domain.QConsulting;
+import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
+import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveDTO;
+import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveInfoDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.repository.CategoryRepository;
@@ -21,6 +27,7 @@ public class VipReserveServiceImpl implements VipReserveService {
 	private final ConsultingRepository consultingRepository;
 	private final CategoryRepository categoryRepository;
 	private final CustomerRepository customerRepository;
+	private final QConsulting qConsulting = QConsulting.consulting;
 
 	public VipReserveServiceImpl(ConsultingRepository consultingRepository, CategoryRepository categoryRepository,
 		CustomerRepository customerRepository) {
@@ -30,21 +37,55 @@ public class VipReserveServiceImpl implements VipReserveService {
 	}
 
 	@Override
-	public Long addReserve(Long customerId, RequestReservePostDTO requestReservePostDTO) {
+	public Long addReserve(Long customerId, RequestReserveDTO requestReserveDTO) {
 		Consulting consulting = Consulting.create(
-			categoryRepository.findById(requestReservePostDTO.getCategoryId()).orElseThrow(() -> new GlobalException(
+			categoryRepository.findById(requestReserveDTO.getCategoryId()).orElseThrow(() -> new GlobalException(
 				CommonErrorCode.BAD_REQUEST))
 			,
 			customerRepository.findById(customerId).orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST))
-			, requestReservePostDTO.getTitle()
-			, requestReservePostDTO.getDate()
-			, requestReservePostDTO.getTime()
+			, requestReserveDTO.getTitle()
+			, requestReserveDTO.getDate()
+			, requestReserveDTO.getTime()
 			, LocalDate.now()
 			, LocalTime.now()
-			, requestReservePostDTO.getContent()
+			, requestReserveDTO.getContent()
 			, false
 		);
 		Consulting consultingToAdd = consultingRepository.save(consulting);
 		return consultingToAdd.getId();
+	}
+
+	@Override
+	public ResponseReserveInfoDTO getInfo(Long customerId) {
+		Customer customer = customerRepository.findById(customerId)
+			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		String pbName = customer.getPb().getName();
+		String vipName = customer.getName();
+
+		return new ResponseReserveInfoDTO(pbName, vipName);
+	}
+
+	@Override
+	public List<ResponseReserveDTO> getReserves(Long customerId) {
+		List<Consulting> reserves = StreamSupport.stream(consultingRepository.findAll(
+				qConsulting.customer.id.eq(customerId).and(qConsulting.hopeDate.after(LocalDate.now()))).spliterator(),
+			false).toList();
+		return reserves.stream().map(ResponseReserveDTO::from).toList();
+	}
+
+	@Override
+	public ResponseReserveDTO getReserveByConsultingId(Long consultingId) {
+		Consulting consulting = consultingRepository.findOne(
+			qConsulting.id.eq(consultingId)
+		).orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		return ResponseReserveDTO.from(consulting);
+	}
+
+	@Override
+	public Long deleteReserve(Long consultingId) {
+		Consulting consultingToDelete = consultingRepository.findById(consultingId)
+			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		consultingRepository.delete(consultingToDelete);
+		return consultingToDelete.getId();
 	}
 }
