@@ -9,12 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.dto.pb.customerDTO.ResponseCustomerDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
@@ -28,8 +29,8 @@ public class PbCustomerControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	// private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
-	private final String baseUrl = "http://localhost:8080/1/customers"; // 기본으로 묶인 URL
+	private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
+	// private final String baseUrl = "http://localhost:8080/1/customers"; // 기본으로 묶인 URL
 
 	//  GET {{base_url}}/pb/customers/list
 	@Test
@@ -43,22 +44,23 @@ public class PbCustomerControllerTest {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.findAndRegisterModules();
 
-		CustomerDTO[] customerList = objectMapper.readValue(responseBody, CustomerDTO[].class);
+		ResponseCustomerDTO[] customerList = objectMapper.readValue(responseBody, ResponseCustomerDTO[].class);
 
 		//전체 길이 테스트
 		for (int i = 0; i < customerList.length; i++) {
-			CustomerDTO customerDTO = customerList[i];
+			ResponseCustomerDTO customerDTO = customerList[i];
 
 			assertThat(customerDTO.getId()).isEqualTo(i + 1);
 			assertThat(customerDTO.getName()).isNotEmpty();
 			assertThat(customerDTO.getEmail()).isNotEmpty();
 		}
 
-		CustomerDTO customerDto = customerList[0];
+		ResponseCustomerDTO customerDto = customerList[0];
 
 		assertThat(customerDto.getName()).isEqualTo("강재준");
 		assertThat(customerDto.getPbId()).isEqualTo(1L); // Pb_id
 		assertThat(customerDto.getEmail()).isEqualTo("email1@example.com");
+		assertThat(customerDto.getPassword()).isEqualTo("password1");
 		assertThat(customerDto.getAddress()).isEqualTo("서울특별시 강남구");
 		assertThat(customerDto.getTel()).isEqualTo("010-9945-5020");
 		assertThat(customerDto.getCount()).isEqualTo(10);
@@ -94,11 +96,12 @@ public class PbCustomerControllerTest {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.findAndRegisterModules();
 
-		CustomerDTO customerDTO = objectMapper.readValue(responseBody, CustomerDTO.class);
+		ResponseCustomerDTO customerDTO = objectMapper.readValue(responseBody, ResponseCustomerDTO.class);
 
 		assertThat(customerDTO.getId()).isEqualTo(1L);
 		assertThat(customerDTO.getPbId()).isEqualTo(1L);
 		assertThat(customerDTO.getName()).isEqualTo("강재준");
+		assertThat(customerDTO.getPassword()).isEqualTo("password1");
 		assertThat(customerDTO.getEmail()).isEqualTo("email1@example.com");
 		assertThat(customerDTO.getTel()).isEqualTo("010-9945-5020");
 		assertThat(customerDTO.getAddress()).isEqualTo("서울특별시 강남구");
@@ -113,8 +116,11 @@ public class PbCustomerControllerTest {
 		long customerId = 1L;
 		String newMemo = "새로운 메모 내용";
 
+		String requestJson = String.format("{\"memo\": \"%s\"}", newMemo);
+
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/" + customerId + "/memo")
-				.param("memo", newMemo))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andReturn();
 
@@ -123,4 +129,5 @@ public class PbCustomerControllerTest {
 
 		assertThat(responseBody).contains(newMemo);
 	}
+
 }

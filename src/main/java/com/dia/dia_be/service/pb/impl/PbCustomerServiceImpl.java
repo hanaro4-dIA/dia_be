@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.dto.pb.customerDTO.CustomerDTO;
+import com.dia.dia_be.dto.pb.customerDTO.ResponseCustomerDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.CustomerRepository;
@@ -23,7 +23,7 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 	}
 
 	@Override
-	public List<CustomerDTO> getCustomerList() {
+	public List<ResponseCustomerDTO> getCustomerList() {
 		List<Customer> customers = customerRepository.findAll();
 		if (customers.isEmpty()) {
 			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);
@@ -34,7 +34,7 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 	}
 
 	@Override
-	public List<CustomerDTO> searchCustomer(String name) {
+	public List<ResponseCustomerDTO> searchCustomer(String name) {
 		if (name == null || name.trim().isEmpty()) {
 			throw new GlobalException(PbErrorCode.INVALID_CUSTOMER_SEARCH);
 		}
@@ -48,7 +48,7 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 	}
 
 	@Override
-	public CustomerDTO getCustomerDetail(Long customerId) {
+	public ResponseCustomerDTO getCustomerDetail(Long customerId) {
 		if (customerId == null || customerId <= 0) {
 			throw new GlobalException(PbErrorCode.INVALID_CUSTOMER_SEARCH);
 		}
@@ -62,7 +62,7 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 	}
 
 	@Override
-	public CustomerDTO updateCustomerMemo(Long customerId, String memo) {
+	public ResponseCustomerDTO updateCustomerMemo(Long customerId, String memo) {
 		if (customerId == null || customerId <= 0) {
 			throw new GlobalException(PbErrorCode.INVALID_CUSTOMER_SEARCH);
 		}
@@ -72,16 +72,18 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 			Customer customer = customerOptional.get();
 			customer.update(memo);
 			customerRepository.save(customer);
-			return convertToDto(customer);
+			return ResponseCustomerDTO.toDto(customer);
 		} else {
 			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);
 		}
 	}
 
-	private CustomerDTO convertToDto(Customer customer) {
-		CustomerDTO dto = new CustomerDTO();
+
+	private ResponseCustomerDTO convertToDto(Customer customer) {
+		ResponseCustomerDTO dto = new ResponseCustomerDTO();
 		dto.setId(customer.getId());
 		dto.setPbId(customer.getPb().getId());
+		dto.setPassword(customer.getPassword());
 		dto.setDate(customer.getDate());
 		dto.setCount(customer.getCount());
 		dto.setMemo(customer.getMemo());
