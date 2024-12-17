@@ -2,17 +2,15 @@ package com.dia.dia_be.controller.pb;
 
 import java.util.List;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.pb.ReservesDTO.ResponseReserveDTO;
+import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,8 +42,14 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public List<ResponseReserveDTO> getReserves(@RequestParam boolean status) {
+	public List<ResponseReserveDTO> getReserves(@RequestParam boolean status,
+		@RequestParam(required = false) String type) {
+		// status가 true이고 type=upcoming인 경우
+		if (status && "upcoming".equalsIgnoreCase(type)) {
+			return pbReserveService.getUpcomingReserves();
+		}
 		return pbReserveService.getApprovedReserves(status);
+
 	}
 
 	@PutMapping
