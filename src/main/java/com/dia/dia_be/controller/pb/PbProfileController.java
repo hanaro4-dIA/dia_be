@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
-import com.dia.dia_be.service.pb.intf.ProfileServiceIntf;
+import com.dia.dia_be.service.pb.intf.PbProfileService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,12 +14,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RequestMapping("/pb")
 @RestController
-public class ProfileController {
+public class PbProfileController {
 
-	private final ProfileServiceIntf profileService;
+	private final PbProfileService pbProfileService;
 
-	public ProfileController(ProfileServiceIntf profileService) {
-		this.profileService = profileService;
+	public PbProfileController(PbProfileService profileService) {
+		this.pbProfileService = profileService;
 	}
 
 	@Operation(summary = "PB 프로필 조회", description = "PB 프로필을 조회합니다.")
@@ -31,7 +31,7 @@ public class ProfileController {
 	@GetMapping("/profile")
 	public ResponseProfileDTO getProfile() {
 		Long pbId = 1L;
-		return profileService.getProfile(pbId);
+		return pbProfileService.getProfile(pbId);
 	}
 
 }

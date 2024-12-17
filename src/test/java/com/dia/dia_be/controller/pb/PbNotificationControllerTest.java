@@ -1,11 +1,15 @@
 package com.dia.dia_be.controller.pb;
 
-import com.dia.dia_be.dto.pb.NotificationDTO;
-import com.dia.dia_be.service.pb.intf.NotificationService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.mockito.ArgumentMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.junit.jupiter.api.Test;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,25 +17,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.dia.dia_be.dto.pb.NotificationDTO;
+import com.dia.dia_be.service.pb.intf.PbNotificationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
-@WebMvcTest(NotificationController.class)
-class NotificationControllerTest {
+@WebMvcTest(PbNotificationController.class)
+class PbNotificationControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private NotificationService notificationService;
+	private PbNotificationService pbNotificationService;
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -78,7 +75,7 @@ class NotificationControllerTest {
 	void testGetAllNotifications() throws Exception {
 		List<NotificationDTO> notifications = Arrays.asList(notificationDTO1, notificationDTO2, notificationDTO3);
 
-		Mockito.when(notificationService.getAllNotifications()).thenReturn(notifications);
+		Mockito.when(pbNotificationService.getAllNotifications()).thenReturn(notifications);
 
 		mockMvc.perform(get("/pb/notifications"))
 			.andExpect(status().isOk())
@@ -93,7 +90,7 @@ class NotificationControllerTest {
 	void testGetNotificationsByCustomerIds() throws Exception {
 		List<NotificationDTO> notifications = Arrays.asList(notificationDTO1, notificationDTO2);
 
-		Mockito.when(notificationService.getNotificationsByCustomerIds(anyList())).thenReturn(notifications);
+		Mockito.when(pbNotificationService.getNotificationsByCustomerIds(anyList())).thenReturn(notifications);
 
 		mockMvc.perform(get("/pb/notifications/search")
 				.param("id", "1", "2"))
@@ -106,7 +103,7 @@ class NotificationControllerTest {
 	// GET - 쪽지 상세 조회 테스트
 	@Test
 	void testGetNotificationById() throws Exception {
-		Mockito.when(notificationService.getNotificationById(2L)).thenReturn(notificationDTO2);
+		Mockito.when(pbNotificationService.getNotificationById(2L)).thenReturn(notificationDTO2);
 
 		mockMvc.perform(get("/pb/notifications/2"))
 			.andExpect(status().isOk())
@@ -119,7 +116,7 @@ class NotificationControllerTest {
 	void testSendNotifications() throws Exception {
 		List<NotificationDTO> sentNotifications = Arrays.asList(notificationDTO1, notificationDTO2, notificationDTO3);
 
-		Mockito.when(notificationService.sendNotifications(any(NotificationDTO.class))).thenReturn(sentNotifications);
+		Mockito.when(pbNotificationService.sendNotifications(any(NotificationDTO.class))).thenReturn(sentNotifications);
 
 		mockMvc.perform(post("/pb/notifications/send")
 				.param("customerIds", "1", "2", "3")

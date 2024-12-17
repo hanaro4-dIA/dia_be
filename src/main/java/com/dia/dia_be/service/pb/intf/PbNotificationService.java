@@ -1,10 +1,10 @@
 package com.dia.dia_be.service.pb.intf;
 
-import com.dia.dia_be.dto.pb.NotificationDTO;
-
 import java.util.List;
 
-public interface NotificationService {
+import com.dia.dia_be.dto.pb.NotificationDTO;
+
+public interface PbNotificationService {
 	List<NotificationDTO> getAllNotifications();
 
 	NotificationDTO getNotificationById(Long id);

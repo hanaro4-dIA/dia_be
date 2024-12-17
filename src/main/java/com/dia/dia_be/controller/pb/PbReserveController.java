@@ -22,17 +22,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/pb/reserves")
 public class PbReserveController {
-<<<<<<< HEAD
-	private final ReserveService reserveService;
 
-	public PbReserveController(ReserveService reserveService) {
-		this.reserveService = reserveService;
-=======
 	private final PbReserveService pbReserveService;
 
 	public PbReserveController(PbReserveService pbReserveService) {
 		this.pbReserveService = pbReserveService;
->>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정)
 	}
 
 	@GetMapping

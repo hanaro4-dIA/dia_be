@@ -33,9 +33,11 @@ public class NotificationDTO {
 	private String title;
 	private String content;
 	private LocalDate date;
-	private boolean isRead = false;
 
-	public NotificationDTO(Long id, List<Long> customerIds, String title, String content, LocalDate date, boolean isRead) {
+	private boolean isRead;
+
+	public NotificationDTO(Long id, List<Long> customerIds, String title, String content, LocalDate date,
+		boolean isRead) {
 		this.id = id;
 		this.customerId = customerIds.get(0);
 		this.title = title;

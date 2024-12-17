@@ -7,13 +7,13 @@ import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.repository.PbRepository;
-import com.dia.dia_be.service.pb.intf.ProfileServiceIntf;
+import com.dia.dia_be.service.pb.intf.PbProfileService;
 
 @Service
-public class ProfileServiceImpl implements ProfileServiceIntf {
+public class PbProfileServiceImpl implements PbProfileService {
 	private final PbRepository pbRepository;
 
-	public ProfileServiceImpl(PbRepository pbRepository) {
+	public PbProfileServiceImpl(PbRepository pbRepository) {
 		this.pbRepository = pbRepository;
 	}
 
@@ -24,5 +24,4 @@ public class ProfileServiceImpl implements ProfileServiceIntf {
 
 		return ResponseProfileDTO.from(pb);
 	}
-
 }

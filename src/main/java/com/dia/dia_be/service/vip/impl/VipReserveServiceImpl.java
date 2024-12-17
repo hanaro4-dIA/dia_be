@@ -15,11 +15,8 @@ import com.dia.dia_be.repository.CustomerRepository;
 import com.dia.dia_be.service.vip.intf.VipReserveService;
 
 @Service
-<<<<<<< HEAD
-public class VipReserveServiceImpl implements ReserveService {
-=======
+
 public class VipReserveServiceImpl implements VipReserveService {
->>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정)
 
 	private final ConsultingRepository consultingRepository;
 	private final CategoryRepository categoryRepository;

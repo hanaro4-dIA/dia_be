@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ProfileControllerTest {
+public class PbProfileControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -60,4 +60,3 @@ public class ProfileControllerTest {
 	}
 
 }
-

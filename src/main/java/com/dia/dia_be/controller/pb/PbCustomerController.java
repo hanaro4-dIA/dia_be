@@ -30,10 +30,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Customer", description = "Customer API")
 public class PbCustomerController {
 
-	private final PbCustomerService customer_service;
+	private final PbCustomerService pbCustomerService;
 
 	public PbCustomerController(PbCustomerService pbCustomerService) {
-		this.customer_service = pbCustomerService;
+		this.pbCustomerService = pbCustomerService;
 	}
 
 	// {{base_url}}/pb/customers/list
@@ -44,7 +44,7 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
 	public ResponseEntity<List<CustomerDTO>> getCustomerList() {
-		List<CustomerDTO> customers = customer_service.getCustomerList();
+		List<CustomerDTO> customers = pbCustomerService.getCustomerList();
 		return ResponseEntity.ok(customers);
 	}
 
@@ -59,7 +59,7 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
 	public ResponseEntity<List<CustomerDTO>> searchCustomer(@RequestParam(name = "name") String name) {
-		List<CustomerDTO> customers = customer_service.searchCustomer(name);
+		List<CustomerDTO> customers = pbCustomerService.searchCustomer(name);
 		return ResponseEntity.ok(customers);
 	}
 
@@ -73,7 +73,7 @@ public class PbCustomerController {
 	})
 	public ResponseEntity<CustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId) {
 		// return ResponseEntity.ok(customer_service.getCustomerDetail(customerId));
-		return ResponseEntity.ok(customer_service.getCustomerDetail(1L));
+		return ResponseEntity.ok(pbCustomerService.getCustomerDetail(1L));
 	}
 
 	// {{base_url}}/pb/customers/{{customerId}}/memo
@@ -91,7 +91,7 @@ public class PbCustomerController {
 		@PathVariable("customerId") Long customerId,
 		@RequestParam("memo") String memo) {
 		// CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(customerId, memo);
-		CustomerDTO updatedCustomer = customer_service.updateCustomerMemo(1L, memo);
+		CustomerDTO updatedCustomer = pbCustomerService.updateCustomerMemo(1L, memo);
 		return ResponseEntity.ok(updatedCustomer);
 	}
 

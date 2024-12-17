@@ -1,12 +1,18 @@
 package com.dia.dia_be.controller.pb;
 
-import com.dia.dia_be.dto.pb.NotificationDTO;
-import com.dia.dia_be.service.pb.intf.NotificationService;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.dia.dia_be.dto.pb.NotificationDTO;
+import com.dia.dia_be.service.pb.intf.PbNotificationService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,12 +25,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/pb/notifications")
 @Tag(name = "Notification", description = "Notification API")
-public class NotificationController {
+public class PbNotificationController {
 
-	private final NotificationService notificationService;
+	private final PbNotificationService pbNotificationService;
 
-	public NotificationController(NotificationService notificationService) {
-		this.notificationService = notificationService;
+	public PbNotificationController(PbNotificationService pbNotificationService) {
+		this.pbNotificationService = pbNotificationService;
 	}
 
 	// {{base_url}}/pb/notifications
@@ -36,7 +42,7 @@ public class NotificationController {
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
 	public ResponseEntity<List<NotificationDTO>> getAllNotifications() {
-		return ResponseEntity.ok(notificationService.getAllNotifications());
+		return ResponseEntity.ok(pbNotificationService.getAllNotifications());
 	}
 
 	// {{base_url}}/pb/notifications/search?id={{customerIds}}
@@ -52,8 +58,9 @@ public class NotificationController {
 		@ApiResponse(responseCode = "400", description = "잘못된 요청"),
 		@ApiResponse(responseCode = "404", description = "쪽지가 존재하지 않음")
 	})
-	public ResponseEntity<List<NotificationDTO>> getNotificationsByCustomerIds(@RequestParam(name = "id") List<Long> customerIds) {
-		return ResponseEntity.ok(notificationService.getNotificationsByCustomerIds(customerIds));
+	public ResponseEntity<List<NotificationDTO>> getNotificationsByCustomerIds(
+		@RequestParam(name = "id") List<Long> customerIds) {
+		return ResponseEntity.ok(pbNotificationService.getNotificationsByCustomerIds(customerIds));
 	}
 
 	// {{base_url}}/pb/notifications/{{NotificationId}}
@@ -66,9 +73,8 @@ public class NotificationController {
 		@ApiResponse(responseCode = "404", description = "쪽지가 존재하지 않음")
 	})
 	public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable Long NotificationId) {
-		return ResponseEntity.ok(notificationService.getNotificationById(NotificationId));
+		return ResponseEntity.ok(pbNotificationService.getNotificationById(NotificationId));
 	}
-
 
 	// {{base_url}}/pb/notifications/send
 	// Body - raw로 JSON 전송
@@ -89,12 +95,8 @@ public class NotificationController {
 		@RequestBody NotificationDTO notificationRequest) {
 
 		notificationRequest.setCustomerIds(customerIds);
-		List<NotificationDTO> sentNotifications = notificationService.sendNotifications(notificationRequest);
+		List<NotificationDTO> sentNotifications = pbNotificationService.sendNotifications(notificationRequest);
 		return ResponseEntity.ok(sentNotifications);
 	}
-
-
-
-
 
 }

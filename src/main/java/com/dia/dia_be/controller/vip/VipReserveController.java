@@ -21,13 +21,8 @@ public class VipReserveController {
 
 	private final VipReserveService vipReserveService;
 
-<<<<<<< HEAD
-	public VipReserveController(ReserveService reserveService) {
-		this.reserveService = reserveService;
-=======
 	public VipReserveController(VipReserveService vipReserveService) {
 		this.vipReserveService = vipReserveService;
->>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정)
 	}
 
 	@PostMapping

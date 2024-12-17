@@ -9,5 +9,4 @@ public interface PbJournalService {
 	public List<ResponseJournalDTO> getJournals();
 
 	public ResponseJournalDTO getJournal(Long id);
-
 }

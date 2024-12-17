@@ -1,21 +1,13 @@
 package com.dia.dia_be.controller.pb;
 
-<<<<<<< HEAD:src/main/java/com/dia/dia_be/controller/pb/JournalController.java
-
-=======
->>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정):src/main/java/com/dia/dia_be/controller/pb/PbJournalController.java
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD:src/main/java/com/dia/dia_be/controller/pb/JournalController.java
-import com.dia.dia_be.service.pb.intf.JournalService;
-import com.dia.dia_be.service.pb.intf.ReserveService;
-=======
 import com.dia.dia_be.service.pb.intf.PbJournalService;
->>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정):src/main/java/com/dia/dia_be/controller/pb/PbJournalController.java
+import com.dia.dia_be.service.pb.intf.PbReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,25 +16,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-<<<<<<< HEAD:src/main/java/com/dia/dia_be/controller/pb/JournalController.java
 @RequestMapping("/pb/journals")
-public class JournalController {
-
-	private final JournalService journalService;
-	private final ReserveService reserveService;
-
-	public JournalController(JournalService journalService, ReserveService reserveService){
-		this.journalService = journalService;
-		this.reserveService = reserveService;
-=======
-@RequestMapping("/pb")
 public class PbJournalController {
 
 	private final PbJournalService pbJournalService;
+	private final PbReserveService pbReserveService;
 
-	public PbJournalController(PbJournalService pbJournalService) {
+	public PbJournalController(PbJournalService pbJournalService, PbReserveService pbReserveService) {
 		this.pbJournalService = pbJournalService;
->>>>>>> 9096336 ([style] : conflict를 막기 위한 폴더/파일명 수정):src/main/java/com/dia/dia_be/controller/pb/PbJournalController.java
+		this.pbReserveService = pbReserveService;
 	}
 
 	@GetMapping()
@@ -85,12 +67,11 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "요청 상담 내용 상세 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id){
-		try{
-			return ResponseEntity.ok(reserveService.getContent(id));
-		} catch (Exception e){
+	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id) {
+		try {
+			return ResponseEntity.ok(pbReserveService.getContent(id));
+		} catch (Exception e) {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
-
 }
