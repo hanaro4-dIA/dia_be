@@ -124,10 +124,19 @@ public class JournalRepositoryTest {
 	}
 
 	@Test
-	void findJournalByConsultingIdAndMakeCompleteTrueTest(){
+	void updateCompleteStatusById(){
 		Long id = 1L;
-		journalRepository.findJournalByConsultingIdAndMakeCompleteTrue(id);
+		journalRepository.updateCompleteStatusById(id);
 		Journal journal = journalRepository.findById(id).orElseThrow();
 		Assertions.assertThat(journal.isComplete()).isTrue();
+	}
+
+	@Test
+	void updateContentsById(){
+		Long id = 1L;
+		String contents = "테스트 contents";
+		journalRepository.updateContentsById(id, contents);
+		Journal journal = journalRepository.findById(id).orElseThrow();
+		Assertions.assertThat(journal.getContents()).isEqualTo(contents);
 	}
 }

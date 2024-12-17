@@ -2,10 +2,8 @@ package com.dia.dia_be.service.pb.impl;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalProduct;
 import com.dia.dia_be.domain.Product;
@@ -51,7 +49,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 		consultingRepository.findConsultingByIdAndUpdateTitleAndCategory(body.getConsultingId(),
 			body.getConsultingTitle(), body.getCategoryId());
 
-		journalRepository.findJournalByConsultingIdAndUpdateContents(body.getConsultingId(), body.getJournalContents());
+		journalRepository.updateContentsById(body.getConsultingId(), body.getJournalContents());
 		List<Product> products = productRepository.findAllById(body.getRecommendedProductsKeys());
 		Journal journal = journalRepository.findById(body.getConsultingId())
 			.orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND));
@@ -64,7 +62,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 	@Override
 	public void addJournalAndChangeStatusComplete(RequestJournalDTO body) {
 		addJournal(body);
-		journalRepository.findJournalByConsultingIdAndMakeCompleteTrue(body.getConsultingId());
+		journalRepository.updateCompleteStatusById(body.getConsultingId());
 	}
 
 }
