@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,6 +75,17 @@ public class VipReserveController {
 			return ResponseEntity.ok(reserves);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body("예약 조회 중 오류 발생: " + e.getMessage());
+		}
+	}
+
+	@GetMapping("/{id}")
+	@Operation(summary = "특정 상담 예약 조회", description = "예약된 상담 정보 중 하나를 반환합니다.")
+	public ResponseEntity<?> getReserveById(@PathVariable("id") Long consultingId) {
+		final Long customerId = 1L;
+		try {
+			return ResponseEntity.ok(vipReserveService.getReserveByConsultingId(consultingId));
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
 }
