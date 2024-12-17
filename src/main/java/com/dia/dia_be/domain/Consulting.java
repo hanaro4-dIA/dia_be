@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter(AccessLevel.PACKAGE)
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Consulting {
@@ -107,4 +107,5 @@ public class Consulting {
 		this.journal = journal;
 		journal.setConsulting(this);
 	}
+
 }
