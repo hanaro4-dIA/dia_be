@@ -117,6 +117,18 @@ public class ConsultingRepositoryTest {
 	}
 
 	@Test
+	void updateTitleAndCategoryIdTest() throws Exception{
+		String newTitle = "테스트용 상담 타이틀";
+		Long newCategoryId = 2L;
+		consultingRepository.updateTitleAndCategory(1L, newTitle, newCategoryId);
+
+		Consulting consulting = consultingRepository.findById(1L).get();
+
+		Assertions.assertThat(consulting.getCategory().getId()).isEqualTo(newCategoryId);
+		Assertions.assertThat(consulting.getTitle()).isEqualTo(newTitle);
+	}
+
+  @Test
 	@DisplayName("특정 날짜와 PB ID에 대해 승인된 상담만 가져오는지 테스트")
 	void findByHopeDateAndApproveTrueAndCustomer_Pb_IdTest() {
 
@@ -156,5 +168,4 @@ public class ConsultingRepositoryTest {
 		Assertions.assertThat(upcomingConsultings.stream().allMatch(c -> c.getHopeDate().isAfter(LocalDate.now())))
 			.isTrue();
 	}
-
 }

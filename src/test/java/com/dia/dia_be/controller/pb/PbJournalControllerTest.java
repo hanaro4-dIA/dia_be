@@ -4,6 +4,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.repository.JournalRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -20,6 +26,9 @@ public class PbJournalControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
+
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@Autowired
 	JournalRepository journalRepository;
@@ -52,6 +61,28 @@ public class PbJournalControllerTest {
 		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.TEXT_PLAIN_VALUE + ";charset=UTF-8"))
+			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("journal controller test - 상담 일지 저장하기")
+	void saveJournalTest() throws Exception {
+		String url = "/pb/journals";
+		List<Long> keys = new ArrayList<>();
+		keys.add(2L);
+
+		RequestJournalDTO journalDTO = RequestJournalDTO.builder()
+			.consultingId(1L)
+			.categoryId(2L)
+			.consultingTitle("상담 일지 저장 테스트 타이틀")
+			.journalContents("상담 일지 저장 테스트 PB의 기록")
+			.recommendedProductsKeys(keys)
+			.build();
+
+		String requestBody = objectMapper.writeValueAsString(journalDTO);
+
+		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestBody))
+			.andExpect(status().isOk())
 			.andDo(print());
 	}
 }
