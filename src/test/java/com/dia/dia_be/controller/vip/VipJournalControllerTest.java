@@ -49,4 +49,14 @@ public class VipJournalControllerTest {
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andDo(print());
 	}
+
+	@Test
+	void getRecommendationsTest() throws Exception {
+		final String url = "/vip/journals/recommendations";
+
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andDo(print());
+	}
 }

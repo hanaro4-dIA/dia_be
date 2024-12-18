@@ -40,10 +40,16 @@ public class ProductRepositoryTest {
 	}
 
 	@Test
-	public void getProductsTest(){
+	public void getProductsTest() {
 		String tag = "전세";
 		List<Product> products = productRepository.findAllByName(tag);
 
+		assertThat(products.size()).isGreaterThan(0);
+	}
+
+	@Test
+	public void getRecommendedProductsTest() {
+		List<Product> products = productRepository.findRecommendedProducts(1L);
 		assertThat(products.size()).isGreaterThan(0);
 	}
 }
