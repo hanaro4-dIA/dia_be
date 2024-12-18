@@ -58,4 +58,16 @@ public class VipJournalController {
 			return ResponseEntity.status(500).body(e.getMessage());
 		}
 	}
+
+	@GetMapping("/recommendations")
+	@Tag(name = "상담내역 가져오기", description = "상담이 완료된 상담 일지")
+	@Operation(summary = "맞춤 컨텐츠")
+	public ResponseEntity<?> getRecommendations() {
+		final Long customerId = 1L;
+		try {
+			return ResponseEntity.ok(vipJournalService.getRecommendations(customerId));
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(e.getMessage());
+		}
+	}
 }

@@ -2,6 +2,7 @@ package com.dia.dia_be.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -52,5 +53,15 @@ public class IssueRepositoryTest {
 
 		Optional<Issue> deletedIssue = issueRepository.findById(savedIssue.getId());
 		assertThat(deletedIssue).isEmpty();
+	}
+
+	@Test
+	void getRecommendedIssuesTest() {
+		Issue issue = Issue.create(keywordRepository.findById(2L).get(), "Test Issue", "http://test-issue.com",
+			"http://test-image.com");
+
+		Issue savedIssue = issueRepository.save(issue);
+		List<Issue> issues = issueRepository.findRecommendedIssues(1L);
+		assertThat(issues).hasSize(1);
 	}
 }
