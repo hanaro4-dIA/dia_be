@@ -2,6 +2,8 @@ package com.dia.dia_be.repository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -35,5 +37,13 @@ public class ProductRepositoryTest {
 		assertThat(savedProduct.getName()).isEqualTo("Test Product");
 		assertThat(savedProduct.getProduct_url()).isEqualTo("http://test.com/product");
 		assertThat(savedProduct.getImage_url()).isEqualTo("http://test.com/image");
+	}
+
+	@Test
+	public void getProductsTest(){
+		String tag = "전세";
+		List<Product> products = productRepository.findAllByName(tag);
+
+		assertThat(products.size()).isGreaterThan(0);
 	}
 }

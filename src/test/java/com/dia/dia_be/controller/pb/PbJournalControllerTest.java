@@ -16,8 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
-import com.dia.dia_be.repository.JournalRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.dia.dia_be.service.pb.intf.PbJournalService;
+import com.dia.dia_be.service.pb.intf.PbProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -31,7 +31,7 @@ public class PbJournalControllerTest {
 	ObjectMapper objectMapper;
 
 	@Autowired
-	JournalRepository journalRepository;
+	PbJournalService pbJournalService;
 
 	@Test
 	@DisplayName("journal controller test - 상담 일지 리스트 조회")
@@ -83,6 +83,17 @@ public class PbJournalControllerTest {
 
 		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestBody))
 			.andExpect(status().isOk())
+			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("journal controller test - 태그 기반 상품 검색")
+	void getProductsTest() throws Exception {
+		String tag = "대출";
+		String url = "/pb/journals/products?tag=" + tag;
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.size()").isNotEmpty())
 			.andDo(print());
 	}
 }

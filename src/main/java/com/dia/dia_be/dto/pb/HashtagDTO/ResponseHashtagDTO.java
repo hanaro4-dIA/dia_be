@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.pb.HashtagDTO;
+package com.dia.dia_be.dto.pb.hashtagDTO;
 
 import com.dia.dia_be.domain.Hashtag;
 
