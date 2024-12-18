@@ -24,6 +24,7 @@ public class ResponseProfileDTO {
 	private boolean availability;
 	private List<ResponseHashtagDTO> HashtagList;
 	private String introduce;
+	private String imageUrl;
 
 	// Entity -> DTO 변환
 	public static ResponseProfileDTO from(Pb pb) {
@@ -38,12 +39,13 @@ public class ResponseProfileDTO {
 				.collect(Collectors.toList())
 				: null)
 			.introduce(pb.getIntroduce())
+			.imageUrl(pb.getImageUrl())
 			.build();
 	}
 
 	// DTO 객체 생성 - of 메서드
 	public static ResponseProfileDTO of(Long pbId, String name, String office, boolean availability,
-		List<ResponseHashtagDTO> HashtagList, String introduce) {
+		List<ResponseHashtagDTO> HashtagList, String introduce, String imageUrl) {
 		return ResponseProfileDTO.builder()
 			.pbId(pbId)
 			.name(name)
@@ -51,6 +53,7 @@ public class ResponseProfileDTO {
 			.availability(availability)
 			.HashtagList(HashtagList)
 			.introduce(introduce)
+			.imageUrl(imageUrl)
 			.build();
 	}
 
