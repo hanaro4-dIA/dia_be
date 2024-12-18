@@ -642,7 +642,7 @@ insert into notification(id,customer_id,title,content,date,is_read) values(1,'1'
 감사합니다.
 
 하나은행 서압구정 골드클럽
-손흥민 PB 드림','2023.01.01','1');
+손흥민 PB 드림','2023.01.01','0');
 insert into notification(id,customer_id,title,content,date,is_read) values(2,'7','2023년 새해가 밝았습니다.','안녕하세요, 고객님.
 새로운 한 해가 밝았습니다. 지난 한 해 동안 보내주신 신뢰와 성원에 깊이 감사드립니다.
 
@@ -655,7 +655,7 @@ insert into notification(id,customer_id,title,content,date,is_read) values(2,'7'
 감사합니다.
 
 하나은행 서압구정 골드클럽
-손흥민 PB 드림','2023.01.01','1');
+손흥민 PB 드림','2023.01.01','0');
 insert into notification(id,customer_id,title,content,date,is_read) values(3,'10','2023년 새해가 밝았습니다.','안녕하세요, 고객님.
 새로운 한 해가 밝았습니다. 지난 한 해 동안 보내주신 신뢰와 성원에 깊이 감사드립니다.
 
@@ -1181,11 +1181,11 @@ insert into journal(id,consulting_id,contents,complete) values(4,'4','상담 내
 
 6. 개인종합자산관리계좌
 [여러 업권의 다양한 금융상품을 한 계좌에 모아 투자하면서 세제혜택도 받을 수 있는 종합 자산관리 계좌이다. 편입할 수 있는 상품은 예,적금, 공모펀드, 리츠(REITS) 등이며, 유형별로는 신탁형과 일임형, 가입대상별로는 서민형, 일반형 등으로 구분된다. 근로, 사업소득이 있는 근로자, 자영업자, 농어민으로서 직전연도 금융소득종합과세대상자가 아닌 경우 가입이 가능하다. 연간 2,000만원씩 총 1억원까지 납입이 가능하며 세제혜택을 받기 위한 의무 가입기간은 서민형 등은 3년, 일반형은 5년이다. 가입기간 도중 계좌에서 발생한 이익과 손실을 통산한 순이익에 대하여 서민형은 250만원, 일반형은 200만원까지 비과세하고 비과세 한도를 초과하는 순이익은 저율(9.9%)로 분리과세하는 세제혜택이 있다.]','1');
-insert into journal(id,consulting_id,contents,complete) values(5,'5','상담을 완료하였음','1');
-insert into journal(id,consulting_id,contents,complete) values(6,'6','상담을 완료하였음','1');
-insert into journal(id,consulting_id,contents,complete) values(7,'7','상담을 완료하였음','1');
-insert into journal(id,consulting_id,contents,complete) values(8,'8','상담을 완료하였음','1');
-insert into journal(id,consulting_id,contents,complete) values(9,'9','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(5,'5','상담을 완료하였음','0');
+insert into journal(id,consulting_id,contents,complete) values(6,'6','상담을 완료하였음','0');
+insert into journal(id,consulting_id,contents,complete) values(7,'7','상담을 완료하였음','0');
+insert into journal(id,consulting_id,contents,complete) values(8,'8','상담을 완료하였음','0');
+insert into journal(id,consulting_id,contents,complete) values(9,'9','상담을 완료하였음','0');
 insert into journal(id,consulting_id,contents,complete) values(10,'10',null,'0');
 insert into journal(id,consulting_id,contents,complete) values(11,'11',null,'0');
 insert into journal(id,consulting_id,contents,complete) values(12,'12',null,'0');

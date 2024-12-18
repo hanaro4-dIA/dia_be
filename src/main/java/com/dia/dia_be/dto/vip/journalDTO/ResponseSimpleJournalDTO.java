@@ -3,6 +3,8 @@ package com.dia.dia_be.dto.vip.journalDTO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,7 @@ public class ResponseSimpleJournalDTO {
 	@Schema(description = "상담일(희망일과 동일)", example = "2024-12-30")
 	private LocalDate date;
 	@Schema(description = "상담시(희망시와 동일)", example = "14:00")
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime time;
 	@Schema(description = "PB명", example = "안유진")
 	private String manager;
