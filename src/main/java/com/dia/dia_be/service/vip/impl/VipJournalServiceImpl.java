@@ -76,12 +76,11 @@ public class VipJournalServiceImpl implements VipJournalService {
 		for (ResponseJournalDTO.Product journalProduct : journalProducts) {
 			System.out.println(journalProduct.toString());
 		}
-		ResponseJournalDTO ret = new ResponseJournalDTO(journalId, consulting.getCategory().getName(),
+		return new ResponseJournalDTO(journalId, consulting.getCategory().getName(),
 			consulting.getHopeDate(),
-			consulting.getHopeTime(), consulting.getCustomer().getPb().getName(), consulting.getJournal().getContents(),
+			consulting.getHopeTime(), consulting.getTitle(), consulting.getCustomer().getPb().getName(),
+			consulting.getJournal().getContents(),
 			journalProducts);
-		System.out.println(ret);
-		return ret;
 	}
 
 	@Override
