@@ -9,16 +9,19 @@ import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
+import com.dia.dia_be.domain.Issue;
 import com.dia.dia_be.domain.Product;
 import com.dia.dia_be.domain.QConsulting;
 import com.dia.dia_be.domain.QProduct;
 import com.dia.dia_be.domain.QScript;
 import com.dia.dia_be.dto.vip.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.dto.vip.journalDTO.ResponseJournalScriptDTO;
+import com.dia.dia_be.dto.vip.journalDTO.ResponseRecommendationDTO;
 import com.dia.dia_be.dto.vip.journalDTO.ResponseSimpleJournalDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.VipErrorCode;
 import com.dia.dia_be.repository.ConsultingRepository;
+import com.dia.dia_be.repository.IssueRepository;
 import com.dia.dia_be.repository.ProductRepository;
 import com.dia.dia_be.repository.ScriptRepository;
 import com.dia.dia_be.service.vip.intf.VipJournalService;
@@ -31,12 +34,14 @@ public class VipJournalServiceImpl implements VipJournalService {
 	private final QConsulting qConsulting = QConsulting.consulting;
 	private final QProduct qProduct = QProduct.product;
 	private final QScript qScript = QScript.script;
+	private final IssueRepository issueRepository;
 
 	public VipJournalServiceImpl(ConsultingRepository consultingRepository,
-		ProductRepository productRepository, ScriptRepository scriptRepository) {
+		ProductRepository productRepository, ScriptRepository scriptRepository, IssueRepository issueRepository) {
 		this.consultingRepository = consultingRepository;
 		this.productRepository = productRepository;
 		this.scriptRepository = scriptRepository;
+		this.issueRepository = issueRepository;
 	}
 
 	@Override
@@ -88,5 +93,49 @@ public class VipJournalServiceImpl implements VipJournalService {
 		return StreamSupport.stream(scriptRepository.findAll(
 			qScript.journal.id.eq(journalId)
 		).spliterator(), false).map(ResponseJournalScriptDTO::from).toList();
+	}
+
+	@Override
+	public List<ResponseRecommendationDTO> getRecommendations(Long customerId) {
+		List<Product> recommendedProducts = productRepository.findRecommendedProducts(customerId);
+		List<Issue> recommendedIssues = issueRepository.findRecommendedIssues(customerId);
+
+		/*
+		 * 추천 상품의 개수가 4개 미만일 때 4개로 맞춰주는 코드.
+		 * 그러나 상품 자체의 개수가 4개 미만일 시 상품의 개수로 맞춰짐.
+		 * */
+		if (recommendedProducts.size() < 4) {
+			List<Long> productIds = recommendedProducts.stream().map(Product::getId).toList();
+			List<Product> products = productRepository.findAll()
+				.stream()
+				.filter(product -> !productIds.contains(product.getId()))
+				.toList();
+			int i = 0;
+			while (recommendedProducts.size() < 4 && products.size() != i) {
+				recommendedProducts.add(products.get(i));
+				i++;
+			}
+
+		}
+		/*
+		 * 추천 이슈의 개수가 4개 미만일 때 4개로 맞춰주는 코드.
+		 * 그러나 이슈 자체의 개수가 4개 미만일 시 이슈의 개수로 맞춰짐.
+		 * */
+		if (recommendedIssues.size() < 4) {
+			List<Long> issueIds = recommendedIssues.stream().map(Issue::getId).toList();
+			List<Issue> issues = issueRepository.findAll()
+				.stream()
+				.filter(issue -> !issueIds.contains(issue.getId()))
+				.toList();
+			int i = 0;
+			while (recommendedIssues.size() < 4 && issues.size() != i) {
+				recommendedIssues.add(issues.get(i));
+				i++;
+			}
+		}
+		List<ResponseRecommendationDTO> recommendationDTOS = new ArrayList<>();
+		recommendedProducts.stream().map(ResponseRecommendationDTO::from).forEach(recommendationDTOS::add);
+		recommendedIssues.stream().map(ResponseRecommendationDTO::from).forEach(recommendationDTOS::add);
+		return recommendationDTOS;
 	}
 }
