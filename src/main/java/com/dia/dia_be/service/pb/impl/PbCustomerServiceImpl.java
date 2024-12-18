@@ -33,6 +33,23 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 			.collect(Collectors.toList());
 	}
 
+	// pbId에 따른 고객 리스트 조회 메서드
+	@Override
+	public List<ResponseCustomerDTO> getCustomerListByPbId(Long pbId) {
+		if (pbId == null || pbId <= 0) {
+			throw new GlobalException(PbErrorCode.PROFILE_NOT_FOUND);
+		}
+
+		List<Customer> customers = customerRepository.findByPbId(pbId);
+		if (customers.isEmpty()) {
+			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);
+		}
+
+		return customers.stream()
+			.map(this::convertToDto)
+			.collect(Collectors.toList());
+	}
+
 	@Override
 	public List<ResponseCustomerDTO> searchCustomer(String name) {
 		if (name == null || name.trim().isEmpty()) {

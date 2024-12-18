@@ -13,4 +13,6 @@ public interface PbCustomerService {
 	List<ResponseCustomerDTO> searchCustomer(String name);
 
 	ResponseCustomerDTO updateCustomerMemo(Long customerId, String memo);
+
+	List<ResponseCustomerDTO> getCustomerListByPbId(Long pbId);
 }
