@@ -137,6 +137,8 @@ public class PbJournalController {
 	}
 
 
+
+	//keyword python server 구현 후 연결
 	@PostMapping("{journal_id}/transcripts")
 	public ResponseEntity<ScriptListResponseDTO> createScriptsAndKeyword(@PathVariable("journal_id") Long journal_id,
 		@RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest req) {
