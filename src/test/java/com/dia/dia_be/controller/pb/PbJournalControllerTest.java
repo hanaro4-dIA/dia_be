@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
-import com.dia.dia_be.service.pb.intf.PbProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest

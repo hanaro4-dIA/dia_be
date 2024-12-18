@@ -3,6 +3,7 @@ package com.dia.dia_be.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -51,5 +52,22 @@ public class KeywordRepositoryTest {
 		Optional<Keyword> deletedKeyword = keywordRepository.findById(savedKeyword.getId());
 
 		assertThat(deletedKeyword).isNotPresent();
+	}
+
+	@Test
+	void findAllKeywordsTest(){
+		List<Keyword> keywords = keywordRepository.findAll();
+
+		assertThat(keywords.stream().noneMatch(keyword -> keyword.getTitle().isEmpty())).isTrue();
+		assertThat(keywords.stream().noneMatch(keyword -> keyword.getContent().isEmpty())).isTrue();
+	}
+
+	@Test
+	void findByIdKeywordTest(){
+		Long id = 1L;
+		Keyword keyword = keywordRepository.findById(id).orElseThrow();
+
+		assertThat(keyword.getTitle()).isNotEmpty();
+		assertThat(keyword.getContent()).isNotEmpty();
 	}
 }
