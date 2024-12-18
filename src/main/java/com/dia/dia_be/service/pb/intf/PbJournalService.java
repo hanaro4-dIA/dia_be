@@ -5,6 +5,7 @@ import java.util.List;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 
 public interface PbJournalService {
 
@@ -17,5 +18,7 @@ public interface PbJournalService {
 	public void addJournalAndChangeStatusComplete(RequestJournalDTO body);
 
 
-	ScriptListResponseDTO createScriptsAndKeyword(Long journalId, String filePath);
+	ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long journalId, String filePath);
+
+	ScriptListResponseDTO getScripts(Long journalId);
 }

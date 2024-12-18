@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.dia.dia_be.service.pb.intf.PbProductService;
@@ -140,7 +141,14 @@ public class PbJournalController {
 
 	//keyword python server 구현 후 연결
 	@PostMapping("{journal_id}/transcripts")
-	public ResponseEntity<ScriptListResponseDTO> createScriptsAndKeyword(@PathVariable("journal_id") Long journal_id,
+	@Tag(name = "통화 녹음을 텍스트로 변환 및 키워드 추출", description = "stt and keyword API")
+	@Operation(summary = "통화 녹음을 텍스트로 변환 및 키워드 추출")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
+	public ResponseEntity<ScriptListWithKeywordsResponseDTO> createScriptsAndKeyword(@PathVariable("journal_id") Long journal_id,
 		@RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest req) {
 
 		String uploadPath = req.getServletContext().getRealPath("/upload");
@@ -164,5 +172,17 @@ public class PbJournalController {
 		}
 
 		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
+	}
+
+	@GetMapping("{journal_id}/scripts")
+	@Tag(name = "저장된 script 가져오기", description = "상담일지 작성 화면에서 script 부분")
+	@Operation(summary = "script 가져오기")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
+	public ResponseEntity<ScriptListResponseDTO> getScripts(@PathVariable("journal_id") Long journal_id){
+		return ResponseEntity.ok().body(pbJournalService.getScripts(journal_id));
 	}
 }

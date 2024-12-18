@@ -15,6 +15,7 @@ import com.dia.dia_be.domain.Speaker;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
@@ -61,7 +62,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 
 	//테스트 코드 제거 및 python 서버 연결하여 키워드 추출해서 dto에 삽입 필요
 	@Override
-	public ScriptListResponseDTO createScriptsAndKeyword(Long journalId, String filePath) {
+	public ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long journalId, String filePath) {
 		Journal journal = journalRepository.findById(journalId).get();
 		// String sttResult = clovaSpeechService.stt(filePath);
 		String sttResult = "{\n"
@@ -280,6 +281,16 @@ public class PbJournalServiceImpl implements PbJournalService {
 			e.printStackTrace();
 		}
 
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList);
+	}
+
+	@Override
+	public ScriptListResponseDTO getScripts(Long journalId) {
+		Journal journal = journalRepository.findById(journalId).get();
+		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
+		for(Script script : journal.getScript()){
+			scriptResponseDTOList.add(ScriptResponseDTO.from(script));
+		}
 		return ScriptListResponseDTO.of(scriptResponseDTOList);
 	}
 
