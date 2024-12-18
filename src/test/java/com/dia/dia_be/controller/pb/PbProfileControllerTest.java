@@ -2,7 +2,7 @@ package com.dia.dia_be.controller.pb;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
@@ -56,7 +56,7 @@ public class PbProfileControllerTest {
 		assertThat(actualResponse.getOffice()).isEqualTo("하나은행 서압구정 골드클럽");
 		assertThat(actualResponse.isAvailability()).isTrue();
 		assertThat(actualResponse.getIntroduce()).isEqualTo("고객의 꿈과 자산을 함께 설계하는 손흥민 PB 입니다.");
-
+		assertThat(actualResponse.getImageUrl().isEmpty()).isFalse();
 		assertThat(actualResponse.getHashtagList().get(0).getName()).isEqualTo("자산관리");
 		assertThat(actualResponse.getHashtagList().get(1).getName()).isEqualTo("금융컨설팅");
 		assertThat(actualResponse.getHashtagList().get(2).getName()).isEqualTo("포트폴리오");
@@ -73,31 +73,31 @@ public class PbProfileControllerTest {
 
 		// Mock Multipart File
 		MockMultipartFile mockFile = new MockMultipartFile(
-				"file",                       // RequestParam name
-				"profile-image.jpg",          // Original file name
-				"image/jpeg",                 // MIME type
-				"<binary data>".getBytes()    // File content
+			"file",                       // RequestParam name
+			"profile-image.jpg",          // Original file name
+			"image/jpeg",                 // MIME type
+			"<binary data>".getBytes()    // File content
 		);
 
 		// HashTagList 생성
-		List<String> hashtags = List.of("tag1","tag2","tag3");
+		List<String> hashtags = List.of("tag1", "tag2", "tag3");
 
 		// HashTagList를 JSON 형식으로 변환
 		String hashTagListJson = objectMapper.writeValueAsString(hashtags);
 
 		// MockMvc PUT 멀티파트 요청
 		mockMvc.perform(multipart(url)
-						.file(mockFile)                          // File 첨부
-						.param("introduce", introduce)           // Introduce 필드
-						.param("hashtags", hashTagListJson)   // HashTagList 필드
-						.contentType(MediaType.MULTIPART_FORM_DATA) // Content-Type 설정
-						.with(request -> {                       // PUT 메서드로 전환
-							request.setMethod("PUT");
-							return request;
-						}))
-				.andExpect(status().isOk())              // HTTP 200 OK 기대
-				.andExpect(jsonPath("$.introduce").value("This is my introduction."))
-				.andDo(print());                        // 요청/응답 로그 출력
+				.file(mockFile)                          // File 첨부
+				.param("introduce", introduce)           // Introduce 필드
+				.param("hashtags", hashTagListJson)   // HashTagList 필드
+				.contentType(MediaType.MULTIPART_FORM_DATA) // Content-Type 설정
+				.with(request -> {                       // PUT 메서드로 전환
+					request.setMethod("PUT");
+					return request;
+				}))
+			.andExpect(status().isOk())              // HTTP 200 OK 기대
+			.andExpect(jsonPath("$.introduce").value("This is my introduction."))
+			.andDo(print());                        // 요청/응답 로그 출력
 	}
 
 	@Test
@@ -108,25 +108,24 @@ public class PbProfileControllerTest {
 		// Introduce parameter
 		String introduce = "This is my introduction.";
 
-
 		// HashTagList 생성
-		List<String> hashtags = List.of("tag1","tag2","tag3");
+		List<String> hashtags = List.of("tag1", "tag2", "tag3");
 
 		// HashTagList를 JSON 형식으로 변환
 		String hashTagListJson = objectMapper.writeValueAsString(hashtags);
 		System.out.println(hashTagListJson);
 		// MockMvc PUT 멀티파트 요청
 		mockMvc.perform(multipart(url)
-						.param("introduce", introduce)           // Introduce 필드
-						.param("hashtags", hashTagListJson)   // HashTagList 필드
-						.contentType(MediaType.MULTIPART_FORM_DATA) // Content-Type 설정
-						.with(request -> {                       // PUT 메서드로 전환
-							request.setMethod("PUT");
-							return request;
-						}))
-				.andExpect(status().isOk())              // HTTP 200 OK 기대
-				.andExpect(jsonPath("$.introduce").value("This is my introduction."))
-				.andDo(print());                         // 요청/응답 로그 출력
+				.param("introduce", introduce)           // Introduce 필드
+				.param("hashtags", hashTagListJson)   // HashTagList 필드
+				.contentType(MediaType.MULTIPART_FORM_DATA) // Content-Type 설정
+				.with(request -> {                       // PUT 메서드로 전환
+					request.setMethod("PUT");
+					return request;
+				}))
+			.andExpect(status().isOk())              // HTTP 200 OK 기대
+			.andExpect(jsonPath("$.introduce").value("This is my introduction."))
+			.andDo(print());                         // 요청/응답 로그 출력
 	}
 
 }
