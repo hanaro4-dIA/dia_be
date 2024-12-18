@@ -1,6 +1,6 @@
 package com.dia.dia_be.service.vip.intf;
 
-import com.dia.dia_be.dto.pb.pbProfileDTO.ResponsePbProfileDTO;
+import com.dia.dia_be.dto.vip.pbProfileDTO.ResponsePbProfileDTO;
 
 public interface VipPbService {
 
