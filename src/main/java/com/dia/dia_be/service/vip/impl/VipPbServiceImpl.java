@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Hashtag;
 import com.dia.dia_be.domain.Pb;
-import com.dia.dia_be.dto.pbProfileDTO.ResponsePbProfileDTO;
+import com.dia.dia_be.dto.pb.pbProfileDTO.ResponsePbProfileDTO;
 import com.dia.dia_be.repository.CustomerRepository;
 import com.dia.dia_be.service.vip.intf.VipPbService;
 

@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.pbProfileDTO;
+package com.dia.dia_be.dto.pb.pbProfileDTO;
 
 import java.time.LocalDate;
 import java.util.List;
