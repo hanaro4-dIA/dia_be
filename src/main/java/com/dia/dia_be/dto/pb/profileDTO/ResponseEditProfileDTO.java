@@ -1,7 +1,7 @@
 package com.dia.dia_be.dto.pb.profileDTO;
 
 import com.dia.dia_be.domain.Pb;
-import com.dia.dia_be.dto.pb.HashtagDTO.ResponseHashtagDTO;
+import com.dia.dia_be.dto.pb.hashtagDTO.ResponseHashtagDTO;
 import com.dia.dia_be.global.S3.S3Url;
 import lombok.*;
 
