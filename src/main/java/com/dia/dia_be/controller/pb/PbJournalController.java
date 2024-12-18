@@ -140,6 +140,7 @@ public class PbJournalController {
 
 
 	//keyword python server 구현 후 연결
+	/**
 	@PostMapping("{journal_id}/transcripts")
 	@Tag(name = "통화 녹음을 텍스트로 변환 및 키워드 추출", description = "stt and keyword API")
 	@Operation(summary = "통화 녹음을 텍스트로 변환 및 키워드 추출")
@@ -173,7 +174,7 @@ public class PbJournalController {
 
 		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
 	}
-
+**/
 	@GetMapping("{journal_id}/scripts")
 	@Tag(name = "저장된 script 가져오기", description = "상담일지 작성 화면에서 script 부분")
 	@Operation(summary = "script 가져오기")
