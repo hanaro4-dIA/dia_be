@@ -73,7 +73,18 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "200", description = "검색 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public ResponseEntity<List<ResponseCustomerDTO>> searchCustomer(@RequestParam(name = "name") String name) {
+	public ResponseEntity<List<ResponseCustomerDTO>> searchCustomer(@RequestParam(name = "name") String name, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		List<ResponseCustomerDTO> customers = pbCustomerService.searchCustomer(name);
 		return ResponseEntity.ok(customers);
 	}
@@ -86,7 +97,18 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "200", description = "Customer 정보 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "Customer가 존재하지 않음")
 	})
-	public ResponseEntity<ResponseCustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId) {
+	public ResponseEntity<ResponseCustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		return ResponseEntity.ok(pbCustomerService.getCustomerDetail(customerId));
 		// return ResponseEntity.ok(pbCustomerService.getCustomerDetail(1L));
 	}
@@ -103,7 +125,19 @@ public class PbCustomerController {
 	})
 	public ResponseEntity<ResponseCustomerDTO> updateCustomerMemo(
 		@PathVariable("customerId") Long customerId,
-		@RequestBody RequestCustomerDTO requestDto) {
+		@RequestBody RequestCustomerDTO requestDto,
+		HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		ResponseCustomerDTO updatedCustomer = pbCustomerService.updateCustomerMemo(customerId, requestDto.getMemo());
 		// ResponseCustomerDTO updatedCustomer = pbCustomerService.updateCustomerMemo(1L, requestDto.getMemo());
 		return ResponseEntity.ok(updatedCustomer);
