@@ -34,12 +34,12 @@ public class PbLoginController {
 	}
 
 	@PostMapping("")
-	@Operation(summary = "Customer 리스트 조회", description = "모든 Customer 리스트를 조회합니다.")
+	@Operation(summary = "pb 로그인", description = "PB 로그인")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "로그인 실패")
 	})
-	public ResponseEntity<LoginResponseDTO> booksState(@RequestBody @Valid final LoginForm loginForm, HttpServletRequest request) {
+	public ResponseEntity<LoginResponseDTO> pbLogin(@RequestBody @Valid final LoginForm loginForm, HttpServletRequest request) {
 		Pb pb = pbProfileService.login(loginForm.getId(),loginForm.getPw());
 		LoginDTO loginDTO = new LoginDTO(pb.getLoginId());
 
