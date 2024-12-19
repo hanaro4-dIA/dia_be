@@ -2,6 +2,7 @@ package com.dia.dia_be.controller.pb;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.domain.PbSessionConst;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.pb.notificationDTO.RequestNotificationDTO;
 import com.dia.dia_be.dto.pb.notificationDTO.ResponseNotificationDTO;
 import com.dia.dia_be.service.pb.intf.PbNotificationService;
@@ -22,6 +25,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pb/notifications")
@@ -42,7 +47,18 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "200", description = "쪽지 리스트 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
-	public ResponseEntity<List<ResponseNotificationDTO>> getAllNotifications() {
+	public ResponseEntity<List<ResponseNotificationDTO>> getAllNotifications(HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		return ResponseEntity.ok(pbNotificationService.getAllNotifications());
 	}
 
@@ -60,7 +76,18 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "404", description = "쪽지가 존재하지 않음")
 	})
 	public ResponseEntity<List<ResponseNotificationDTO>> getNotificationsByCustomerIds(
-		@RequestParam(name = "id") List<Long> customerIds) {
+		@RequestParam(name = "id") List<Long> customerIds, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		return ResponseEntity.ok(pbNotificationService.getNotificationsByCustomerIds(customerIds));
 	}
 
@@ -73,7 +100,18 @@ public class PbNotificationController {
 		@ApiResponse(responseCode = "200", description = "쪽지 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "쪽지가 존재하지 않음")
 	})
-	public ResponseEntity<ResponseNotificationDTO> getNotificationById(@PathVariable Long NotificationId) {
+	public ResponseEntity<ResponseNotificationDTO> getNotificationById(@PathVariable Long NotificationId, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		return ResponseEntity.ok(pbNotificationService.getNotificationById(NotificationId));
 	}
 
@@ -93,7 +131,18 @@ public class PbNotificationController {
 	})
 	public ResponseEntity<List<ResponseNotificationDTO>> sendNotifications(
 		@RequestParam List<Long> customerIds,
-		@RequestBody RequestNotificationDTO notificationRequest) {
+		@RequestBody RequestNotificationDTO notificationRequest, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		notificationRequest.setCustomerIds(customerIds);
 		List<ResponseNotificationDTO> sentNotifications = pbNotificationService.sendNotifications(notificationRequest);
 		return ResponseEntity.ok(sentNotifications);
