@@ -19,7 +19,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.dto.vip.profileDTO.LoginResponseDTO;
+import com.dia.dia_be.service.vip.intf.VipLoginService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -48,3 +54,4 @@ public class VipLoginController {
 		return ResponseEntity.ok().body(vipLoginService.signupProcess(requestVipSignUpDTO));
 	}
 	
+}
