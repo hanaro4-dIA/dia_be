@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+// 부활
 public class RequestHashtagDTO {
 	private String name;
 
