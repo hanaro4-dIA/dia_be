@@ -3,9 +3,11 @@ package com.dia.dia_be.controller.vip;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.dto.vip.loginDTO.RequestVipSignUpDTO;
 import com.dia.dia_be.dto.vip.profileDTO.LoginResponseDTO;
 import com.dia.dia_be.service.vip.intf.VipLoginService;
 
@@ -34,5 +36,10 @@ public class VipLoginController {
 	public ResponseEntity<LoginResponseDTO> checkLogin(){
 
 		return ResponseEntity.ok().body(new LoginResponseDTO("this user exists"));
+	}
+
+	@PostMapping("/signup")
+	public ResponseEntity<?> signup(@RequestBody RequestVipSignUpDTO requestVipSignUpDTO){
+		return ResponseEntity.ok().body(vipLoginService.signupProcess(requestVipSignUpDTO));
 	}
 }
