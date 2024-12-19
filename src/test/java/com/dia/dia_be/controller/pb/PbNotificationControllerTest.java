@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.dia.dia_be.domain.PbSessionConst;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.pb.notificationDTO.RequestNotificationDTO;
 import com.dia.dia_be.dto.pb.notificationDTO.ResponseNotificationDTO;
 import com.dia.dia_be.service.pb.intf.PbNotificationService;
@@ -37,6 +40,17 @@ class PbNotificationControllerTest {
 	private ResponseNotificationDTO notificationDTO1;
 	private ResponseNotificationDTO notificationDTO2;
 	private ResponseNotificationDTO notificationDTO3;
+
+
+	MockHttpSession session;
+
+	@BeforeEach
+	void setupSession() {
+		// 세션에 로그인 정보를 추가
+		session = new MockHttpSession();
+		LoginDTO loginDTO = new LoginDTO(1L);
+		session.setAttribute(PbSessionConst.LOGIN_PB, loginDTO);
+	}
 
 	@BeforeEach
 	void setUp() {
@@ -78,7 +92,9 @@ class PbNotificationControllerTest {
 
 		Mockito.when(pbNotificationService.getAllNotifications()).thenReturn(notifications);
 
-		mockMvc.perform(get("/pb/notifications"))
+		// 세션에 로그인 정보 추가
+		mockMvc.perform(get("/pb/notifications")
+				.session(session)) // 세션 추가
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.size()").value(3))
 			.andExpect(jsonPath("$[0].id").value(1L))
@@ -93,8 +109,9 @@ class PbNotificationControllerTest {
 
 		Mockito.when(pbNotificationService.getNotificationsByCustomerIds(anyList())).thenReturn(notifications);
 
+		// 세션에 로그인 정보 추가
 		mockMvc.perform(get("/pb/notifications/search")
-				.param("id", "1", "2"))
+				.param("id", "1", "2").session(session)) // 세션 추가
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.size()").value(2))
 			.andExpect(jsonPath("$[0].customerId").value(1L))
@@ -106,7 +123,8 @@ class PbNotificationControllerTest {
 	void testGetNotificationById() throws Exception {
 		Mockito.when(pbNotificationService.getNotificationById(2L)).thenReturn(notificationDTO2);
 
-		mockMvc.perform(get("/pb/notifications/2"))
+		// 세션에 로그인 정보 추가
+		mockMvc.perform(get("/pb/notifications/2").session(session)) // 세션 추가
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(2L))
 			.andExpect(jsonPath("$.title").value("Test Title 2"));
@@ -119,10 +137,11 @@ class PbNotificationControllerTest {
 
 		Mockito.when(pbNotificationService.sendNotifications(any(RequestNotificationDTO.class))).thenReturn(sentNotifications);
 
+		// 세션에 로그인 정보 추가
 		mockMvc.perform(post("/pb/notifications/send")
 				.param("customerIds", "1", "2", "3")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(notificationDTO1)))
+				.content(objectMapper.writeValueAsString(notificationDTO1)).session(session)) // 세션 추가
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.size()").value(3))
 			.andExpect(jsonPath("$[0].customerId").value(1L))

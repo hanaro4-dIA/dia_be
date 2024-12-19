@@ -1,15 +1,7 @@
 package com.dia.dia_be.controller.pb;
 
 
-import static com.dia.dia_be.exception.PbErrorCode.*;
-
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
-import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
-import com.dia.dia_be.exception.GlobalException;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.dia.dia_be.service.pb.intf.PbProductService;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
@@ -34,6 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pb/journals")
@@ -57,7 +49,18 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "상담 일지 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getJournals() {
+	public ResponseEntity<?> getJournals(HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		try {
 			return ResponseEntity.ok(pbJournalService.getJournals());
 		} catch (Exception e) {
@@ -73,7 +76,18 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "특정 상담 일지 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getJournal(@PathVariable("id") Long id) {
+	public ResponseEntity<?> getJournal(@PathVariable("id") Long id, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		try {
 			return ResponseEntity.ok(pbJournalService.getJournal(id));
 		} catch (Exception e) {
@@ -89,7 +103,18 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "요청 상담 내용 상세 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id) {
+	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		try {
 			return ResponseEntity.ok(pbReserveService.getContent(id));
 		} catch (Exception e) {
@@ -105,8 +130,20 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
-	public void saveJournal(@RequestBody RequestJournalDTO body){
+	public ResponseEntity<Object> saveJournal(@RequestBody RequestJournalDTO body, HttpServletRequest request){
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		pbJournalService.addJournal(body);
+		return null;
 	}
 
 	@PostMapping("/transfer")
@@ -117,8 +154,19 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
-	public void transferJournal(@RequestBody RequestJournalDTO body){
+	public ResponseEntity<Object> transferJournal(@RequestBody RequestJournalDTO body, HttpServletRequest request){
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
 			pbJournalService.addJournalAndChangeStatusComplete(body);
+		return null;
 	}
 
 	@GetMapping("/products")
@@ -129,7 +177,18 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "요청에 실패했습니다.")
 	})
-	public ResponseEntity<?> getProducts(@RequestParam String tag){
+	public ResponseEntity<?> getProducts(@RequestParam String tag, HttpServletRequest request){
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		try{
 			return ResponseEntity.ok(pbProductService.getProducts(tag));
 		} catch (Exception e){
@@ -145,7 +204,18 @@ public class PbJournalController {
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
 	@GetMapping("/{id}/status")
-	public ResponseEntity<?> getTemporarySavedJournal(@PathVariable("id") Long id, @RequestParam boolean complete){
+	public ResponseEntity<?> getTemporarySavedJournal(@PathVariable("id") Long id, @RequestParam boolean complete, HttpServletRequest request){
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		try{
 			return ResponseEntity.ok(pbJournalService.getTemporarySavedJournal(id, complete));
 		}catch (Exception e){
@@ -198,7 +268,18 @@ public class PbJournalController {
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
-	public ResponseEntity<ScriptListResponseDTO> getScripts(@PathVariable("journal_id") Long journal_id){
+	public ResponseEntity<ScriptListResponseDTO> getScripts(@PathVariable("journal_id") Long journal_id, HttpServletRequest request){
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		return ResponseEntity.ok().body(pbJournalService.getScripts(journal_id));
 	}
 }

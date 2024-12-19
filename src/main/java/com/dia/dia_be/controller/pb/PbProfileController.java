@@ -5,6 +5,7 @@ import static com.dia.dia_be.exception.CommonErrorCode.*;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.availabilityDTO.RequestAvailabilityDTO;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.pb.profileDTO.ResponseEditProfileDTO;
 import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
 import com.dia.dia_be.exception.GlobalException;
@@ -28,17 +31,12 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.dia.dia_be.service.pb.intf.PbProfileService;
-import com.dia.dia_be.websocket.PbAvailabilityHandler;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/pb")
 @RestController
@@ -62,10 +60,23 @@ public class PbProfileController {
 		@ApiResponse(responseCode = "404", description = "PB 프로필을 찾을 수 없습니다.")
 	})
 	@GetMapping("/profile")
-	public ResponseProfileDTO getProfile() {
+	public ResponseEntity<ResponseProfileDTO> getProfile(HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		Long pbId = 1L;
-		return pbProfileService.getProfile(pbId);
+		ResponseProfileDTO profile = pbProfileService.getProfile(pbId);
+		return new ResponseEntity<>(profile, HttpStatus.OK);
 	}
+
 
 	@Tag(name = "PB 프로필 업데이트", description = "PB의 프로필 업데이트 API")
 	@Parameters({
@@ -81,7 +92,18 @@ public class PbProfileController {
 	public ResponseEntity<ResponseEditProfileDTO> updateProfile(
 		@RequestParam(required = false) MultipartFile file,
 		@RequestParam(required = false) String introduce,
-		@RequestParam List<String> hashtags) {
+		@RequestParam List<String> hashtags, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 
 		Long pbId = 1L;
 
@@ -107,7 +129,18 @@ public class PbProfileController {
 			content = @Content(mediaType = "application/json",
 				examples = @ExampleObject(name = "updateAvailabilityExample",
 					value = "{ \"pbId\": 1, \"availability\": true }")))
-		@RequestBody RequestAvailabilityDTO availabilityDTO) {
+		@RequestBody RequestAvailabilityDTO availabilityDTO, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		pbAvailabilityHandler.notifyClients(availabilityDTO);
 		return ResponseEntity.ok().body(pbProfileService.updateAvailability(availabilityDTO));
 

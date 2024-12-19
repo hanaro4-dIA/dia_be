@@ -47,6 +47,13 @@ public class PbCustomerControllerTest {
 
 	private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본 URL
 
+	private MockHttpSession createMockSessionWithLoginDTO(long pbId) {
+		MockHttpSession session = new MockHttpSession();
+		session.setAttribute(PbSessionConst.LOGIN_PB, new LoginDTO(pbId));
+		return session;
+	}
+
+
 	@BeforeEach
 	void setUp() {
 		Pb pb1 = Pb.create(
@@ -120,12 +127,8 @@ public class PbCustomerControllerTest {
 	void testGetCustomerListByPbId() throws Exception {
 		long pbId = 1L;
 
-		// 세션에 LoginDTO 설정
-		MockHttpSession session = new MockHttpSession();
-		session.setAttribute(PbSessionConst.LOGIN_PB, new LoginDTO(pbId));
-
 		MvcResult result = mockMvc.perform(get(baseUrl + "/list")
-				.session(session))  // 세션 추가
+				.session(createMockSessionWithLoginDTO(pbId)))  // 세션 추가
 			.andExpect(status().isOk())
 			.andReturn();
 
@@ -141,12 +144,15 @@ public class PbCustomerControllerTest {
 		}
 	}
 
+
 	// GET {{base_url}}/pb/customers/search?name={{customerName}}
 	@Test
 	void testSearchCustomer() throws Exception {
 		String name = "강재준";
+		long pbId = 1L;
 
 		MvcResult result = mockMvc.perform(get(baseUrl + "/search")
+				.session(createMockSessionWithLoginDTO(pbId))  // 세션 추가
 				.param("name", name))
 			.andExpect(status().isOk())
 			.andReturn();
@@ -156,11 +162,15 @@ public class PbCustomerControllerTest {
 		assertThat(responseBody).contains(name);
 	}
 
+
 	// GET {{base_url}}/pb/customers/list/{{customerId}}
 	@Test
 	void testGetCustomerDetail() throws Exception {
 		long customerId = 1L;
-		MvcResult result = mockMvc.perform(get(baseUrl + "/list/" + customerId))
+		long pbId = 1L;
+
+		MvcResult result = mockMvc.perform(get(baseUrl + "/list/" + customerId)
+				.session(createMockSessionWithLoginDTO(pbId)))  // 세션 추가
 			.andExpect(status().isOk())
 			.andReturn();
 
@@ -181,15 +191,18 @@ public class PbCustomerControllerTest {
 		assertThat(customerDTO.getMemo()).isEqualTo("강남구 거주, 안정적 자산 관리 필요.");
 	}
 
+
 	// POST {{base_url}}/pb/customers/{{customerId}}/memo
 	@Test
 	void testUpdateCustomerMemo() throws Exception {
 		long customerId = 1L;
+		long pbId = 1L;
 		String newMemo = "새로운 메모 내용";
 
 		String requestJson = String.format("{\"memo\": \"%s\"}", newMemo);
 
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/" + customerId + "/memo")
+		MvcResult result = mockMvc.perform(post(baseUrl + "/" + customerId + "/memo")
+				.session(createMockSessionWithLoginDTO(pbId))  // 세션 추가
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestJson))
 			.andExpect(status().isOk())
@@ -200,4 +213,5 @@ public class PbCustomerControllerTest {
 
 		assertThat(responseBody).contains(newMemo);
 	}
+
 }
