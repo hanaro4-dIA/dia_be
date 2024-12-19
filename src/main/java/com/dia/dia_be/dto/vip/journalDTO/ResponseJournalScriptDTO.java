@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResponseJournalScriptDTO {
 	private int sequence;
-	private String speaker;
+	private String speacker;
 	private String content;
 
 	public static ResponseJournalScriptDTO from(Script script) {
 		return ResponseJournalScriptDTO.builder()
 			.sequence(script.getScriptSequence())
-			.speaker(script.getSpeaker())
+			.speacker(script.getSpeaker().toString())
 			.content(script.getContent())
 			.build();
 	}

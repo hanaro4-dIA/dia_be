@@ -56,7 +56,7 @@ public class JournalRepositoryTest {
 		System.out.println(journal.getJournalProduct());
 		System.out.println(journal.getContents());
 		journal.getScript().forEach(script -> {
-			System.out.println(script.getScriptSequence() + script.getSpeaker() + script.getContent());
+			System.out.println(script.getScriptSequence() + script.getSpeaker().toString() + script.getContent());
 		});
 		Assertions.assertThat(journal.getConsulting()).isEqualTo(consulting);
 		Assertions.assertThat(journal.isComplete()).isTrue();

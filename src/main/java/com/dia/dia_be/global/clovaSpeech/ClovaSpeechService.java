@@ -7,7 +7,10 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class ClovaSpeechService {
 
     @Value("${naver.clova.speech.credentials.invoke-url}")
@@ -75,7 +78,7 @@ public class ClovaSpeechService {
             if (responseCode == 200) { // 정상 호출
                 br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             } else { // 오류 발생
-                System.out.println("error!!!!!!! responseCode= " + responseCode);
+                log.error("stt failed!");
                 br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             }
 
@@ -87,12 +90,12 @@ public class ClovaSpeechService {
                     response.append(inputLine);
                 }
                 br.close();
-                System.out.println(response.toString());
+                log.info("stt success : "+ response.toString());
             } else {
-                System.out.println("error !!!");
+                log.error("can't get stt!");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            log.error("can't get stt!");
         }
 
         return response != null ? response.toString() : null;
