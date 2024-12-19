@@ -16,17 +16,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.dia.dia_be.dto.vip.loginDTO.RequestVipSignUpDTO;
-import com.dia.dia_be.dto.vip.profileDTO.LoginResponseDTO;
-import com.dia.dia_be.service.vip.intf.VipLoginService;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.dia.dia_be.dto.vip.profileDTO.LoginForm;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,8 +37,8 @@ public class VipLoginController {
 		@ApiResponse(responseCode = "200", description = "회원 존재", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "회원 비존재")
 	})
-	public ResponseEntity<LoginResponseDTO> checkLogin(){
-
+	public ResponseEntity<LoginResponseDTO> checkLogin(@RequestBody LoginForm loginForm){
+		vipLoginService.checkLogin(loginForm);
 		return ResponseEntity.ok().body(new LoginResponseDTO("this user exists"));
 	}
 
