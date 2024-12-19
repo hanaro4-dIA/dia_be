@@ -138,8 +138,10 @@ public class PbProfileController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
+
+		RequestAvailabilityDTO updateAvailability = pbProfileService.updateAvailability(availabilityDTO);
 		pbAvailabilityHandler.notifyClients(availabilityDTO);
-		return ResponseEntity.ok().body(pbProfileService.updateAvailability(availabilityDTO));
+		return ResponseEntity.ok().body(updateAvailability);
 
 	}
 

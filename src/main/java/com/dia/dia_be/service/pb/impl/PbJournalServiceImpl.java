@@ -1,11 +1,18 @@
 package com.dia.dia_be.service.pb.impl;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalProduct;
@@ -18,6 +25,7 @@ import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
+import com.dia.dia_be.dto.pb.keywordDTO.ResponseKeywordDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.global.clovaSpeech.ClovaSpeechService;
@@ -39,7 +47,10 @@ public class PbJournalServiceImpl implements PbJournalService {
 	private final ConsultingRepository consultingRepository;
 	private final ProductRepository productRepository;
 	private final JournalProductRepository journalProductRepository;
-	public PbJournalServiceImpl(JournalRepository journalRepository, ClovaSpeechService clovaSpeechService, ScriptRepository scriptRepository, ConsultingRepository consultingRepository, JournalProductRepository journalProductRepository, ProductRepository productRepository,
+
+	public PbJournalServiceImpl(JournalRepository journalRepository, ClovaSpeechService clovaSpeechService,
+		ScriptRepository scriptRepository, ConsultingRepository consultingRepository,
+		JournalProductRepository journalProductRepository, ProductRepository productRepository,
 		JournalProductRepository journalProductRepository1) {
 		this.journalRepository = journalRepository;
 		this.clovaSpeechService = clovaSpeechService;
@@ -246,8 +257,9 @@ public class PbJournalServiceImpl implements PbJournalService {
 			+ "  \"events\": [],\n"
 			+ "  \"eventTypes\": []\n"
 			+ "}\n";
-		System.out.println("여기"+sttResult);
+		System.out.println("여기" + sttResult);
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
+		List<ResponseKeywordDTO> responseKeywordDTOList = new LinkedList<>();
 		try {
 			// ObjectMapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -266,30 +278,53 @@ public class PbJournalServiceImpl implements PbJournalService {
 					int label = Integer.parseInt(segment.get("speaker").get("label").asText());
 
 					// 새로운 객체 노드 생성
-					System.out.println("here"+label);
-					Script beforeScript = Script.create(journal,sequence++,
-						label == 1 ? Speaker.VIP:Speaker.PB,textEdited);
+					System.out.println("here" + label);
+					Script beforeScript = Script.create(journal, sequence++,
+						label == 1 ? Speaker.VIP : Speaker.PB, textEdited);
 					Script addScript = scriptRepository.save(beforeScript);
 					scriptResponseDTOList.add(ScriptResponseDTO.from(addScript));
 				}
 			}
 
+			//flask서버로 키워드 추출요청
+			RestTemplate restTemplate = new RestTemplate();
+			String flaskUrl = "http://localhost:5000/extract_keywords";
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			Map<String, String> requestBody = new HashMap<>();
+			requestBody.put("text", rootNode.get("text").asText());
+
+			HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+			ResponseEntity<Map> response = restTemplate.postForEntity(flaskUrl, requestEntity, Map.class);
+
+			// 키워드 데이터를 List<Map<String, Object>>로 캐스팅 후 바로 List<ResponseKeywordDTO>로 변환
+			responseKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
+				.get("keywords"))
+				.stream()
+				.map(keywordData -> ResponseKeywordDTO.builder()
+					.id(((Number)keywordData.get("id")).longValue())
+					.content((String)keywordData.get("content"))
+					.title((String)keywordData.get("title"))
+					.build())
+				.collect(Collectors.toList());
+
 			// 최종 결과 출력
-			System.out.println("Result JSON Array:");
-			System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+			//System.out.println("Result JSON Array:");
+			//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList);
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
 	}
 
 	@Override
 	public ScriptListResponseDTO getScripts(Long journalId) {
 		Journal journal = journalRepository.findById(journalId).get();
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
-		for(Script script : journal.getScript()){
+		for (Script script : journal.getScript()) {
 			scriptResponseDTOList.add(ScriptResponseDTO.from(script));
 		}
 		return ScriptListResponseDTO.of(scriptResponseDTOList);
@@ -305,7 +340,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 		List<Product> products = productRepository.findAllById(body.getRecommendedProductsKeys());
 		Journal journal = journalRepository.findById(body.getConsultingId())
 			.orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND));
-		for(Product product : products){
+		for (Product product : products) {
 			JournalProduct journalProduct = JournalProduct.create(product, journal);
 			journalProductRepository.save(journalProduct);
 		}
