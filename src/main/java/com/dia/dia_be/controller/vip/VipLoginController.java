@@ -27,6 +27,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -51,6 +52,12 @@ public class VipLoginController {
 	}
 
 	@PostMapping("/signup")
+	@Tag(name = "VIP 회원 가입")
+	@Operation(summary = "VIP 회원 가입", description = "VIP 회원 가입 API")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "회원 가입 성공", content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "500", description = "회원 가입 실패")
+	})
 	public ResponseEntity<?> signup(@RequestBody RequestVipSignUpDTO requestVipSignUpDTO){
 		return ResponseEntity.ok().body(vipLoginService.signupProcess(requestVipSignUpDTO));
 	}

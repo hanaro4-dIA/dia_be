@@ -1,6 +1,10 @@
 package com.dia.dia_be.dto.vip.loginDTO;
 
+import java.time.LocalDate;
+
+import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Journal;
+import com.dia.dia_be.domain.Pb;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
 import com.dia.dia_be.dto.pb.productDTO.ResponseProductDTO;
 
@@ -22,4 +26,5 @@ public class RequestVipSignUpDTO {
 	private String password;
 	private String tel;
 	private String address;
+
 }
