@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -88,8 +89,16 @@ public class PbProfileController {
 		return ResponseEntity.ok().body(pbProfileService.updateProfile(pbId, introduce, imgUrl, hashtags));
 	}
 
+	@Tag(name = "PB 상담 가능여부 업데이트", description = "PB의 상담 가능 업데이트 API")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "400", description = "요청 본문이 비어 있거나 잘못된 형식입니다.")
+	})
 	@PutMapping("/availability")
 	public ResponseEntity<RequestAvailabilityDTO> updateAvailability(
+		@Parameter(description = "상담 가능 여부를 업데이트하기 위한 요청 데이터", required = true,
+			content = @Content(mediaType = "application/json",
+				examples = @ExampleObject(name = "updateAvailabilityExample",
+					value = "{ \"pbId\": 1, \"availability\": true }")))
 		@RequestBody RequestAvailabilityDTO availabilityDTO) {
 		pbAvailabilityHandler.notifyClients(availabilityDTO);
 		return ResponseEntity.ok().body(pbProfileService.updateAvailability(availabilityDTO));
