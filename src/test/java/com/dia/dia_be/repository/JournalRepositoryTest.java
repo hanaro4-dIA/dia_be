@@ -139,4 +139,13 @@ public class JournalRepositoryTest {
 		Journal journal = journalRepository.findById(id).orElseThrow();
 		Assertions.assertThat(journal.getContents()).isEqualTo(contents);
 	}
+
+	@Test
+	void findByIdAndStatusTest(){
+		Long id = 10L;
+		boolean complete = false;
+		Journal journal = journalRepository.findByIdAndCompleteFalse(id, complete).orElseThrow();
+
+		Assertions.assertThat(journal.isComplete()).isFalse();
+	}
 }

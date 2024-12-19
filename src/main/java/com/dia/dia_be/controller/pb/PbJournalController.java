@@ -55,7 +55,7 @@ public class PbJournalController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
-		@ApiResponse(responseCode = "404", description = "상담 일지 조회에 실패했습니다.")
+		@ApiResponse(responseCode = "500", description = "상담 일지 조회에 실패했습니다.")
 	})
 	public ResponseEntity<?> getJournals() {
 		try {
@@ -71,7 +71,7 @@ public class PbJournalController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
-		@ApiResponse(responseCode = "404", description = "특정 상담 일지 조회에 실패했습니다.")
+		@ApiResponse(responseCode = "500", description = "특정 상담 일지 조회에 실패했습니다.")
 	})
 	public ResponseEntity<?> getJournal(@PathVariable("id") Long id) {
 		try {
@@ -87,7 +87,7 @@ public class PbJournalController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
-		@ApiResponse(responseCode = "404", description = "요청 상담 내용 상세 조회에 실패했습니다.")
+		@ApiResponse(responseCode = "500", description = "요청 상담 내용 상세 조회에 실패했습니다.")
 	})
 	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id) {
 		try {
@@ -127,7 +127,7 @@ public class PbJournalController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
-		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+		@ApiResponse(responseCode = "500", description = "요청에 실패했습니다.")
 	})
 	public ResponseEntity<?> getProducts(@RequestParam String tag){
 		try{
@@ -137,6 +137,21 @@ public class PbJournalController {
 		}
 	}
 
+	@Tag(name = "임시 저장 상담 일지 조회", description = "임시 저장 상담 일지 조회 API")
+	@Operation(summary = "임시 저장 상담 일지 조회")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
+	@GetMapping("/{id}/status")
+	public ResponseEntity<?> getTemporarySavedJournal(@PathVariable("id") Long id, @RequestParam boolean complete){
+		try{
+			return ResponseEntity.ok(pbJournalService.getTemporarySavedJournal(id, complete));
+		}catch (Exception e){
+			return ResponseEntity.status(404).body(e.getMessage());
+		}
+	}
 
 
 	//keyword python server 구현 후 연결
@@ -175,7 +190,7 @@ public class PbJournalController {
 		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
 	}
 **/
-	@GetMapping("{journal_id}/scripts")
+	@GetMapping("/{journal_id}/scripts")
 	@Tag(name = "저장된 script 가져오기", description = "상담일지 작성 화면에서 script 부분")
 	@Operation(summary = "script 가져오기")
 	@ApiResponses(value = {

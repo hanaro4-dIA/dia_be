@@ -111,4 +111,17 @@ public class PbJournalControllerTest {
 			.andExpect(jsonPath("$.size()").isNotEmpty())
 			.andDo(print());
 	}
+
+	@Test
+	@DisplayName("임시 저장된 상담 일지 불러오기 테스트")
+	void getTemporarySavedJournalTest() throws Exception {
+		long id = 10L;
+		boolean complete = false;
+		String url = "/pb/journals/" + id + "/status?complete=" + complete;
+
+		mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.size()").isNotEmpty())
+			.andDo(print());
+	}
 }
