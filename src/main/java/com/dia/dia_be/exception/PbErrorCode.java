@@ -21,6 +21,7 @@ public enum PbErrorCode implements ErrorCode {
 	INVALID_RESERVE_APPROVAL(HttpStatus.BAD_REQUEST, 400, "상담 예약 승인 요청이 유효하지 않습니다."),
 	INVALID_CUSTOMER_SEARCH(HttpStatus.BAD_REQUEST, 400, "손님 검색 요청이 유효하지 않습니다."),
 	INVALID_JOURNAL_SAVE(HttpStatus.BAD_REQUEST, 400, "상담 일지 저장 요청이 유효하지 않습니다."),
+	PB_AVAILABILITY_REQUEST_DTO_NULL(HttpStatus.BAD_REQUEST, 400, "요청 데이터가 비어 있습니다."),
 
 	// 403
 	ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "PB에게 권한이 없습니다."),
