@@ -23,6 +23,10 @@ public class ResponseHashtagDTO {
 			.build();
 	}
 
+	public static String stringFrom(Hashtag hashtag) {
+		return hashtag.getName();
+	}
+
 	// DTO 객체 생성 - of 메서드
 	public static ResponseHashtagDTO of(String name) {
 		return ResponseHashtagDTO.builder()

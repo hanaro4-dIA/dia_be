@@ -100,11 +100,9 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 		ResponseCustomerDTO dto = new ResponseCustomerDTO();
 		dto.setId(customer.getId());
 		dto.setPbId(customer.getPb().getId());
-		dto.setPassword(customer.getPassword());
 		dto.setDate(customer.getDate());
 		dto.setCount(customer.getCount());
 		dto.setMemo(customer.getMemo());
-		dto.setEmail(customer.getEmail());
 		dto.setName(customer.getName());
 		dto.setTel(customer.getTel());
 		dto.setAddress(customer.getAddress());

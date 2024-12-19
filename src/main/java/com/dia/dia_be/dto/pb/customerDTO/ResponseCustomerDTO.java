@@ -20,8 +20,6 @@ public class ResponseCustomerDTO {
 	private Long id;
 	private Long pbId;
 	private String name;
-	private String email;
-	private String password;
 	private String tel;
 	private String address;
 	private LocalDate date;
@@ -33,8 +31,6 @@ public class ResponseCustomerDTO {
 			.id(customer.getId())
 			.pbId(customer.getPb().getId())
 			.name(customer.getName())
-			.email(customer.getEmail())
-			.password(customer.getPassword())
 			.tel(customer.getTel())
 			.address(customer.getAddress())
 			.date(customer.getDate())

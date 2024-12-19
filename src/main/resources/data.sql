@@ -22,7 +22,7 @@ insert into category(id,name) values (4,'주거/케어');
 insert into category(id,name) values (5,'라이프');
 
 /******************pb*****************************/
-insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,availability) values(1,'Hana241201000','TestPB123*','손흥민','https://image.chosun.com/sitedata/image/201805/26/2018052601896_0.jpg','고객의 꿈과 자산을 함께 설계하는 손흥민 PB 입니다.','하나은행 서압구정 골드클럽','• 하나은행 서압구정 골드클럽 PB (현재)
+insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,availability) values(1,'Hana241201000','TestPB123*','손흥민','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%86%90%ED%9D%A5%EB%AF%BC.jpg','고객의 꿈과 자산을 함께 설계하는 손흥민 PB 입니다.','하나은행 서압구정 골드클럽','• 하나은행 서압구정 골드클럽 PB (현재)
 VIP 고객 자산관리 및 맞춤형 금융 컨설팅 제공
 포트폴리오 설계 및 투자 자문 서비스
 
@@ -33,7 +33,7 @@ VIP 고객 자산관리 및 맞춤형 금융 컨설팅 제공
 • 2015-2019: 하나은행 영업점 자산관리 전문가
 개인 고객 및 중소기업 대상 금융 컨설팅
 연속 최우수 영업점 수상 기여','02-2243-1111','1');
-insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,availability) values(2,'Hana241230111','TestPB123*','안유진','https://m.kebhana.com/cont/event/new/event01/__icsFiles/afieldfile/2023/08/16/1493650_sns.jpg','고객의 가치를 높이는 최상의 자산관리 파트너, 안유진 PB 입니다.','하나은행 롯데월드타워 골드클럽','• 하나은행 롯데월드타워 골드클럽 PB (현재)
+insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,availability) values(2,'Hana241230111','TestPB123*','안유진','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%95%88%EC%9C%A0%EC%A7%84.jpg','고객의 가치를 높이는 최상의 자산관리 파트너, 안유진 PB 입니다.','하나은행 롯데월드타워 골드클럽','• 하나은행 롯데월드타워 골드클럽 PB (현재)
 VIP 고객 대상 맞춤형 금융 및 투자 컨설팅
 글로벌 자산 관리 및 상속/증여 자문
 
@@ -44,7 +44,7 @@ VIP 고객 대상 맞춤형 금융 및 투자 컨설팅
 • 2014-2019: 하나은행 영업점 리테일 PB
 개인 및 법인 고객 금융솔루션 설계
 지역 내 최우수 고객 관리 담당','02-421-1111','1');
-insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,availability) values(3,'Hana241231222','TestPB123*','임영웅','https://yt3.googleusercontent.com/XYOs6XHWO7DycO6XPPvIbomEjljA3lssqXOFDppTqb2CVv4zLhs7gXAyl2Ke7jtghbMCdN7XMVE=s900-c-k-c0x00ffffff-no-rj','고객의 성공적인 자산 증대를 위한 최적의 파트너, 임영웅 PB 입니다.','하나은행 대치동 골드클럽','• 하나은행 대치동 골드클럽 PB (현재)
+insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,availability) values(3,'Hana241231222','TestPB123*','임영웅','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%9E%84%EC%98%81%EC%9B%85.jpg','고객의 성공적인 자산 증대를 위한 최적의 파트너, 임영웅 PB 입니다.','하나은행 대치동 골드클럽','• 하나은행 대치동 골드클럽 PB (현재)
 고액 자산가 맞춤형 투자 자문 및 재무 설계
 부동산, 금융상품 등 종합 자산관리 컨설팅
 
@@ -1025,24 +1025,24 @@ insert into notification(id,customer_id,title,content,date,is_read) values(31,'1
 임영웅 PB 드림','2024.09.16','0');
 
 /*****************product**********************/
-insert into product(id,name,product_url,image_url) values(1,'3·6·9 정기예금','https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1419598_115126.jsp','https://ibb.co/qRqw1D4');
-insert into product(id,name,product_url,image_url) values(2,'행복knowhow 연금예금','https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1419664_115126.jsp','https://ibb.co/qRqw1D4');
-insert into product(id,name,product_url,image_url) values(3,'고단위 플러스(금리연동형)','https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1419601_115126.jsp','https://ibb.co/qRqw1D4');
-insert into product(id,name,product_url,image_url) values(4,'주택신보 전세자금대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080201/1420277_115194.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(5,'신혼부부전세론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080201/1448536_115194.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(6,'하나 청년전세론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080201/1462744_115194.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(7,'하나원큐 아파트론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080202/1473277_115196.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(8,'1Q 오토론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080202/1420315_115196.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(9,'예금담보대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080202/1420298_115196.jsp','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(10,'닥터클럽대출 - 골드','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420244_115200.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(11,'로이어클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420246_115200.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(12,'전문직 클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420245_115200.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(13,'하나 수의사클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420247_115200.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(14,'의료인 클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1448414_115200.jsp?_menuNo=98786','https://ibb.co/M7g5xpD');
-insert into product(id,name,product_url,image_url) values(15,'교보생명_교보하이브리드연금보험Plus[B](무배당,적립형)','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080304/1503943_136203.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
-insert into product(id,name,product_url,image_url) values(16,'모바일_KDB생명_(무)하이브리드연금저축보험','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080305/1504570_136204.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
-insert into product(id,name,product_url,image_url) values(17,'iM라이프_iM 플러스변액연금보험 무배당 2410','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080306/1503948_136205.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
-insert into product(id,name,product_url,image_url) values(18,'BNP파리바카디프생명_(무)플러스자산관리저축보험Ⅳ','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080307/1503937_136206.jsp?_menuNo=99073','https://ibb.co/Js7fQrG');
+insert into product(id,name,product_url,image_url) values(1,'3·6·9 정기예금','https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1419598_115126.jsp','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%98%88%EA%B8%88%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(2,'행복knowhow 연금예금','https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1419664_115126.jsp','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%98%88%EA%B8%88%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(3,'고단위 플러스(금리연동형)','https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1419601_115126.jsp','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%98%88%EA%B8%88%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(4,'주택신보 전세자금대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080201/1420277_115194.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(5,'신혼부부전세론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080201/1448536_115194.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(6,'하나 청년전세론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080201/1462744_115194.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(7,'하나원큐 아파트론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080202/1473277_115196.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(8,'1Q 오토론','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080202/1420315_115196.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(9,'예금담보대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080202/1420298_115196.jsp','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(10,'닥터클럽대출 - 골드','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420244_115200.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(11,'로이어클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420246_115200.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(12,'전문직 클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420245_115200.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(13,'하나 수의사클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1420247_115200.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(14,'의료인 클럽대출','https://www.kebhana.com/cont/mall/mall08/mall0802/mall080204/1448414_115200.jsp?_menuNo=98786','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%8C%80%EC%B6%9C%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(15,'교보생명_교보하이브리드연금보험Plus[B](무배당,적립형)','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080304/1503943_136203.jsp?_menuNo=99073','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%B3%B4%ED%97%98%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(16,'모바일_KDB생명_(무)하이브리드연금저축보험','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080305/1504570_136204.jsp?_menuNo=99073','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%B3%B4%ED%97%98%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(17,'iM라이프_iM 플러스변액연금보험 무배당 2410','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080306/1503948_136205.jsp?_menuNo=99073','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%B3%B4%ED%97%98%EC%83%81%ED%92%88.jpg');
+insert into product(id,name,product_url,image_url) values(18,'BNP파리바카디프생명_(무)플러스자산관리저축보험Ⅳ','https://www.kebhana.com/cont/mall/mall08/mall0803/mall080307/1503937_136206.jsp?_menuNo=99073','https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EB%B3%B4%ED%97%98%EC%83%81%ED%92%88.jpg');
 
 /******************consulting*****************/
 insert into consulting(id,customer_id,category_id,title,content,hope_date,hope_time,reserve_date,reserve_time,approve) values(1,'1','3','비상계엄령에 따른 포트폴리오 재구성에 대한 상담 요청','최근 한국 내 비상계엄령으로 인해 주식시장의 변동성이 극도로 심화되며, 기존 투자 포트폴리오의 손실 규모가 확대되었습니다. 어떻게하면 좋은 포트폴리오를 가질 수 있을까요.','2024.01.02','15:00','2024.01.02','15:00:10','1');
