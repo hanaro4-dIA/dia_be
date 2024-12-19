@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 
@@ -17,6 +18,7 @@ public interface PbJournalService {
 
 	public void addJournalAndChangeStatusComplete(RequestJournalDTO body);
 
+	public ResponseTemporarySavedJournalDTO getTemporarySavedJournal(Long id, boolean status);
 
 	ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long journalId, String filePath);
 

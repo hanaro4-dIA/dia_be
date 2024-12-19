@@ -14,6 +14,7 @@ import com.dia.dia_be.domain.Script;
 import com.dia.dia_be.domain.Speaker;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
@@ -317,4 +318,10 @@ public class PbJournalServiceImpl implements PbJournalService {
 		journalRepository.updateCompleteStatusById(body.getConsultingId());
 	}
 
+	@Override
+	public ResponseTemporarySavedJournalDTO getTemporarySavedJournal(Long id, boolean status) {
+		Journal journal = journalRepository.findByIdAndCompleteFalse(id, status)
+			.orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND));
+		return ResponseTemporarySavedJournalDTO.from(journal);
+	}
 }
