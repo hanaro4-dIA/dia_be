@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.dto.vip.loginDTO.RequestVipSignUpDTO;
 import com.dia.dia_be.dto.vip.profileDTO.LoginResponseDTO;
 import com.dia.dia_be.service.vip.intf.VipLoginService;
 
@@ -53,5 +54,4 @@ public class VipLoginController {
 	public ResponseEntity<?> signup(@RequestBody RequestVipSignUpDTO requestVipSignUpDTO){
 		return ResponseEntity.ok().body(vipLoginService.signupProcess(requestVipSignUpDTO));
 	}
-	
 }
