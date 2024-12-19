@@ -1,6 +1,8 @@
 package com.dia.dia_be.controller.pb;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -12,14 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dia.dia_be.domain.Pb;
+import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.customerDTO.ResponseCustomerDTO;
 import com.dia.dia_be.domain.Customer;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.repository.CustomerRepository;
 import com.dia.dia_be.repository.PbRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,9 +120,13 @@ public class PbCustomerControllerTest {
 	void testGetCustomerListByPbId() throws Exception {
 		long pbId = 1L;
 
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/list")
-				.param("pbId", String.valueOf(pbId)))
-			.andExpect(MockMvcResultMatchers.status().isOk())
+		// 세션에 LoginDTO 설정
+		MockHttpSession session = new MockHttpSession();
+		session.setAttribute(PbSessionConst.LOGIN_PB, new LoginDTO(pbId));
+
+		MvcResult result = mockMvc.perform(get(baseUrl + "/list")
+				.session(session))  // 세션 추가
+			.andExpect(status().isOk())
 			.andReturn();
 
 		String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -137,9 +146,9 @@ public class PbCustomerControllerTest {
 	void testSearchCustomer() throws Exception {
 		String name = "강재준";
 
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/search")
+		MvcResult result = mockMvc.perform(get(baseUrl + "/search")
 				.param("name", name))
-			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(status().isOk())
 			.andReturn();
 
 		String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -151,8 +160,8 @@ public class PbCustomerControllerTest {
 	@Test
 	void testGetCustomerDetail() throws Exception {
 		long customerId = 1L;
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/list/" + customerId))
-			.andExpect(MockMvcResultMatchers.status().isOk())
+		MvcResult result = mockMvc.perform(get(baseUrl + "/list/" + customerId))
+			.andExpect(status().isOk())
 			.andReturn();
 
 		String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -183,7 +192,7 @@ public class PbCustomerControllerTest {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(baseUrl + "/" + customerId + "/memo")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestJson))
-			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(status().isOk())
 			.andReturn();
 
 		String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
