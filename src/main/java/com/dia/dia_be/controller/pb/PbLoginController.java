@@ -39,6 +39,7 @@ public class PbLoginController {
 		@ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "로그인 실패")
 	})
+
 	public ResponseEntity<LoginResponseDTO> pbLogin(@RequestBody @Valid final LoginForm loginForm, HttpServletRequest request) {
 		Pb pb = pbProfileService.login(loginForm.getId(),loginForm.getPw());
 		LoginDTO loginDTO = new LoginDTO(pb.getLoginId());
