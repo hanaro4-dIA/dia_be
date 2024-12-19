@@ -1,6 +1,7 @@
 package com.dia.dia_be.service.pb.impl;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -40,6 +41,8 @@ public class PbReserveServiceImpl implements PbReserveService {
 		return consultingRepository.findByApproveTrueAndHopeDateAfter(LocalDate.now())
 			.stream()
 			.map(ResponseReserveDTO::from)
+			.sorted(
+				Comparator.comparing(ResponseReserveDTO::getHopeDate).thenComparing(ResponseReserveDTO::getHopeTime))
 			.toList();
 	}
 
