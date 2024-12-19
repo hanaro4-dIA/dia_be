@@ -17,6 +17,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.dia.dia_be.domain.Pb;
+import com.dia.dia_be.dto.pb.availabilityDTO.RequestAvailabilityDTO;
 import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
 import com.dia.dia_be.repository.PbRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -126,6 +128,51 @@ public class PbProfileControllerTest {
 			.andExpect(status().isOk())              // HTTP 200 OK 기대
 			.andExpect(jsonPath("$.introduce").value("This is my introduction."))
 			.andDo(print());                         // 요청/응답 로그 출력
+	}
+
+	@Test
+	void testUpdateAvailability() throws Exception {
+		// 1. PB 엔티티 생성 및 저장
+		Pb pb = Pb.create(
+			"password123",                        // password
+			"홍길동",                               // name
+			"http://example.com/image.jpg",       // imageUrl
+			"자산 관리 전문가입니다.",                  // introduce
+			"하나은행 강남지점",                       // office
+			"10년 경력",                            // career
+			"honggildong",                         // loginId
+			"010-1234-5678",                       // tel
+			false                                  // availability (초기 상태)
+		);
+
+		// PB 엔티티를 저장
+		pb = pbRepository.save(pb);
+
+		// 2. 테스트에 사용할 데이터
+		Long pbId = pb.getId(); // 저장된 PB의 ID
+		boolean availability = true;
+
+		// RequestAvailabilityDTO 객체 생성
+		RequestAvailabilityDTO requestDTO = RequestAvailabilityDTO.builder()
+			.pbId(pbId)
+			.availability(availability)
+			.build();
+
+		// JSON 형식으로 변환
+		String requestJson = objectMapper.writeValueAsString(requestDTO);
+
+		// 3. MockMvc를 사용한 PUT 요청 실행
+		mockMvc.perform(put("/pb/availability")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson))
+			.andExpect(status().isOk()) // HTTP 200 OK 기대
+			.andExpect(jsonPath("$.pbId").value(pbId))
+			.andExpect(jsonPath("$.availability").value(availability))
+			.andDo(print()); // 요청/응답 로그 출력
+
+		// 4. DB에서 PB 엔티티 다시 조회하여 변경된 상태 확인
+		Pb updatedPb = pbRepository.findById(pbId).orElseThrow();
+		assertThat(updatedPb.isAvailability()).isTrue();
 	}
 
 }

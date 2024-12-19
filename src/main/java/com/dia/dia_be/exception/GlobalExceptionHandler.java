@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -90,6 +91,17 @@ public class GlobalExceptionHandler {
 			CommonErrorCode.INTERNAL_SERVER_ERROR.getMessage()
 		);
 		return ResponseEntity.status(CommonErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus()).body(errorResponse);
+	}
+
+	//요청 본문이 비어 있거나 잘못된 형식일때
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+		ErrorResponse errorResponse = ErrorResponse.of(
+			CommonErrorCode.REQUEST_NULL.getHttpStatus(),
+			CommonErrorCode.REQUEST_NULL.getCode(),
+			CommonErrorCode.REQUEST_NULL.getMessage()
+		);
+		return ResponseEntity.status(CommonErrorCode.REQUEST_NULL.getHttpStatus()).body(errorResponse);
 	}
 
 }
