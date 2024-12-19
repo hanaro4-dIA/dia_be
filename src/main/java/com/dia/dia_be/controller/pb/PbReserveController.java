@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.domain.PbSessionConst;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveByDateDTO;
 import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
@@ -23,6 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pb/reserves")
@@ -45,15 +49,34 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public List<ResponseReserveDTO> getReserves(@RequestParam boolean status,
-		@RequestParam(required = false) String type) {
+	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status,
+		@RequestParam(required = false) String type, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(HttpStatus.FOUND);
+		}
+
+		List<ResponseReserveDTO> reserves;
 		// status가 true이고 type=upcoming인 경우
 		if (status && "upcoming".equalsIgnoreCase(type)) {
-			return pbReserveService.getUpcomingReserves();
+			reserves = pbReserveService.getUpcomingReserves();
+		} else {
+			reserves = pbReserveService.getApprovedReserves(status);
 		}
-		return pbReserveService.getApprovedReserves(status);
 
+		if (reserves.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(reserves, HttpStatus.OK);
 	}
+
 
 	@PutMapping
 	@Tag(name = "들어온 상담 요청 관리", description = "PB의 상담 요청 관리 API")
@@ -67,7 +90,18 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "404", description = "상담 요청을 찾을 수 없음"),
 		@ApiResponse(responseCode = "500", description = "이미 승인된 요청입니다")
 	})
-	public ResponseEntity<String> approveReserves(@RequestParam Long id) {
+	public ResponseEntity<String> approveReserves(@RequestParam Long id, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
 		try {
 			pbReserveService.approveReserve(id);
 			return ResponseEntity.ok("상담 요청이 승인되었습니다.");
@@ -88,8 +122,25 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "500", description = "이미 승인된 요청입니다")
 	})
 	@GetMapping(params = {"date", "pbId"})
-	public List<ResponseReserveByDateDTO> getReservesByDate(@RequestParam LocalDate date,
-		@RequestParam Long pbId) {
-		return pbReserveService.getReservesByDate(date, pbId);
+	public ResponseEntity<List<ResponseReserveByDateDTO>> getReservesByDate(@RequestParam LocalDate date,
+		@RequestParam Long pbId, HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(true);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(HttpStatus.FOUND);
+		}
+
+		List<ResponseReserveByDateDTO> reserves = pbReserveService.getReservesByDate(date, pbId);
+		if (reserves == null || reserves.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 날짜에 맞는 상담 일정이 없으면 404 반환
+		}
+
+		return new ResponseEntity<>(reserves, HttpStatus.OK); // 정상적인 경우 200 OK와 함께 반환
 	}
+
 }
