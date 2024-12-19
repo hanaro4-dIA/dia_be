@@ -14,6 +14,7 @@ public enum VipErrorCode implements ErrorCode {
 	RESERVE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "상담 예약을 찾을 수 없습니다."),
 	JOURNAL_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "상담 내역을 찾을 수 없습니다."),
 	NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "알림을 찾을 수 없습니다."),
+	CUSTOMER_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "VIP를 찾을 수 없습니다."),
 
 	// 400
 	INVALID_RESERVE_REQUEST(HttpStatus.BAD_REQUEST, 400, "상담 예약 요청이 유효하지 않습니다."),

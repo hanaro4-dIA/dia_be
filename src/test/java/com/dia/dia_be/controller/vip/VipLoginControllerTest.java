@@ -14,7 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.dia.dia_be.domain.Customer;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.vip.loginDTO.RequestVipSignUpDTO;
+import com.dia.dia_be.dto.vip.profileDTO.LoginForm;
+import com.dia.dia_be.repository.CustomerRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,6 +32,8 @@ public class VipLoginControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	@Autowired
+	private CustomerRepository customerRepository;
 	@Test()
 	@DisplayName("VIP 회원가입 테스트")
 	void vipSignUpTest() throws Exception {
@@ -46,5 +52,16 @@ public class VipLoginControllerTest {
 			.andExpect(status().isOk())
 			.andDo(print());
 
+	}
+
+	@Test
+	void checkLogin() throws Exception {
+		Customer customer = customerRepository.findAll().get(0);
+		LoginForm loginForm = new LoginForm(customer.getEmail(),customer.getPassword());
+		String url = "/vip/login";
+		String requestBody = objectMapper.writeValueAsString(loginForm);
+		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestBody))
+			.andExpect(status().isOk())
+			.andDo(print());
 	}
 }
