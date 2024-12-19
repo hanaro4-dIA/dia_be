@@ -3,6 +3,7 @@ package com.dia.dia_be.service.vip.impl;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -63,7 +64,10 @@ public class VipJournalServiceImpl implements VipJournalService {
 			);
 			journalsDTO.add(journalDTO);
 		}
-		return journalsDTO;
+		return journalsDTO.stream()
+			.sorted(Comparator.comparing(ResponseSimpleJournalDTO::getDate, Comparator.reverseOrder())
+				.thenComparing(ResponseSimpleJournalDTO::getTime, Comparator.reverseOrder()))
+			.toList();
 	}
 
 	@Override
@@ -91,8 +95,11 @@ public class VipJournalServiceImpl implements VipJournalService {
 	@Override
 	public List<ResponseJournalScriptDTO> getJournalScripts(Long journalId) {
 		return StreamSupport.stream(scriptRepository.findAll(
-			qScript.journal.id.eq(journalId)
-		).spliterator(), false).map(ResponseJournalScriptDTO::from).toList();
+				qScript.journal.id.eq(journalId)
+			).spliterator(), false)
+			.map(ResponseJournalScriptDTO::from)
+			.sorted(Comparator.comparing(ResponseJournalScriptDTO::getSequence))
+			.toList();
 	}
 
 	@Override
