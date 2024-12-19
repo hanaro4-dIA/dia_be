@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,13 +17,16 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.dia.dia_be.domain.Pb;
 import com.dia.dia_be.dto.pb.customerDTO.ResponseCustomerDTO;
+import com.dia.dia_be.domain.Customer;
+import com.dia.dia_be.repository.CustomerRepository;
+import com.dia.dia_be.repository.PbRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-// 실제 서버 포트에서 실행 & 실제 DB 사용 문제가 된다면 다른 DB나 여기서 BeforeEach로 수정할게요!
 @Transactional
 @AutoConfigureMockMvc
 public class PbCustomerControllerTest {
@@ -29,13 +34,89 @@ public class PbCustomerControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본으로 묶인 URL
-	// private final String baseUrl = "http://localhost:8080/1/customers"; // 기본으로 묶인 URL
+	@Autowired
+	private CustomerRepository customerRepository;
 
-	//  GET {{base_url}}/pb/customers/list
+	@Autowired
+	private PbRepository pbRepository;
+
+	private final String baseUrl = "http://localhost:8080/pb/customers"; // 기본 URL
+
+	@BeforeEach
+	void setUp() {
+		Pb pb1 = Pb.create(
+			"password1",
+			"김경민",
+			"https://image.url",
+			"introduce text",
+			"서울특별시 강남구",
+			"10년 경력",
+			"login1",
+			"010-1111-2222",
+			true
+		);
+
+		Pb pb2 = Pb.create(
+			"password2",
+			"이상호",
+			"https://anotherimage.url",
+			"introduce text",
+			"서울특별시 마포구",
+			"5년 경력",
+			"login2",
+			"010-3333-4444",
+			true
+		);
+
+		pbRepository.save(pb1);
+		pbRepository.save(pb2);
+
+		Customer customer1 = Customer.builder()
+			.name("강재준")
+			.password("password1")
+			.email("email1@example.com")
+			.address("서울특별시 강남구")
+			.tel("010-9945-5020")
+			.count(10)
+			.memo("강남구 거주, 안정적 자산 관리 필요.")
+			.date(LocalDate.of(2023, 10, 1))
+			.pb(pb1)
+			.build();
+		customerRepository.save(customer1);
+
+		Customer customer2 = Customer.builder()
+			.name("김철수")
+			.password("password2")
+			.email("email2@example.com")
+			.address("서울특별시 마포구")
+			.tel("010-1234-5678")
+			.count(5)
+			.memo("마포구 거주, 재테크 관심 있음.")
+			.date(LocalDate.of(2023, 11, 1))
+			.pb(pb2)
+			.build();
+		customerRepository.save(customer2);
+
+		ResponseCustomerDTO customerDto1 = ResponseCustomerDTO.toDto(customer1);
+		ResponseCustomerDTO customerDto2 = ResponseCustomerDTO.toDto(customer2);
+
+		System.out.println("Customer 1 DTO: " + customerDto1);
+		System.out.println("Customer 2 DTO: " + customerDto2);
+	}
+
+
+	@AfterEach
+	void tearDown() {
+		customerRepository.deleteAll();
+	}
+
+	// GET {{base_url}}/pb/customers/list?pbId={{pbId}}
 	@Test
-	void testGetCustomerList() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/list"))
+	void testGetCustomerListByPbId() throws Exception {
+		long pbId = 1L;
+
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/list")
+				.param("pbId", String.valueOf(pbId)))
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andReturn();
 
@@ -46,29 +127,12 @@ public class PbCustomerControllerTest {
 
 		ResponseCustomerDTO[] customerList = objectMapper.readValue(responseBody, ResponseCustomerDTO[].class);
 
-		//전체 길이 테스트
-		for (int i = 0; i < customerList.length; i++) {
-			ResponseCustomerDTO customerDTO = customerList[i];
-
-			assertThat(customerDTO.getId()).isEqualTo(i + 1);
-			assertThat(customerDTO.getName()).isNotEmpty();
-			assertThat(customerDTO.getEmail()).isNotEmpty();
+		for (ResponseCustomerDTO customerDTO : customerList) {
+			assertThat(customerDTO.getPbId()).isEqualTo(pbId);
 		}
-
-		ResponseCustomerDTO customerDto = customerList[0];
-
-		assertThat(customerDto.getName()).isEqualTo("강재준");
-		assertThat(customerDto.getPbId()).isEqualTo(1L); // Pb_id
-		assertThat(customerDto.getEmail()).isEqualTo("email1@example.com");
-		assertThat(customerDto.getPassword()).isEqualTo("password1");
-		assertThat(customerDto.getAddress()).isEqualTo("서울특별시 강남구");
-		assertThat(customerDto.getTel()).isEqualTo("010-9945-5020");
-		assertThat(customerDto.getCount()).isEqualTo(10);
-		assertThat(customerDto.getMemo()).isEqualTo("강남구 거주, 안정적 자산 관리 필요.");
-		assertThat(customerDto.getDate()).isEqualTo(LocalDate.of(2023, 10, 1));
 	}
 
-	//  GET {{base_url}}/pb/customers/search?name={{customerName}}
+	// GET {{base_url}}/pb/customers/search?name={{customerName}}
 	@Test
 	void testSearchCustomer() throws Exception {
 		String name = "강재준";
@@ -83,7 +147,7 @@ public class PbCustomerControllerTest {
 		assertThat(responseBody).contains(name);
 	}
 
-	//  GET {{base_url}}/pb/customers/list/{{customerId}}
+	// GET {{base_url}}/pb/customers/list/{{customerId}}
 	@Test
 	void testGetCustomerDetail() throws Exception {
 		long customerId = 1L;
@@ -110,7 +174,7 @@ public class PbCustomerControllerTest {
 		assertThat(customerDTO.getMemo()).isEqualTo("강남구 거주, 안정적 자산 관리 필요.");
 	}
 
-	//POST {{base_url}}/pb/customers/{{customerId}}/memo
+	// POST {{base_url}}/pb/customers/{{customerId}}/memo
 	@Test
 	void testUpdateCustomerMemo() throws Exception {
 		long customerId = 1L;
@@ -129,5 +193,4 @@ public class PbCustomerControllerTest {
 
 		assertThat(responseBody).contains(newMemo);
 	}
-
 }

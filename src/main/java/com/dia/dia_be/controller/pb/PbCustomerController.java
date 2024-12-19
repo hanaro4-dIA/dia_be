@@ -35,15 +35,15 @@ public class PbCustomerController {
 		this.pbCustomerService = pbCustomerService;
 	}
 
-	// GET {{base_url}}/pb/customers/list
+	// GET {{base_url}}/pb/customers/list?pbId={{pbId}}
 	@GetMapping("/list")
-	@Operation(summary = "Customer 리스트 조회", description = "모든 Customer 리스트를 조회합니다.")
+	@Operation(summary = "Customer 리스트 조회", description = "주어진 pbId에 따른 Customer 리스트를 조회합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Customer 리스트 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
-	public ResponseEntity<List<ResponseCustomerDTO>> getCustomerList() {
-		List<ResponseCustomerDTO> customers = pbCustomerService.getCustomerList();
+	public ResponseEntity<List<ResponseCustomerDTO>> getCustomerList(@RequestParam Long pbId) {
+		List<ResponseCustomerDTO> customers = pbCustomerService.getCustomerListByPbId(pbId);
 		return ResponseEntity.ok(customers);
 	}
 
