@@ -8,17 +8,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.dia.dia_be.domain.Pb;
+import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.availabilityDTO.RequestAvailabilityDTO;
+import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
 import com.dia.dia_be.repository.PbRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,10 +40,20 @@ public class PbProfileControllerTest {
 	@Autowired
 	private PbRepository pbRepository;
 
+	MockHttpSession session;
+
+	@BeforeEach
+	void setupSession() {
+		// 세션에 로그인 정보를 추가
+		session = new MockHttpSession();
+		LoginDTO loginDTO = new LoginDTO(1L);
+		session.setAttribute(PbSessionConst.LOGIN_PB, loginDTO);
+	}
+
 	@Test
 	void getProfile() throws Exception {
 
-		MvcResult result = mockMvc.perform(get("/pb/profile"))
+		MvcResult result = mockMvc.perform(get("/pb/profile").session(session)) // 세션 추가
 			.andExpect(status().isOk())
 			.andReturn();
 
@@ -96,7 +110,7 @@ public class PbProfileControllerTest {
 				.with(request -> {                       // PUT 메서드로 전환
 					request.setMethod("PUT");
 					return request;
-				}))
+				}).session(session)) // 세션 추가
 			.andExpect(status().isOk())              // HTTP 200 OK 기대
 			.andExpect(jsonPath("$.introduce").value("This is my introduction."))
 			.andDo(print());                        // 요청/응답 로그 출력
@@ -124,7 +138,7 @@ public class PbProfileControllerTest {
 				.with(request -> {                       // PUT 메서드로 전환
 					request.setMethod("PUT");
 					return request;
-				}))
+				}).session(session)) // 세션 추가
 			.andExpect(status().isOk())              // HTTP 200 OK 기대
 			.andExpect(jsonPath("$.introduce").value("This is my introduction."))
 			.andDo(print());                         // 요청/응답 로그 출력
@@ -164,7 +178,7 @@ public class PbProfileControllerTest {
 		// 3. MockMvc를 사용한 PUT 요청 실행
 		mockMvc.perform(put("/pb/availability")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestJson))
+				.content(requestJson).session(session)) // 세션 추가
 			.andExpect(status().isOk()) // HTTP 200 OK 기대
 			.andExpect(jsonPath("$.pbId").value(pbId))
 			.andExpect(jsonPath("$.availability").value(availability))
