@@ -64,12 +64,10 @@ public class VipJournalServiceImpl implements VipJournalService {
 			);
 			journalsDTO.add(journalDTO);
 		}
-		journalsDTO = journalsDTO.stream()
+		return journalsDTO.stream()
 			.sorted(Comparator.comparing(ResponseSimpleJournalDTO::getDate, Comparator.reverseOrder())
 				.thenComparing(ResponseSimpleJournalDTO::getTime, Comparator.reverseOrder()))
 			.toList();
-		journalsDTO.forEach(System.out::println);
-		return journalsDTO;
 	}
 
 	@Override
