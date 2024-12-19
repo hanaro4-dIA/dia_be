@@ -46,4 +46,9 @@ public class PbProfileServiceImpl implements PbProfileService {
 		Pb updatedPb = pb.update(imgUrl==null?pb.getImageUrl():imgUrl, introduce);
 		return ResponseEditProfileDTO.from(updatedPb);
 	}
+
+	@Override
+	public Pb login(String id, String pw) {
+		return pbRepository.findByLoginIdAndPassword(id,pw).get();
+	}
 }
