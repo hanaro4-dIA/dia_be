@@ -31,7 +31,7 @@ public class VipLoginController {
 		this.vipLoginService = vipLoginService;
 	}
 
-	@GetMapping()
+	@PostMapping()
 	@Operation(summary = "vip 회원 확인", description = "vip login jwt 발급이 가능한지 판단합니다.")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "회원 존재", content = @Content(mediaType = "application/json")),
