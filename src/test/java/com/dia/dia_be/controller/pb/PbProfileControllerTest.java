@@ -57,9 +57,9 @@ public class PbProfileControllerTest {
 		assertThat(actualResponse.isAvailability()).isTrue();
 		assertThat(actualResponse.getIntroduce()).isEqualTo("고객의 꿈과 자산을 함께 설계하는 손흥민 PB 입니다.");
 		assertThat(actualResponse.getImageUrl().isEmpty()).isFalse();
-		assertThat(actualResponse.getHashtagList().get(0).getName()).isEqualTo("자산관리");
-		assertThat(actualResponse.getHashtagList().get(1).getName()).isEqualTo("금융컨설팅");
-		assertThat(actualResponse.getHashtagList().get(2).getName()).isEqualTo("포트폴리오");
+		assertThat(actualResponse.getHashtagList().get(0)).isEqualTo("자산관리");
+		assertThat(actualResponse.getHashtagList().get(1)).isEqualTo("금융컨설팅");
+		assertThat(actualResponse.getHashtagList().get(2)).isEqualTo("포트폴리오");
 
 	}
 

@@ -1,5 +1,6 @@
 package com.dia.dia_be.dto.pb.profileDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class ResponseProfileDTO {
 	private String name;
 	private String office;
 	private boolean availability;
-	private List<ResponseHashtagDTO> HashtagList;
+	private List<String> hashtagList;
 	private String introduce;
 	private String imageUrl;
 
@@ -33,11 +34,11 @@ public class ResponseProfileDTO {
 			.name(pb.getName())
 			.office(pb.getOffice())
 			.availability(pb.isAvailability())
-			.HashtagList(pb.getHashtag() != null
+			.hashtagList(pb.getHashtag() != null
 				? pb.getHashtag().stream()
-				.map(ResponseHashtagDTO::from)
+				.map(ResponseHashtagDTO::stringFrom)
 				.collect(Collectors.toList())
-				: null)
+				: new ArrayList<>())
 			.introduce(pb.getIntroduce())
 			.imageUrl(pb.getImageUrl())
 			.build();
@@ -45,13 +46,13 @@ public class ResponseProfileDTO {
 
 	// DTO 객체 생성 - of 메서드
 	public static ResponseProfileDTO of(Long pbId, String name, String office, boolean availability,
-		List<ResponseHashtagDTO> HashtagList, String introduce, String imageUrl) {
+		List<String> hashtagList, String introduce, String imageUrl) {
 		return ResponseProfileDTO.builder()
 			.pbId(pbId)
 			.name(name)
 			.office(office)
 			.availability(availability)
-			.HashtagList(HashtagList)
+			.hashtagList(hashtagList)
 			.introduce(introduce)
 			.imageUrl(imageUrl)
 			.build();
