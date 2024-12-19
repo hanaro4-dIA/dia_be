@@ -6,6 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class LoginDTO {
-	String pbId;
+	Long pbId;
 
 }

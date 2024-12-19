@@ -41,7 +41,7 @@ public class PbLoginController {
 	})
 	public ResponseEntity<LoginResponseDTO> pbLogin(@RequestBody @Valid final LoginForm loginForm, HttpServletRequest request) {
 		Pb pb = pbProfileService.login(loginForm.getId(),loginForm.getPw());
-		LoginDTO loginDTO = new LoginDTO(pb.getLoginId());
+		LoginDTO loginDTO = new LoginDTO(pb.getId());
 
 		HttpSession session = request.getSession(true);
 		session.setAttribute(PbSessionConst.LOGIN_PB, loginDTO);
