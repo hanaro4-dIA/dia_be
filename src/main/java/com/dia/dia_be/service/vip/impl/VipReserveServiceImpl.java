@@ -2,6 +2,7 @@ package com.dia.dia_be.service.vip.impl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -71,7 +72,10 @@ public class VipReserveServiceImpl implements VipReserveService {
 					qConsulting.customer.id.eq(customerId).and(qConsulting.hopeDate.after(LocalDate.now().minusDays(1))))
 				.spliterator(),
 			false).toList();
-		return reserves.stream().map(ResponseReserveDTO::from).toList();
+		return reserves.stream()
+			.map(ResponseReserveDTO::from)
+			.sorted(Comparator.comparing(ResponseReserveDTO::getDate).thenComparing(ResponseReserveDTO::getTime))
+			.toList();
 	}
 
 	@Override
