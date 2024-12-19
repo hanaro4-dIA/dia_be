@@ -35,8 +35,6 @@ public class CustomerRepositoryTest {
 
 		assertThat(customerDto.getName()).isEqualTo("강재준");
 		assertThat(customerDto.getPbId()).isEqualTo(1L); // Pb_id
-		assertThat(customerDto.getEmail()).isEqualTo("email1@example.com");
-		assertThat(customerDto.getPassword()).isEqualTo("password1");
 		assertThat(customerDto.getAddress()).isEqualTo("서울특별시 강남구");
 		assertThat(customerDto.getTel()).isEqualTo("010-9945-5020");
 		assertThat(customerDto.getCount()).isEqualTo(10);

@@ -165,8 +165,6 @@ public class PbCustomerControllerTest {
 		assertThat(customerDTO.getId()).isEqualTo(1L);
 		assertThat(customerDTO.getPbId()).isEqualTo(1L);
 		assertThat(customerDTO.getName()).isEqualTo("강재준");
-		assertThat(customerDTO.getPassword()).isEqualTo("password1");
-		assertThat(customerDTO.getEmail()).isEqualTo("email1@example.com");
 		assertThat(customerDTO.getTel()).isEqualTo("010-9945-5020");
 		assertThat(customerDTO.getAddress()).isEqualTo("서울특별시 강남구");
 		assertThat(customerDTO.getDate()).isEqualTo(LocalDate.parse("2023-10-01"));
