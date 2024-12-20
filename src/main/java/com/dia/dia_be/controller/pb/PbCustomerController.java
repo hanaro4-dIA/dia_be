@@ -49,7 +49,7 @@ public class PbCustomerController {
 	})
 	public ResponseEntity<List<ResponseCustomerDTO>> getCustomerList( HttpServletRequest request ) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -75,7 +75,7 @@ public class PbCustomerController {
 	})
 	public ResponseEntity<List<ResponseCustomerDTO>> searchCustomer(@RequestParam(name = "name") String name, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -99,7 +99,7 @@ public class PbCustomerController {
 	})
 	public ResponseEntity<ResponseCustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -128,7 +128,7 @@ public class PbCustomerController {
 		@RequestBody RequestCustomerDTO requestDto,
 		HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}

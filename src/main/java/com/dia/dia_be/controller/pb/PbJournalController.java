@@ -51,7 +51,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<?> getJournals(HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -78,7 +78,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<?> getJournal(@PathVariable("id") Long id, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -105,7 +105,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -132,7 +132,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<Object> saveJournal(@RequestBody RequestJournalDTO body, HttpServletRequest request){
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -156,7 +156,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<Object> transferJournal(@RequestBody RequestJournalDTO body, HttpServletRequest request){
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -179,7 +179,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<?> getProducts(@RequestParam String tag, HttpServletRequest request){
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -206,7 +206,7 @@ public class PbJournalController {
 	@GetMapping("/{id}/status")
 	public ResponseEntity<?> getTemporarySavedJournal(@PathVariable("id") Long id, @RequestParam boolean complete, HttpServletRequest request){
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -270,7 +270,7 @@ public class PbJournalController {
 	})
 	public ResponseEntity<ScriptListResponseDTO> getScripts(@PathVariable("journal_id") Long journal_id, HttpServletRequest request){
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
