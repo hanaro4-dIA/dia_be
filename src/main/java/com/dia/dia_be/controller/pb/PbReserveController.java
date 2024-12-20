@@ -52,7 +52,7 @@ public class PbReserveController {
 	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status,
 		@RequestParam(required = false) String type, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
@@ -92,7 +92,7 @@ public class PbReserveController {
 	})
 	public ResponseEntity<String> approveReserves(@RequestParam Long id, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -125,7 +125,7 @@ public class PbReserveController {
 	public ResponseEntity<List<ResponseReserveByDateDTO>> getReservesByDate(@RequestParam LocalDate date,
 		@RequestParam Long pbId, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}

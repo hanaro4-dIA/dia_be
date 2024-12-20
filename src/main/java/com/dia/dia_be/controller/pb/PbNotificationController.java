@@ -49,7 +49,7 @@ public class PbNotificationController {
 	})
 	public ResponseEntity<List<ResponseNotificationDTO>> getAllNotifications(HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -78,7 +78,7 @@ public class PbNotificationController {
 	public ResponseEntity<List<ResponseNotificationDTO>> getNotificationsByCustomerIds(
 		@RequestParam(name = "id") List<Long> customerIds, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -102,7 +102,7 @@ public class PbNotificationController {
 	})
 	public ResponseEntity<ResponseNotificationDTO> getNotificationById(@PathVariable Long NotificationId, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -133,7 +133,7 @@ public class PbNotificationController {
 		@RequestParam List<Long> customerIds,
 		@RequestBody RequestNotificationDTO notificationRequest, HttpServletRequest request) {
 		// 세션 확인 코드 추가
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
