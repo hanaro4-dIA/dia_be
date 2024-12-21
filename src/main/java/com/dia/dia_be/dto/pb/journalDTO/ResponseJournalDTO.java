@@ -30,7 +30,7 @@ public class ResponseJournalDTO {
 
 	public static ResponseJournalDTO from(Journal journal) {
 		List<Product> journalProducts = journal.getJournalProduct().stream()
-			.map(journalProduct -> new Product(
+			.map(journalProduct -> Product.create (
 				journalProduct.getProduct().getName(),
 				journalProduct.getProduct().getProduct_url(),
 				journalProduct.getProduct().getImage_url()))
