@@ -1,6 +1,7 @@
 package com.dia.dia_be.controller.pb;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -62,12 +63,16 @@ public class PbReserveController {
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
 
-		List<ResponseReserveDTO> reserves;
+
+		List<ResponseReserveDTO> reserves = new ArrayList<>();
+
 		// status가 true이고 type=upcoming인 경우
 		if (status && "upcoming".equalsIgnoreCase(type)) {
 			reserves = pbReserveService.getUpcomingReserves();
-		} else {
+		} else if (status){
 			reserves = pbReserveService.getApprovedReserves(status);
+		} else if (customerId != null){
+			reserves = pbReserveService.getUpcommingReservesWithCustomerId(customerId);
 		}
 
 		if (reserves.isEmpty()) {

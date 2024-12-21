@@ -18,4 +18,6 @@ public interface PbReserveService {
 
 	public List<ResponseReserveDTO> getUpcomingReserves();
 
+	public List<ResponseReserveDTO> getUpcommingReservesWithCustomerId(Long customerId);
+
 }
