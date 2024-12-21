@@ -26,4 +26,6 @@ public interface ConsultingRepository extends JpaRepository<Consulting, Long>, Q
 
 	public List<Consulting> findByApproveTrueAndHopeDateAfter(LocalDate currentDate);
 
+	public List<Consulting> findByApproveTrueAndHopeDateAfterAndCustomer_Id(LocalDate currentDate, Long customer_id);
+
 }

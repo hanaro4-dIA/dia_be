@@ -23,6 +23,7 @@ public class ResponseReserveDTO {
 	private LocalTime reserveTime;
 	private boolean approve;
 	private Long categoryId;
+	private Long customerId;
 	private String customerName;
 
 	public static ResponseReserveDTO from(Consulting consulting) {
@@ -35,6 +36,7 @@ public class ResponseReserveDTO {
 			.reserveTime(consulting.getReserveTime())
 			.approve(consulting.isApprove())
 			.categoryId(consulting.getCategory().getId())
+			.customerId(consulting.getCustomer().getId())
 			.customerName(consulting.getCustomer().getName())
 			.build();
 	}

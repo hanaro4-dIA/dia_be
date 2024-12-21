@@ -1,6 +1,7 @@
 package com.dia.dia_be.controller.pb;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
 	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status,
-		@RequestParam(required = false) String type, HttpServletRequest request) {
+		@RequestParam(required = false) String type, @RequestParam(required = false) Long customerId, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -62,12 +63,16 @@ public class PbReserveController {
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
 
-		List<ResponseReserveDTO> reserves;
+
+		List<ResponseReserveDTO> reserves = new ArrayList<>();
+
 		// status가 true이고 type=upcoming인 경우
 		if (status && "upcoming".equalsIgnoreCase(type)) {
 			reserves = pbReserveService.getUpcomingReserves();
-		} else {
+		} else if (status){
 			reserves = pbReserveService.getApprovedReserves(status);
+		} else if (customerId != null){
+			reserves = pbReserveService.getUpcommingReservesWithCustomerId(customerId);
 		}
 
 		if (reserves.isEmpty()) {
@@ -142,5 +147,4 @@ public class PbReserveController {
 
 		return new ResponseEntity<>(reserves, HttpStatus.OK); // 정상적인 경우 200 OK와 함께 반환
 	}
-
 }
