@@ -1,5 +1,7 @@
 package com.dia.dia_be.controller.pb;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -165,6 +167,7 @@ public class PbReserveControllerTest {
 	void testGetPbApprovedAndUpcomingReservesList() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=true&type=upcoming").session(session)) // 세션 추가
 			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andDo(print())
 			.andReturn();
 
 		String responseBody = result.getResponse().getContentAsString();
@@ -237,7 +240,7 @@ public class PbReserveControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get(baseUrl)
 				.param("date", date.toString())
 				.param("pbId", pbId.toString()).session(session)) // 세션 추가
-			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingId").value(consulting2.getId()))
