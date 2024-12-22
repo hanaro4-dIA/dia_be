@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -17,6 +20,11 @@ import jakarta.servlet.http.HttpSession;
 public class PbLogoutController {
 
 	@PostMapping()
+	@Operation(summary = "PB 로그아웃", description = "PB 사용자가 로그아웃합니다.")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+		@ApiResponse(responseCode = "400", description = "세션 없음 또는 로그인되지 않음")
+	})
 	public ResponseEntity<String> logout(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
