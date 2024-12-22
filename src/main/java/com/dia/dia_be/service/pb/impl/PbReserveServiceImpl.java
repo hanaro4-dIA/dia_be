@@ -47,16 +47,6 @@ public class PbReserveServiceImpl implements PbReserveService {
 	}
 
 	@Override
-	public List<ResponseReserveDTO> getUpcommingReservesWithCustomerId(Long customerId) {
-		return consultingRepository.findByApproveTrueAndHopeDateAfterAndCustomer_Id(LocalDate.now(),customerId)
-			.stream()
-			.map(ResponseReserveDTO::from)
-			.sorted(
-				Comparator.comparing(ResponseReserveDTO::getHopeDate).thenComparing(ResponseReserveDTO::getHopeTime))
-			.toList();
-	}
-
-	@Override
 	public void approveReserve(Long id) {
 		// 해당 ID와 일치하는 상담 요청이 존재하지 않음
 		Consulting consulting = consultingRepository.findById(id)

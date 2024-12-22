@@ -51,7 +51,7 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
 	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status,
-		@RequestParam(required = false) String type, @RequestParam(required = false) Long customerId, HttpServletRequest request) {
+		@RequestParam(required = false) String type, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -64,15 +64,13 @@ public class PbReserveController {
 		}
 
 
-		List<ResponseReserveDTO> reserves = new ArrayList<>();
+		List<ResponseReserveDTO> reserves;
 
 		// status가 true이고 type=upcoming인 경우
 		if (status && "upcoming".equalsIgnoreCase(type)) {
 			reserves = pbReserveService.getUpcomingReserves();
-		} else if (status){
+		} else {
 			reserves = pbReserveService.getApprovedReserves(status);
-		} else if (customerId != null){
-			reserves = pbReserveService.getUpcommingReservesWithCustomerId(customerId);
 		}
 
 		if (reserves.isEmpty()) {
