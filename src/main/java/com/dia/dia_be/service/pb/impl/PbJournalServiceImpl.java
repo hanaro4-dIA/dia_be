@@ -305,6 +305,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 				.map(keywordData -> ResponseFlaskKeywordDTO.builder()
 					.id(((Number)keywordData.get("id")).longValue())
 					.title((String)keywordData.get("title"))
+					.content((String)keywordData.get("content"))
 					.build())
 				.collect(Collectors.toList());
 
