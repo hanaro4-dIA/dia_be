@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
 import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
@@ -249,6 +252,16 @@ public class PbJournalController {
 	public ResponseEntity<ScriptListWithKeywordsResponseDTO> createScriptsAndKeyword(
 		@PathVariable("journal_id") Long journal_id,
 		@RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest req) {
+		// 세션 확인 코드 추가
+		HttpSession session = req.getSession(false);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
 
 		String uploadPath = req.getServletContext().getRealPath("/upload");
 		Path uploadPath_path = Paths.get(uploadPath);
@@ -270,7 +283,31 @@ public class PbJournalController {
 			throw new GlobalException(RECORD_SAVE_FAILED);
 		}
 
-		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
+		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(loginDTO.getPbId(), journal_id, filePath));
+	}
+
+	@PutMapping("{journal_id}/transcripts")
+	@Tag(name = "스크립트 수정 및 키워드 재추출", description = "stt and keyword API")
+	@Operation(summary = "스크립트 수정 및 키워드 재추출")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
+	public ResponseEntity<ScriptListWithKeywordsResponseDTO> editScriptsAndKeyword(
+		@PathVariable("journal_id") Long journal_id,
+		@RequestBody ScriptListRequestDTO scriptListRequestDTO,HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(false);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+		return ResponseEntity.ok().body(pbJournalService.editScriptsAndKeyword(loginDTO.getPbId(),journal_id, scriptListRequestDTO));
 	}
 
 	@GetMapping("/{journal_id}/scripts")
