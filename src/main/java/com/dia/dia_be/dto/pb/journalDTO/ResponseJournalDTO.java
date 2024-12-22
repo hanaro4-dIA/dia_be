@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import com.dia.dia_be.domain.Journal;
-import com.dia.dia_be.domain.Product;
 import com.dia.dia_be.dto.pb.productDTO.ResponseProductDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -20,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResponseJournalDTO {
 	private Long id;
+	private Long customerId;
 	private String categoryName;
 	private LocalDate hopeDate;
 	@JsonFormat(pattern = "HH:mm")
@@ -33,6 +33,7 @@ public class ResponseJournalDTO {
 	public static ResponseJournalDTO from(Journal journal) {
 		return ResponseJournalDTO.builder()
 			.id(journal.getId())
+			.customerId(journal.getConsulting().getCustomer().getId())
 			.categoryName(journal.getConsulting().getCategory().getName())
 			.hopeDate(journal.getConsulting().getHopeDate())
 			.hopeTime(journal.getConsulting().getHopeTime())
@@ -40,7 +41,10 @@ public class ResponseJournalDTO {
 			.consultTitle(journal.getConsulting().getTitle())
 			.consultDate(journal.getConsulting().getReserveDate())
 			.contents(journal.getContents())
-			.journalProducts(journal.getJournalProduct().stream().map(journalProduct -> ResponseProductDTO.from(journalProduct.getProduct())).toList())
+			.journalProducts(journal.getJournalProduct()
+				.stream()
+				.map(journalProduct -> ResponseProductDTO.from(journalProduct.getProduct()))
+				.toList())
 			.build();
 	}
 }
