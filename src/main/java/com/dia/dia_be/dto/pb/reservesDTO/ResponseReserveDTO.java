@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class ResponseReserveDTO {
 	private Long id;
 	private String title;
+	private String content;
 	private LocalDate hopeDate;
 	private LocalTime hopeTime;
 	private LocalDate reserveDate;
@@ -30,6 +31,7 @@ public class ResponseReserveDTO {
 		return ResponseReserveDTO.builder()
 			.id(consulting.getId())
 			.title(consulting.getTitle())
+			.content(consulting.getContent())
 			.hopeDate(consulting.getHopeDate())
 			.hopeTime(consulting.getHopeTime())
 			.reserveDate(consulting.getReserveDate())
