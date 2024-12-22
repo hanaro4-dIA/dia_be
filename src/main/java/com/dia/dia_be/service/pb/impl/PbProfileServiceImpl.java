@@ -1,7 +1,10 @@
 package com.dia.dia_be.service.pb.impl;
 
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -40,13 +43,32 @@ public class PbProfileServiceImpl implements PbProfileService {
 		Pb pb = pbRepository.findById(pbId)
 			.orElseThrow(() -> new GlobalException(PbErrorCode.PROFILE_NOT_FOUND));
 
-		List<Hashtag> hashtagList = new LinkedList<>();
-		for (String h : hashtags) {
-			Hashtag hashtag = Hashtag.create(pb, h);
-			Hashtag savedHashtag = hashtagRepository.save(hashtag);
-			hashtagList.add(savedHashtag);
+		List<Hashtag> existingHashtags = hashtagRepository.findAllByPb(pb);
+
+		Map<String, Hashtag> existingHashtagMap = new HashMap<>();
+		for (Hashtag tag : existingHashtags) {
+			existingHashtagMap.put(tag.getName(), tag);
+		}
+
+		Set<String> newHashtagSet = new HashSet<>(hashtags);
+
+		for (Map.Entry<String, Hashtag> entry : existingHashtagMap.entrySet()) {
+			String oldName = entry.getKey();
+			if (!newHashtagSet.contains(oldName)) {
+				//기존 해시태그이므로 삭제
+				hashtagRepository.delete(entry.getValue());
+			}
+		}
+
+		for (String newName : newHashtagSet) {
+			if (!existingHashtagMap.containsKey(newName)) {
+				//기존에 없던 해시태그 추가
+				Hashtag newHashtag = Hashtag.create(pb, newName);
+				hashtagRepository.save(newHashtag);
+			}
 		}
 		Pb updatedPb = pb.update(imgUrl == null ? pb.getImageUrl() : imgUrl, introduce);
+		pbRepository.save(pb); // 변경 사항 저장
 		return ResponseEditProfileDTO.from(updatedPb);
 	}
 

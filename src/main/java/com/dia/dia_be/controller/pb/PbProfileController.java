@@ -31,7 +31,6 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -67,7 +66,7 @@ public class PbProfileController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO = (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -76,7 +75,6 @@ public class PbProfileController {
 		ResponseProfileDTO profile = pbProfileService.getProfile(pbId);
 		return new ResponseEntity<>(profile, HttpStatus.OK);
 	}
-
 
 	@Tag(name = "PB 프로필 업데이트", description = "PB의 프로필 업데이트 API")
 	@Parameters({
@@ -99,11 +97,10 @@ public class PbProfileController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
-
 
 		Long pbId = 1L;
 
@@ -136,7 +133,7 @@ public class PbProfileController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
