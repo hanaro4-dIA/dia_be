@@ -1,9 +1,6 @@
 package com.dia.dia_be.dto.pb.productDTO;
 
-import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.Product;
-import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
-import com.dia.dia_be.dto.pb.profileDTO.RequestProfileDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,13 +16,15 @@ import lombok.Setter;
 public class ResponseProductDTO {
 	private Long id;
 	private String productName;
-	private String url;
+	private String productUrl;
+	private String productImageUrl;
 
 	public static ResponseProductDTO from(Product product) {
 		return ResponseProductDTO.builder()
 			.id(product.getId())
 			.productName(product.getName())
-			.url(product.getProduct_url())
+			.productUrl(product.getProduct_url())
+			.productImageUrl(product.getImage_url())
 			.build();
 	}
 }
