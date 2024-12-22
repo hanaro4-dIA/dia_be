@@ -1,11 +1,18 @@
 package com.dia.dia_be.service.pb.impl;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalProduct;
@@ -18,6 +25,7 @@ import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
+import com.dia.dia_be.dto.pb.keywordDTO.ResponseFlaskKeywordDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.global.clovaSpeech.ClovaSpeechService;
@@ -39,7 +47,10 @@ public class PbJournalServiceImpl implements PbJournalService {
 	private final ConsultingRepository consultingRepository;
 	private final ProductRepository productRepository;
 	private final JournalProductRepository journalProductRepository;
-	public PbJournalServiceImpl(JournalRepository journalRepository, ClovaSpeechService clovaSpeechService, ScriptRepository scriptRepository, ConsultingRepository consultingRepository, JournalProductRepository journalProductRepository, ProductRepository productRepository,
+
+	public PbJournalServiceImpl(JournalRepository journalRepository, ClovaSpeechService clovaSpeechService,
+		ScriptRepository scriptRepository, ConsultingRepository consultingRepository,
+		JournalProductRepository journalProductRepository, ProductRepository productRepository,
 		JournalProductRepository journalProductRepository1) {
 		this.journalRepository = journalRepository;
 		this.clovaSpeechService = clovaSpeechService;
@@ -237,7 +248,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 			+ "      \"textEdited\": \"저도 적당히 해요.\"\n"
 			+ "    }\n"
 			+ "  ],\n"
-			+ "  \"text\": \"내가 아까 말했는 안녕하세요. 저는 유진이라고 합니다. 앞으로 잘 부탁드립니다. 안녕하세요. 저는 민지예요. 혹시 어디에서 오셨어요? 저는 이전에는 디자인 팀에서 일했어요. 이번에 개발 쪽으로 새로 도전하게 됐습니다. 디자인에서 개발로요. 대단하시네요. 맞아요. 멀티 플레이어인가 보다. 우리 팀에는 다양한 분야를 아우르는 분이 많아서 그건 미리 각오해 두시고요. 저도 적당히 해요.\",\n"
+			+ "\"text\": \"최근 금융시장에서는 가용자본 확보가 주요 과제로 떠오르고 있습니다. 특히 금융투자상품을 취급하는 기관들은 가맹점수수료 체계를 재정비하며 안정적인 수익구조를 모색 중입니다. 또한 금융소비자 보호 차원에서 보험계약대출과 같은 상품을 이용하는 고객들에게는 금융소비자보호 실태평가 결과를 투명하게 공개하고 있습니다. 이에 따라 대부업자나 신용카드할인(카드깡) 등 불법·편법 거래를 예방하기 위해 불공정거래 조사를 강화하고, 부실징후기업 대상으로는 더욱 촘촘한 검사매뉴얼을 적용할 방침입니다. 한편, 인터넷전문은행의 등장으로 핀테크 서비스가 활성화되면서, 로보어드바이저나 블록체인 등 신기술을 활용한 간주모집 방식도 점차 늘어날 것으로 전망됩니다.\",\n"
 			+ "  \"confidence\": 0.96199644,\n"
 			+ "  \"speakers\": [\n"
 			+ "    { \"label\": \"1\", \"name\": \"A\", \"edited\": false },\n"
@@ -246,8 +257,9 @@ public class PbJournalServiceImpl implements PbJournalService {
 			+ "  \"events\": [],\n"
 			+ "  \"eventTypes\": []\n"
 			+ "}\n";
-		System.out.println("여기"+sttResult);
+		System.out.println("여기" + sttResult);
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
+		List<ResponseFlaskKeywordDTO> responseFlaskKeywordDTOList = new LinkedList<>();
 		try {
 			// ObjectMapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -266,30 +278,52 @@ public class PbJournalServiceImpl implements PbJournalService {
 					int label = Integer.parseInt(segment.get("speaker").get("label").asText());
 
 					// 새로운 객체 노드 생성
-					System.out.println("here"+label);
-					Script beforeScript = Script.create(journal,sequence++,
-						label == 1 ? Speaker.VIP:Speaker.PB,textEdited);
+					System.out.println("here" + label);
+					Script beforeScript = Script.create(journal, sequence++,
+						label == 1 ? Speaker.VIP : Speaker.PB, textEdited);
 					Script addScript = scriptRepository.save(beforeScript);
 					scriptResponseDTOList.add(ScriptResponseDTO.from(addScript));
 				}
 			}
 
+			//flask서버로 키워드 추출요청
+			RestTemplate restTemplate = new RestTemplate();
+			String flaskUrl = "http://localhost:5000/extract_keywords";
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			Map<String, String> requestBody = new HashMap<>();
+			requestBody.put("text", rootNode.get("text").asText());
+
+			HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+			ResponseEntity<Map> response = restTemplate.postForEntity(flaskUrl, requestEntity, Map.class);
+
+			// 키워드 데이터를 List<Map<String, Object>>로 캐스팅 후 바로 List<ResponseKeywordDTO>로 변환
+			responseFlaskKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
+				.get("responseFlaskKeywordDTOList"))
+				.stream()
+				.map(keywordData -> ResponseFlaskKeywordDTO.builder()
+					.id(((Number)keywordData.get("id")).longValue())
+					.title((String)keywordData.get("title"))
+					.build())
+				.collect(Collectors.toList());
+
 			// 최종 결과 출력
-			System.out.println("Result JSON Array:");
-			System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+			//System.out.println("Result JSON Array:");
+			//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseFlaskKeywordDTOList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList);
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseFlaskKeywordDTOList);
 	}
 
 	@Override
 	public ScriptListResponseDTO getScripts(Long journalId) {
 		Journal journal = journalRepository.findById(journalId).get();
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
-		for(Script script : journal.getScript()){
+		for (Script script : journal.getScript()) {
 			scriptResponseDTOList.add(ScriptResponseDTO.from(script));
 		}
 		return ScriptListResponseDTO.of(scriptResponseDTOList);
@@ -305,7 +339,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 		List<Product> products = productRepository.findAllById(body.getRecommendedProductsKeys());
 		Journal journal = journalRepository.findById(body.getConsultingId())
 			.orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND));
-		for(Product product : products){
+		for (Product product : products) {
 			JournalProduct journalProduct = JournalProduct.create(product, journal);
 			journalProductRepository.save(journalProduct);
 		}
