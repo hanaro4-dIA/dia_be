@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.dto.vip.pbProfileDTO.ResponsePbProfileDTO;
 import com.dia.dia_be.service.vip.intf.VipPbService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,12 +24,8 @@ public class VipPbController {
 
 	@GetMapping
 	@Operation(summary = "PB 프로필 조회", description = "특정 손님의 PB 프로필 정보를 조회합니다.")
-	public ResponseEntity<?> getPbProfile() {
+	public ResponseEntity<ResponsePbProfileDTO> getPbProfile() {
 		final Long customerId = 1L;
-		try {
-			return ResponseEntity.ok(vipPbService.getPbProfile(customerId));
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+		return ResponseEntity.ok(vipPbService.getPbProfile(customerId));
 	}
 }

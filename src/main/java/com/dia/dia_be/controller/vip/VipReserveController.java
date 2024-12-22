@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveInfoDTO;
-import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.vip.intf.VipReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,63 +41,38 @@ public class VipReserveController {
 		@Parameter(name = "title", description = "상담 제목", example = "퇴직연금에 가입하고 싶어요."),
 		@Parameter(name = "content", description = "상담 내용", example = "퇴직이 가까워져옵니다...")
 	})
-	public ResponseEntity<?> addReserve(@RequestBody RequestReserveDTO requestReserveDTO) {
+	public ResponseEntity<Long> addReserve(@RequestBody RequestReserveDTO requestReserveDTO) {
 		final Long customerId = 1L;
-		try {
-			return ResponseEntity.ok(vipReserveService.addReserve(customerId, requestReserveDTO));
-		} catch (GlobalException e) {
-			return ResponseEntity.status(400).body(e.getMessage());
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body(e.getMessage());
-		}
+
+		return ResponseEntity.ok(vipReserveService.addReserve(customerId, requestReserveDTO));
 	}
 
 	@GetMapping("/info")
 	@Operation(summary = "VIP의 예약 전 정보 조회", description = "VIP 이름과 PB 이름을 반환")
-	public ResponseEntity<?> getReserveInfo() {
+	public ResponseEntity<ResponseReserveInfoDTO> getReserveInfo() {
 		final Long customerId = 1L;
-		try {
-			ResponseReserveInfoDTO response = vipReserveService.getInfo(customerId);
-			return ResponseEntity.ok(response);
-		} catch (GlobalException e) {
-			return ResponseEntity.status(400).body(e.getMessage());
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body(e.getMessage());
-		}
+		ResponseReserveInfoDTO response = vipReserveService.getInfo(customerId);
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping
 	@Operation(summary = "예정된 상담 예약 조회", description = "예약된 상담 정보를 반환합니다.")
-	public ResponseEntity<?> getReserves() {
+	public ResponseEntity<List<ResponseReserveDTO>> getReserves() {
 		final Long customerId = 1L;
-		try {
-			List<ResponseReserveDTO> reserves = vipReserveService.getReserves(customerId);
-			return ResponseEntity.ok(reserves);
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body("예약 조회 중 오류 발생: " + e.getMessage());
-		}
+		List<ResponseReserveDTO> reserves = vipReserveService.getReserves(customerId);
+		return ResponseEntity.ok(reserves);
 	}
 
 	@GetMapping("/{id}")
 	@Operation(summary = "특정 상담 예약 조회", description = "예약된 상담 정보 중 하나를 반환합니다.")
-	public ResponseEntity<?> getReserveById(@PathVariable("id") Long consultingId) {
+	public ResponseEntity<ResponseReserveDTO> getReserveById(@PathVariable("id") Long consultingId) {
 		final Long customerId = 1L;
-		try {
-			return ResponseEntity.ok(vipReserveService.getReserveByConsultingId(consultingId));
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body(e.getMessage());
-		}
+		return ResponseEntity.ok(vipReserveService.getReserveByConsultingId(consultingId));
 	}
 
 	@DeleteMapping("/{id}")
 	@Operation(summary = "예약 삭제", description = "예약을 삭제합니다.")
-	public ResponseEntity<?> deleteReserve(@PathVariable("id") Long consultingId) {
-		try {
-			return ResponseEntity.ok(vipReserveService.deleteReserve(consultingId));
-		} catch (GlobalException e) {
-			return ResponseEntity.status(400).body(e.getMessage());
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body(e.getMessage());
-		}
+	public ResponseEntity<Long> deleteReserve(@PathVariable("id") Long consultingId) {
+		return ResponseEntity.ok(vipReserveService.deleteReserve(consultingId));
 	}
 }
