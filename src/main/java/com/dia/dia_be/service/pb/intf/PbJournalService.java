@@ -21,9 +21,9 @@ public interface PbJournalService {
 
 	public ResponseTemporarySavedJournalDTO getTemporarySavedJournal(Long id, boolean status);
 
-	ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long journalId, String filePath);
+	ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long customerId, Long journalId, String filePath);
 
 	ScriptListResponseDTO getScripts(Long journalId);
 
-	ScriptListWithKeywordsResponseDTO editScriptsAndKeyword(Long journalId, ScriptListRequestDTO scriptListRequestDTO);
+	ScriptListWithKeywordsResponseDTO editScriptsAndKeyword(Long customerId, Long journalId, ScriptListRequestDTO scriptListRequestDTO);
 }

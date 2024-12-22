@@ -14,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Journal;
+import com.dia.dia_be.domain.JournalKeyword;
 import com.dia.dia_be.domain.JournalProduct;
+import com.dia.dia_be.domain.Keyword;
 import com.dia.dia_be.domain.Product;
 import com.dia.dia_be.domain.Script;
 import com.dia.dia_be.domain.Speaker;
@@ -32,8 +35,11 @@ import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.global.clovaSpeech.ClovaSpeechService;
 import com.dia.dia_be.repository.ConsultingRepository;
+import com.dia.dia_be.repository.CustomerRepository;
+import com.dia.dia_be.repository.JournalKeywordRepository;
 import com.dia.dia_be.repository.JournalProductRepository;
 import com.dia.dia_be.repository.JournalRepository;
+import com.dia.dia_be.repository.KeywordRepository;
 import com.dia.dia_be.repository.ProductRepository;
 import com.dia.dia_be.repository.ScriptRepository;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
@@ -49,17 +55,25 @@ public class PbJournalServiceImpl implements PbJournalService {
 	private final ConsultingRepository consultingRepository;
 	private final ProductRepository productRepository;
 	private final JournalProductRepository journalProductRepository;
+	private final CustomerRepository customerRepository;
+	private final JournalKeywordRepository journalKeywordRepository;
+	private final KeywordRepository keywordRepository;
 
 	public PbJournalServiceImpl(JournalRepository journalRepository, ClovaSpeechService clovaSpeechService,
 		ScriptRepository scriptRepository, ConsultingRepository consultingRepository,
 		JournalProductRepository journalProductRepository, ProductRepository productRepository,
-		JournalProductRepository journalProductRepository1) {
+		CustomerRepository customerRepository,
+		JournalKeywordRepository journalKeywordRepository,
+		KeywordRepository keywordRepository) {
 		this.journalRepository = journalRepository;
 		this.clovaSpeechService = clovaSpeechService;
 		this.scriptRepository = scriptRepository;
 		this.consultingRepository = consultingRepository;
 		this.productRepository = productRepository;
-		this.journalProductRepository = journalProductRepository1;
+		this.journalProductRepository = journalProductRepository;
+		this.customerRepository = customerRepository;
+		this.journalKeywordRepository = journalKeywordRepository;
+		this.keywordRepository = keywordRepository;
 	}
 
 	@Override
@@ -76,7 +90,8 @@ public class PbJournalServiceImpl implements PbJournalService {
 
 	//테스트 코드 제거 및 python 서버 연결하여 키워드 추출해서 dto에 삽입 필요
 	@Override
-	public ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long journalId, String filePath) {
+	public ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long customerId, Long journalId, String filePath) {
+		Customer customer = customerRepository.findById(customerId).get();
 		Journal journal = journalRepository.findById(journalId).get();
 		// String sttResult = clovaSpeechService.stt(filePath);
 		String sttResult = "{\n"
@@ -312,6 +327,13 @@ public class PbJournalServiceImpl implements PbJournalService {
 			// 최종 결과 출력
 			//System.out.println("Result JSON Array:");
 			//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+
+			for(ResponseKeywordDTO responseKeywordDTO :responseKeywordDTOList){
+				Keyword keyword = keywordRepository.findById(responseKeywordDTO.getId()).get();
+				JournalKeyword beforeJournalKeyword = JournalKeyword.create(keyword,journal,customer);
+				journalKeywordRepository.save(beforeJournalKeyword);
+			}
+
 			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
 
 		} catch (Exception e) {
@@ -331,22 +353,65 @@ public class PbJournalServiceImpl implements PbJournalService {
 	}
 
 	@Override
-	public ScriptListWithKeywordsResponseDTO editScriptsAndKeyword(Long journalId,
+	public ScriptListWithKeywordsResponseDTO editScriptsAndKeyword(Long customerId, Long journalId,
 		ScriptListRequestDTO scriptListRequestDTO) {
+		Customer customer = customerRepository.findById(customerId).get();
 		Journal journal = journalRepository.findById(journalId).get();
+
+		//이미 있는 데이터값 다 지우기
+		for(JournalKeyword journalKeyword : journal.getJournalKeyword()){
+			customer.getJournalKeyword().remove(journalKeyword);
+		}
 		journal.getScript().clear();
+		journal.getJournalKeyword().clear();
+
+		//새로 만들어 넣기
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
-		List<ResponseFlaskKeywordDTO> responseFlaskKeywordDTOList = new LinkedList<>();
+		List<ResponseKeywordDTO> responseKeywordDTOList;
+		StringBuilder text = new StringBuilder();
 
 		for(ScriptRequestDTO scriptRequestDTO : scriptListRequestDTO.getScriptRequestDTOList()){
 			Script beforeScript = Script.create(journal, scriptRequestDTO.getScriptSequence(),
 				Speaker.valueOf(scriptRequestDTO.getSpeaker()), scriptRequestDTO.getContent());
 			Script addScript = scriptRepository.save(beforeScript);
+			text.append(scriptRequestDTO.getContent()).append(" ");
 			scriptResponseDTOList.add(ScriptResponseDTO.from(addScript));
 		}
 
 		//flask 코드 추가
-		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList,responseFlaskKeywordDTOList);
+		//flask서버로 키워드 추출요청
+		RestTemplate restTemplate = new RestTemplate();
+		String flaskUrl = "http://localhost:5000/extract_keywords";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		Map<String, String> requestBody = new HashMap<>();
+		requestBody.put("text", text.toString());
+
+		HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+		ResponseEntity<Map> response = restTemplate.postForEntity(flaskUrl, requestEntity, Map.class);
+
+		// 키워드 데이터를 List<Map<String, Object>>로 캐스팅 후 바로 List<ResponseKeywordDTO>로 변환
+		responseKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
+			.get("responseKeywordDTOList"))
+			.stream()
+			.map(keywordData -> ResponseKeywordDTO.builder()
+				.id(((Number)keywordData.get("id")).longValue())
+				.title((String)keywordData.get("title"))
+				.content((String)keywordData.get("content"))
+				.build())
+			.collect(Collectors.toList());
+
+		// 최종 결과 출력
+		//System.out.println("Result JSON Array:");
+		//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+
+		for(ResponseKeywordDTO responseKeywordDTO :responseKeywordDTOList){
+			Keyword keyword = keywordRepository.findById(responseKeywordDTO.getId()).get();
+			JournalKeyword beforeJournalKeyword = JournalKeyword.create(keyword,journal,customer);
+			journalKeywordRepository.save(beforeJournalKeyword);
+		}
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList,responseKeywordDTOList);
 	}
 
 	@Override

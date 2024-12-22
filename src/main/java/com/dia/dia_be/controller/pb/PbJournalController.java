@@ -252,6 +252,16 @@ public class PbJournalController {
 	public ResponseEntity<ScriptListWithKeywordsResponseDTO> createScriptsAndKeyword(
 		@PathVariable("journal_id") Long journal_id,
 		@RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest req) {
+		// 세션 확인 코드 추가
+		HttpSession session = req.getSession(false);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
 
 		String uploadPath = req.getServletContext().getRealPath("/upload");
 		Path uploadPath_path = Paths.get(uploadPath);
@@ -273,7 +283,7 @@ public class PbJournalController {
 			throw new GlobalException(RECORD_SAVE_FAILED);
 		}
 
-		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
+		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(loginDTO.getPbId(), journal_id, filePath));
 	}
 
 	@PutMapping("{journal_id}/transcripts")
@@ -286,8 +296,18 @@ public class PbJournalController {
 	})
 	public ResponseEntity<ScriptListWithKeywordsResponseDTO> editScriptsAndKeyword(
 		@PathVariable("journal_id") Long journal_id,
-		@RequestBody ScriptListRequestDTO scriptListRequestDTO) {
-		return ResponseEntity.ok().body(pbJournalService.editScriptsAndKeyword(journal_id, scriptListRequestDTO));
+		@RequestBody ScriptListRequestDTO scriptListRequestDTO,HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(false);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
+		return ResponseEntity.ok().body(pbJournalService.editScriptsAndKeyword(loginDTO.getPbId(),journal_id, scriptListRequestDTO));
 	}
 
 	@GetMapping("/{journal_id}/scripts")
