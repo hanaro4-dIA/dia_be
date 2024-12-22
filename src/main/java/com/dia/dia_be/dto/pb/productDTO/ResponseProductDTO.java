@@ -19,11 +19,13 @@ import lombok.Setter;
 public class ResponseProductDTO {
 	private Long id;
 	private String productName;
+	private String url;
 
 	public static ResponseProductDTO from(Product product) {
 		return ResponseProductDTO.builder()
 			.id(product.getId())
 			.productName(product.getName())
+			.url(product.getProduct_url())
 			.build();
 	}
 }
