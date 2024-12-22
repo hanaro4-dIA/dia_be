@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
 import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
@@ -271,6 +274,20 @@ public class PbJournalController {
 		}
 
 		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(journal_id, filePath));
+	}
+
+	@PutMapping("{journal_id}/transcripts")
+	@Tag(name = "스크립트 수정 및 키워드 재추출", description = "stt and keyword API")
+	@Operation(summary = "스크립트 수정 및 키워드 재추출")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
+	public ResponseEntity<ScriptListWithKeywordsResponseDTO> editScriptsAndKeyword(
+		@PathVariable("journal_id") Long journal_id,
+		@RequestBody ScriptListRequestDTO scriptListRequestDTO) {
+		return ResponseEntity.ok().body(pbJournalService.editScriptsAndKeyword(journal_id, scriptListRequestDTO));
 	}
 
 	@GetMapping("/{journal_id}/scripts")

@@ -22,8 +22,10 @@ import com.dia.dia_be.domain.Speaker;
 import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptListRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
+import com.dia.dia_be.dto.pb.journalDTO.ScriptRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
 import com.dia.dia_be.dto.pb.keywordDTO.ResponseKeywordDTO;
 import com.dia.dia_be.exception.GlobalException;
@@ -257,7 +259,6 @@ public class PbJournalServiceImpl implements PbJournalService {
 			+ "  \"events\": [],\n"
 			+ "  \"eventTypes\": []\n"
 			+ "}\n";
-		System.out.println("여기" + sttResult);
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
 		List<ResponseKeywordDTO> responseKeywordDTOList = new LinkedList<>();
 		try {
@@ -278,7 +279,6 @@ public class PbJournalServiceImpl implements PbJournalService {
 					int label = Integer.parseInt(segment.get("speaker").get("label").asText());
 
 					// 새로운 객체 노드 생성
-					System.out.println("here" + label);
 					Script beforeScript = Script.create(journal, sequence++,
 						label == 1 ? Speaker.VIP : Speaker.PB, textEdited);
 					Script addScript = scriptRepository.save(beforeScript);
@@ -328,6 +328,25 @@ public class PbJournalServiceImpl implements PbJournalService {
 			scriptResponseDTOList.add(ScriptResponseDTO.from(script));
 		}
 		return ScriptListResponseDTO.of(scriptResponseDTOList);
+	}
+
+	@Override
+	public ScriptListWithKeywordsResponseDTO editScriptsAndKeyword(Long journalId,
+		ScriptListRequestDTO scriptListRequestDTO) {
+		Journal journal = journalRepository.findById(journalId).get();
+		journal.getScript().clear();
+		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
+		List<ResponseFlaskKeywordDTO> responseFlaskKeywordDTOList = new LinkedList<>();
+
+		for(ScriptRequestDTO scriptRequestDTO : scriptListRequestDTO.getScriptRequestDTOList()){
+			Script beforeScript = Script.create(journal, scriptRequestDTO.getScriptSequence(),
+				Speaker.valueOf(scriptRequestDTO.getSpeaker()), scriptRequestDTO.getContent());
+			Script addScript = scriptRepository.save(beforeScript);
+			scriptResponseDTOList.add(ScriptResponseDTO.from(addScript));
+		}
+
+		//flask 코드 추가
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList,responseFlaskKeywordDTOList);
 	}
 
 	@Override
