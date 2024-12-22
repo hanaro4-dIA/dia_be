@@ -18,6 +18,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dia.dia_be.domain.Pb;
 import com.dia.dia_be.domain.PbSessionConst;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class PbProfileControllerTest {
 
 	@Autowired
