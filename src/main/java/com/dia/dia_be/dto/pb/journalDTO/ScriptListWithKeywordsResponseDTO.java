@@ -2,7 +2,7 @@ package com.dia.dia_be.dto.pb.journalDTO;
 
 import java.util.List;
 
-import com.dia.dia_be.dto.pb.keywordDTO.ResponseFlaskKeywordDTO;
+import com.dia.dia_be.dto.pb.keywordDTO.ResponseKeywordDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ScriptListWithKeywordsResponseDTO {
 	List<ScriptResponseDTO> scriptResponseDTOList;
-	List<ResponseFlaskKeywordDTO> responseFlaskKeywordDTOList;
+	List<ResponseKeywordDTO> responseKeywordDTOList;
 
 	public static ScriptListWithKeywordsResponseDTO of(List<ScriptResponseDTO> scriptResponseDTOList,
-		List<ResponseFlaskKeywordDTO> responseFlaskKeywordDTOList) {
+		List<ResponseKeywordDTO> responseKeywordDTOList) {
 		return ScriptListWithKeywordsResponseDTO.builder()
 			.scriptResponseDTOList(scriptResponseDTOList)
-			.responseFlaskKeywordDTOList(responseFlaskKeywordDTOList)
+			.responseKeywordDTOList(responseKeywordDTOList)
 			.build();
 	}
 }

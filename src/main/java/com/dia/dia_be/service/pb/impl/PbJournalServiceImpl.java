@@ -25,7 +25,7 @@ import com.dia.dia_be.dto.pb.journalDTO.ResponseTemporarySavedJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
-import com.dia.dia_be.dto.pb.keywordDTO.ResponseFlaskKeywordDTO;
+import com.dia.dia_be.dto.pb.keywordDTO.ResponseKeywordDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.global.clovaSpeech.ClovaSpeechService;
@@ -259,7 +259,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 			+ "}\n";
 		System.out.println("여기" + sttResult);
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
-		List<ResponseFlaskKeywordDTO> responseFlaskKeywordDTOList = new LinkedList<>();
+		List<ResponseKeywordDTO> responseKeywordDTOList = new LinkedList<>();
 		try {
 			// ObjectMapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -299,10 +299,10 @@ public class PbJournalServiceImpl implements PbJournalService {
 			ResponseEntity<Map> response = restTemplate.postForEntity(flaskUrl, requestEntity, Map.class);
 
 			// 키워드 데이터를 List<Map<String, Object>>로 캐스팅 후 바로 List<ResponseKeywordDTO>로 변환
-			responseFlaskKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
-				.get("responseFlaskKeywordDTOList"))
+			responseKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
+				.get("responseKeywordDTOList"))
 				.stream()
-				.map(keywordData -> ResponseFlaskKeywordDTO.builder()
+				.map(keywordData -> ResponseKeywordDTO.builder()
 					.id(((Number)keywordData.get("id")).longValue())
 					.title((String)keywordData.get("title"))
 					.content((String)keywordData.get("content"))
@@ -312,12 +312,12 @@ public class PbJournalServiceImpl implements PbJournalService {
 			// 최종 결과 출력
 			//System.out.println("Result JSON Array:");
 			//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
-			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseFlaskKeywordDTOList);
+			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseFlaskKeywordDTOList);
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
 	}
 
 	@Override
