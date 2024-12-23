@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS journal (
                                        id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                        consulting_id INT UNSIGNED COMMENT '상담아이디',
                                        contents TEXT NOT NULL COMMENT '내용',
-                                       complete BOOLEAN NOT NULL COMMENT '전송여부',
+                                       complete BOOLEAN NOT NULL DEFAULT 0 COMMENT '전송여부',
                                        CONSTRAINT fk_journal_consulting UNIQUE (consulting_id),
                                        CONSTRAINT fk_journal_consulting_id FOREIGN KEY (consulting_id) REFERENCES consulting (id)
 ) COMMENT = '상담일지';
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS issue (
                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                      keyword_id INT UNSIGNED NOT NULL COMMENT '키워드아이디',
                                      title VARCHAR(100) NOT NULL COMMENT '제목',
-                                     issue_url VARCHAR(250) NOT NULL COMMENT '이슈URL',
+                                     issue_url VARCHAR(250) NOT NULL UNIQUE COMMENT '이슈URL',
                                      image_url VARCHAR(250) NOT NULL COMMENT '이미지URL',
                                      CONSTRAINT fk_issue_keyword FOREIGN KEY (keyword_id) REFERENCES keyword (id)
 ) COMMENT = '이슈';
