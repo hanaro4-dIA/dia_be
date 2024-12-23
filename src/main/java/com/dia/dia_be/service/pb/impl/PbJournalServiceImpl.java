@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalKeyword;
@@ -434,6 +435,15 @@ public class PbJournalServiceImpl implements PbJournalService {
 	@Transactional
 	public void addJournalAndChangeStatusComplete(RequestJournalDTO body) {
 		addJournal(body);
+		Consulting consulting = consultingRepository.findById(body.getConsultingId()).get();
+		Journal journal = consulting.getJournal();
+		List<JournalProduct> journal_products = journal.getJournalProduct();
+		journal_products.clear();
+		for(Long key : body.getRecommendedProductsKeys()){
+			Product product = productRepository.findById(key).get();
+			JournalProduct journalProduct = JournalProduct.create(product, journal);
+			journalProductRepository.save(journalProduct);
+		}
 		Customer customer = journalRepository.findById(body.getConsultingId()).get().getConsulting().getCustomer();
 		customer.plusCount();
 		customerRepository.save(customer);
