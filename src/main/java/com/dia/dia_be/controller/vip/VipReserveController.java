@@ -15,6 +15,7 @@ import com.dia.dia_be.dto.vip.loginDTO.VipLoginDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
 import com.dia.dia_be.global.session.SessionManager;
 import com.dia.dia_be.service.vip.intf.VipReserveService;
+import com.dia.dia_be.websocket.RequestConsultationHandler;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,9 +31,12 @@ public class VipReserveController {
 
 	private final VipReserveService vipReserveService;
 	private final SessionManager sessionManager;
+	private final RequestConsultationHandler requestConsultationHandler;
 
-	public VipReserveController(VipReserveService vipReserveService, SessionManager sessionManager) {
+
+	public VipReserveController(VipReserveService vipReserveService, SessionManager sessionManager, RequestConsultationHandler requestConsultationHandler) {
 		this.vipReserveService = vipReserveService;
+		this.requestConsultationHandler = requestConsultationHandler;
 		this.sessionManager = sessionManager;
 	}
 
