@@ -36,7 +36,7 @@ public class Journal {
 	@Column(columnDefinition = "TEXT")
 	private String contents;
 
-	@Column(nullable = false, columnDefinition = "TINYINT(1)")
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
 	private boolean complete;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

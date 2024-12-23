@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.dia.dia_be.domain.Consulting;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,9 +20,14 @@ public class ResponseReserveDTO {
 	private Long id;
 	private String title;
 	private String content;
+
 	private LocalDate hopeDate;
+
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime hopeTime;
 	private LocalDate reserveDate;
+
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime reserveTime;
 	private boolean approve;
 	private Long categoryId;

@@ -434,6 +434,9 @@ public class PbJournalServiceImpl implements PbJournalService {
 	@Transactional
 	public void addJournalAndChangeStatusComplete(RequestJournalDTO body) {
 		addJournal(body);
+		Customer customer = journalRepository.findById(body.getConsultingId()).get().getConsulting().getCustomer();
+		customer.plusCount();
+		customerRepository.save(customer);
 		journalRepository.updateCompleteStatusById(body.getConsultingId());
 	}
 
