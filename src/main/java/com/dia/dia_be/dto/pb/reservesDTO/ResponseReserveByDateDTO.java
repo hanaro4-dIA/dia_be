@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.dia.dia_be.domain.Consulting;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,10 @@ import lombok.Setter;
 public class ResponseReserveByDateDTO {
 	private Long consultingId;
 	private LocalDate consultingDate;
+
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime consultingTime;
+	
 	private String category;
 	private String vipName;
 	private String consultingTitle;
@@ -45,4 +49,3 @@ public class ResponseReserveByDateDTO {
 			.collect(Collectors.toList());
 	}
 }
-
