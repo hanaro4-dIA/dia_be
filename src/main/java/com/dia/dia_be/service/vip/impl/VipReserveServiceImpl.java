@@ -92,17 +92,23 @@ public class VipReserveServiceImpl implements VipReserveService {
 	}
 
 	@Override
-	public ResponseReserveDTO getReserveByConsultingId(Long consultingId) {
+	public ResponseReserveDTO getReserveByConsultingId(Long customerId, Long consultingId) {
 		Consulting consulting = consultingRepository.findOne(
 			qConsulting.id.eq(consultingId)
 		).orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		if (!consulting.getCustomer().getId().equals(customerId)) {
+			throw new GlobalException(CommonErrorCode.BAD_REQUEST);
+		}
 		return ResponseReserveDTO.from(consulting);
 	}
 
 	@Override
-	public Long deleteReserve(Long consultingId) {
+	public Long deleteReserve(Long customerId, Long consultingId) {
 		Consulting consultingToDelete = consultingRepository.findById(consultingId)
 			.orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST));
+		if (!consultingToDelete.getCustomer().getId().equals(customerId)) {
+			throw new GlobalException(CommonErrorCode.BAD_REQUEST);
+		}
 		consultingRepository.delete(consultingToDelete);
 		return consultingToDelete.getId();
 	}
