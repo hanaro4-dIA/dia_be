@@ -17,7 +17,6 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dia.dia_be.domain.Category;
@@ -142,7 +141,8 @@ public class PbReserveControllerTest {
 	// 들어온 상담 요청 조회 test (status=false)
 	@Test
 	void testGetPbNotApprovedReservesList() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=false").session(session)) // 세션 추가
+		MvcResult result = mockMvc.perform(
+				MockMvcRequestBuilders.get(baseUrl + "?status=false").session(session)) // 세션 추가
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andReturn();
 
@@ -165,7 +165,8 @@ public class PbReserveControllerTest {
 	// 예정된 상담 일정 조회 test (status=true&type=upcoming)
 	@Test
 	void testGetPbApprovedAndUpcomingReservesList() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=true&type=upcoming").session(session)) // 세션 추가
+		MvcResult result = mockMvc.perform(
+				MockMvcRequestBuilders.get(baseUrl + "?status=true&type=upcoming").session(session)) // 세션 추가
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andDo(print())
 			.andReturn();
@@ -245,7 +246,7 @@ public class PbReserveControllerTest {
 			.andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingId").value(consulting2.getId()))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingDate").value(date.toString()))
-			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingTime").value("15:00:00"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingTime").value("15:00"))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].category").value("Finance"))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].vipName").value("Test Customer"));
 	}
