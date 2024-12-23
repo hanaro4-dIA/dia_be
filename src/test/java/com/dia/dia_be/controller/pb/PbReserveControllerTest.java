@@ -162,10 +162,10 @@ public class PbReserveControllerTest {
 		Assertions.assertThat(consulting3.getId()).isNotIn((Object[])ids);
 	}
 
-	// 예정된 상담 일정 조회 test (status=true&type=upcoming)
+	// 상담 일지 작성 완료 전 리스트 get test (status=true)
 	@Test
 	void testGetPbApprovedAndUpcomingReservesList() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=true&type=upcoming").session(session)) // 세션 추가
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "?status=true").session(session)) // 세션 추가
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andDo(print())
 			.andReturn();

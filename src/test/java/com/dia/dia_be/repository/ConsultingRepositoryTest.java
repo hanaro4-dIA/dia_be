@@ -148,7 +148,7 @@ public class ConsultingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("hopeDate가 미래인 상담만 가져오는지 테스트")
+	@DisplayName("hopeDate가 미래이거나 상담일지 작성 완료 전인 리스트 불러오기")
 	void getUpcomingConsultingsTest() {
 		// hopeDate가 미래인 Consulting 추가
 		Consulting futureConsulting = Consulting.create(category, customer, "test", LocalDate.now().plusDays(1),
@@ -160,12 +160,11 @@ public class ConsultingRepositoryTest {
 			LocalTime.now(),
 			LocalDate.now().minusDays(1), LocalTime.now(), "content", true);
 		consultingRepository.save(pastConsulting);
-
-		List<Consulting> upcomingConsultings = consultingRepository.findByApproveTrueAndHopeDateAfter(LocalDate.now());
-
-		Assertions.assertThat(upcomingConsultings).isNotEmpty();
-		Assertions.assertThat(upcomingConsultings.stream().allMatch(Consulting::isApprove)).isTrue();
-		Assertions.assertThat(upcomingConsultings.stream().allMatch(c -> c.getHopeDate().isAfter(LocalDate.now())))
-			.isTrue();
+		Journal beforeJournal = pastConsulting.getJournal().update("not finish", false);
+		Journal journal = journalRepository.save(beforeJournal);
+		List<Consulting> notCompletedConsultings = consultingRepository.findByApproveAndJournal_Complete(true,false);
+		Assertions.assertThat(notCompletedConsultings).isNotEmpty();
+		Assertions.assertThat(notCompletedConsultings.stream().allMatch(Consulting::isApprove)).isTrue();
+		Assertions.assertThat(notCompletedConsultings.contains(beforeJournal));
 	}
 }

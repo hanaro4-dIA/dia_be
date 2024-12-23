@@ -1,6 +1,7 @@
 package com.dia.dia_be.dto.pb.reservesDTO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.dia.dia_be.domain.Consulting;
@@ -26,6 +27,7 @@ public class ResponseReserveDTO {
 	private Long categoryId;
 	private Long customerId;
 	private String customerName;
+	private boolean isUpcoming;
 
 	public static ResponseReserveDTO from(Consulting consulting) {
 		return ResponseReserveDTO.builder()
@@ -40,6 +42,7 @@ public class ResponseReserveDTO {
 			.categoryId(consulting.getCategory().getId())
 			.customerId(consulting.getCustomer().getId())
 			.customerName(consulting.getCustomer().getName())
+			.isUpcoming(consulting.getHopeDate().atTime(consulting.getHopeTime()).isAfter(LocalDateTime.now())? true:false)
 			.build();
 	}
 

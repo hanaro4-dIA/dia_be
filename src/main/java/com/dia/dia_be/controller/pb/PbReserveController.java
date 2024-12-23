@@ -1,7 +1,6 @@
 package com.dia.dia_be.controller.pb;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -44,14 +43,12 @@ public class PbReserveController {
 	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회 및 캘린더 내 전체 상담 일정 조회")
 	@Parameters({
 		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false"),
-		@Parameter(name = "type", description = "예정된 상담 일정", example = "upcoming")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status,
-		@RequestParam(required = false) String type, HttpServletRequest request) {
+	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -66,10 +63,9 @@ public class PbReserveController {
 
 		List<ResponseReserveDTO> reserves;
 
-		// status가 true이고 type=upcoming인 경우
-		if (status && "upcoming".equalsIgnoreCase(type)) {
-			reserves = pbReserveService.getUpcomingReserves();
-		} else {
+		if (status) { //받은 상담 중에 일지 작성이 아직인 것만
+			reserves = pbReserveService.getNotCompletedReserves();
+		} else { //모든 상담 요청만
 			reserves = pbReserveService.getApprovedReserves(status);
 		}
 

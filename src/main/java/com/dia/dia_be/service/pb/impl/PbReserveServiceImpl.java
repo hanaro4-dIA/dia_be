@@ -36,9 +36,8 @@ public class PbReserveServiceImpl implements PbReserveService {
 	}
 
 	@Override
-	public List<ResponseReserveDTO> getUpcomingReserves() {
-		// status=true 이면서 hopeDate가 오늘 날짜 이후인 예약 목록 가져오기
-		return consultingRepository.findByApproveTrueAndHopeDateAfter(LocalDate.now())
+	public List<ResponseReserveDTO> getNotCompletedReserves() {
+		return consultingRepository.findByApproveAndJournal_Complete(true,false)
 			.stream()
 			.map(ResponseReserveDTO::from)
 			.sorted(
