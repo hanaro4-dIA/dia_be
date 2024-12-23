@@ -43,12 +43,13 @@ public class PbReserveController {
 	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회 및 캘린더 내 전체 상담 일정 조회")
 	@Parameters({
 		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false"),
+		@Parameter(name = "type", description = "상담일지 전송 여부 상태", example = "notcompleted"),
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status, @RequestParam String type, HttpServletRequest request) {
+	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status, @RequestParam(required = false) String type, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -63,7 +64,7 @@ public class PbReserveController {
 
 		List<ResponseReserveDTO> reserves;
 
-		if (status && type.equals("notcompleted")) { //받은 상담 중에 일지 작성이 아직인 것만
+		if (status && "notcompleted".equalsIgnoreCase(type)) { //받은 상담 중에 일지 작성이 아직인 것만
 			reserves = pbReserveService.getNotCompletedReserves();
 		} else { //모든 상담 요청만
 			reserves = pbReserveService.getApprovedReserves(status);
