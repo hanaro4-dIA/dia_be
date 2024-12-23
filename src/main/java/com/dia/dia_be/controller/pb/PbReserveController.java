@@ -48,7 +48,7 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status, HttpServletRequest request) {
+	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status, @RequestParam String type, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -63,7 +63,7 @@ public class PbReserveController {
 
 		List<ResponseReserveDTO> reserves;
 
-		if (status) { //받은 상담 중에 일지 작성이 아직인 것만
+		if (status && type.equals("notcompleted")) { //받은 상담 중에 일지 작성이 아직인 것만
 			reserves = pbReserveService.getNotCompletedReserves();
 		} else { //모든 상담 요청만
 			reserves = pbReserveService.getApprovedReserves(status);
