@@ -4,8 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.dto.vip.loginDTO.RequestVipSignUpDTO;
-import com.dia.dia_be.dto.vip.profileDTO.LoginForm;
+import com.dia.dia_be.dto.vip.loginDTO.VipLoginForm;
 import com.dia.dia_be.repository.CustomerRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -57,11 +53,12 @@ public class VipLoginControllerTest {
 	@Test
 	void checkLogin() throws Exception {
 		Customer customer = customerRepository.findAll().get(0);
-		LoginForm loginForm = new LoginForm(customer.getEmail(),customer.getPassword());
+		VipLoginForm vipLoginForm = new VipLoginForm(customer.getEmail(),customer.getPassword());
 		String url = "/vip/login";
-		String requestBody = objectMapper.writeValueAsString(loginForm);
+		String requestBody = objectMapper.writeValueAsString(vipLoginForm);
 		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(requestBody))
 			.andExpect(status().isOk())
+			.andExpect(request().sessionAttribute("loginVIP", org.hamcrest.Matchers.notNullValue()))
 			.andDo(print());
 	}
 }

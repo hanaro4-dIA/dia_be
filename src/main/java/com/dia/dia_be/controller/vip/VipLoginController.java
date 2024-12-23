@@ -6,16 +6,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dia.dia_be.domain.Customer;
+import com.dia.dia_be.domain.PbSessionConst;
+import com.dia.dia_be.domain.VipSessionConst;
 import com.dia.dia_be.dto.vip.loginDTO.RequestVipSignUpDTO;
-import com.dia.dia_be.dto.vip.profileDTO.LoginForm;
-import com.dia.dia_be.dto.vip.profileDTO.LoginResponseDTO;
+import com.dia.dia_be.dto.vip.loginDTO.VipLoginDTO;
+import com.dia.dia_be.dto.vip.loginDTO.VipLoginResponseDTO;
 import com.dia.dia_be.service.vip.intf.VipLoginService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+
+import com.dia.dia_be.dto.vip.loginDTO.VipLoginForm;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,14 +37,17 @@ public class VipLoginController {
 	}
 
 	@PostMapping()
-	@Operation(summary = "vip 회원 확인", description = "vip login jwt 발급이 가능한지 판단합니다.")
+	@Operation(summary = "vip 회원 확인", description = "vip login")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "회원 존재", content = @Content(mediaType = "application/json")),
-		@ApiResponse(responseCode = "500", description = "회원 비존재")
+		@ApiResponse(responseCode = "200", description = "회원 로그인", content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "500", description = "회원 로그인 실패")
 	})
-	public ResponseEntity<LoginResponseDTO> checkLogin(@RequestBody LoginForm loginForm) {
-		vipLoginService.checkLogin(loginForm);
-		return ResponseEntity.ok().body(new LoginResponseDTO("this user exists"));
+	public ResponseEntity<VipLoginResponseDTO> checkLogin(@RequestBody VipLoginForm vipLoginForm, HttpServletRequest request){
+		Customer customer = vipLoginService.checkLogin(vipLoginForm);
+		VipLoginDTO loginDTO = new VipLoginDTO(customer.getId());
+		HttpSession session = request.getSession(true);
+		session.setAttribute(VipSessionConst.LOGIN_VIP, loginDTO);
+		return ResponseEntity.ok().body(new VipLoginResponseDTO("this user exists"));
 	}
 
 	@PostMapping("/signup")
