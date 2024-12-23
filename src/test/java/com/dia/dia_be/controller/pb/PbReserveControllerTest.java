@@ -4,9 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,9 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dia.dia_be.domain.Category;
@@ -26,7 +22,6 @@ import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Pb;
 import com.dia.dia_be.domain.PbSessionConst;
 import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
-import com.dia.dia_be.dto.pb.reservesDTO.ResponseReserveDTO;
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;
@@ -197,7 +192,7 @@ public class PbReserveControllerTest {
 			.andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingId").value(consulting2.getId()))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingDate").value(date.toString()))
-			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingTime").value("15:00:00"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].consultingTime").value("15:00"))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].category").value("Finance"))
 			.andExpect(MockMvcResultMatchers.jsonPath("$[0].vipName").value("Test Customer"));
 	}
