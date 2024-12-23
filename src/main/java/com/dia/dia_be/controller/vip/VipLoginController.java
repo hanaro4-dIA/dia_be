@@ -62,12 +62,9 @@ public class VipLoginController {
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout(HttpServletRequest request){
 		HttpSession session = sessionManager.getSession(request);
-		log.info("여긴가"+session);
 		session.removeAttribute(VipSessionConst.LOGIN_VIP);
-		log.info("여기?");
 		session.invalidate(); //관련된 모든 session 속성 삭제
 		sessionManager.sessionDestroyed(session);
-		log.info("여기?11");
 		return ResponseEntity.ok().body("logout success");
 	}
 
