@@ -10,11 +10,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Issue;
 import com.dia.dia_be.domain.JournalKeyword;
-import com.dia.dia_be.dto.pb.crawlingDTO.IssueDTO;
+import com.dia.dia_be.dto.crawling.IssueDTO;
 import com.dia.dia_be.repository.IssueRepository;
 import com.dia.dia_be.repository.JournalKeywordRepository;
 import com.dia.dia_be.service.crawling.intf.IssueCrawlingService;
@@ -128,6 +129,7 @@ public class IssueCrawlingServiceImpl implements IssueCrawlingService {
 		}
 	}
 
+	@Override
 	public void saveIssue() {
 		// DB에서 JournalKeyword 엔티티 가져오기
 		List<JournalKeyword> journalKeywords = journalKeywordRepository.findAll();
@@ -150,9 +152,12 @@ public class IssueCrawlingServiceImpl implements IssueCrawlingService {
 						// IssueDTO를 Issue 엔티티로 변환하여 저장
 						Issue issue = news.toEntity(journalKeyword.getKeyword());
 						issueRepository.save(issue);
-
-						System.out.println("저장 완료 - 제목: " + issue.getTitle());
+						System.out.println("저장 완료 - 제목: " + issue.getIssueUrl());
+					} catch (DataIntegrityViolationException e) {
+						// 중복된 경우 예외 처리
+						System.out.println("중복된 URL - 저장하지 않음: " + news.getIssueUrl());
 					} catch (Exception e) {
+						// 기타 예외 처리
 						System.err.println("저장 실패: " + e.getMessage());
 					}
 				});

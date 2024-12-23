@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
-import com.dia.dia_be.dto.pb.crawlingDTO.IssueDTO;
+import com.dia.dia_be.dto.crawling.IssueDTO;
 
 public interface IssueCrawlingService {
 	List<IssueDTO> issueCrawlingWithSingleKeyword(String keyword);
@@ -21,5 +21,7 @@ public interface IssueCrawlingService {
 
 	// 이미지 추출
 	String extractImage(WebElement article);
+
+	void saveIssue();
 
 }

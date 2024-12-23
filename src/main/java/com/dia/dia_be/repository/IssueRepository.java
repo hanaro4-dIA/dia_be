@@ -25,4 +25,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
 		 LIMIT 4
 		""", nativeQuery = true)
 	List<Issue> findRecommendedIssues(@Param("customerId") Long customerId);
+
+	boolean existsByTitle(String title);
 }

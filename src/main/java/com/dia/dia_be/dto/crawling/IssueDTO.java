@@ -1,4 +1,4 @@
-package com.dia.dia_be.dto.pb.crawlingDTO;
+package com.dia.dia_be.dto.crawling;
 
 import com.dia.dia_be.domain.Issue;
 import com.dia.dia_be.domain.Keyword;
