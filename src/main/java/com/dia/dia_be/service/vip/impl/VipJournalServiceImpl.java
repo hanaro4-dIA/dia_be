@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Issue;
+import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.Product;
 import com.dia.dia_be.domain.QConsulting;
 import com.dia.dia_be.domain.QProduct;
@@ -19,10 +20,12 @@ import com.dia.dia_be.dto.vip.journalDTO.ResponseJournalDTO;
 import com.dia.dia_be.dto.vip.journalDTO.ResponseJournalScriptDTO;
 import com.dia.dia_be.dto.vip.journalDTO.ResponseRecommendationDTO;
 import com.dia.dia_be.dto.vip.journalDTO.ResponseSimpleJournalDTO;
+import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.VipErrorCode;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.IssueRepository;
+import com.dia.dia_be.repository.JournalRepository;
 import com.dia.dia_be.repository.ProductRepository;
 import com.dia.dia_be.repository.ScriptRepository;
 import com.dia.dia_be.service.vip.intf.VipJournalService;
@@ -36,13 +39,16 @@ public class VipJournalServiceImpl implements VipJournalService {
 	private final QProduct qProduct = QProduct.product;
 	private final QScript qScript = QScript.script;
 	private final IssueRepository issueRepository;
+	private final JournalRepository journalRepository;
 
 	public VipJournalServiceImpl(ConsultingRepository consultingRepository,
-		ProductRepository productRepository, ScriptRepository scriptRepository, IssueRepository issueRepository) {
+		ProductRepository productRepository, ScriptRepository scriptRepository, IssueRepository issueRepository,
+		JournalRepository journalRepository) {
 		this.consultingRepository = consultingRepository;
 		this.productRepository = productRepository;
 		this.scriptRepository = scriptRepository;
 		this.issueRepository = issueRepository;
+		this.journalRepository = journalRepository;
 	}
 
 	@Override
@@ -95,7 +101,11 @@ public class VipJournalServiceImpl implements VipJournalService {
 	}
 
 	@Override
-	public List<ResponseJournalScriptDTO> getJournalScripts(Long journalId) {
+	public List<ResponseJournalScriptDTO> getJournalScripts(Long customerId, Long journalId) {
+		Journal journal = journalRepository.findById(journalId).orElseThrow();
+		if (!journal.getConsulting().getCustomer().getId().equals(customerId)) {
+			throw new GlobalException(CommonErrorCode.BAD_REQUEST);
+		}
 		return StreamSupport.stream(scriptRepository.findAll(
 				qScript.journal.id.eq(journalId)
 			).spliterator(), false)

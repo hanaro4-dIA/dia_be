@@ -13,7 +13,7 @@ public interface VipJournalService {
 
 	public ResponseJournalDTO getJournal(Long customerId, Long journalId);
 
-	public List<ResponseJournalScriptDTO> getJournalScripts(Long journalId);
+	public List<ResponseJournalScriptDTO> getJournalScripts(Long customerId, Long journalId);
 
 	public List<ResponseRecommendationDTO> getRecommendations(Long customerId);
 }
