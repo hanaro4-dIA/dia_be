@@ -16,6 +16,7 @@ import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveInfoDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
+import com.dia.dia_be.exception.VipErrorCode;
 import com.dia.dia_be.repository.CategoryRepository;
 import com.dia.dia_be.repository.ConsultingRepository;
 import com.dia.dia_be.repository.CustomerRepository;
@@ -39,6 +40,16 @@ public class VipReserveServiceImpl implements VipReserveService {
 
 	@Override
 	public Long addReserve(Long customerId, RequestReserveDTO requestReserveDTO) {
+		if (requestReserveDTO.getCategoryId().equals(1L)) {
+			Iterable<Consulting> c = consultingRepository.findAll(
+				qConsulting.customer.id.eq(customerId)
+					.and(qConsulting.category.id.eq(1L))
+					.and(qConsulting.approve.eq(false))
+			);
+			if (c.iterator().hasNext()) {
+				throw (new GlobalException(VipErrorCode.FAST_RESERVE_DENIED));
+			}
+		}
 		Consulting consulting = Consulting.create(
 			categoryRepository.findById(requestReserveDTO.getCategoryId()).orElseThrow(() -> new GlobalException(
 				CommonErrorCode.BAD_REQUEST))
