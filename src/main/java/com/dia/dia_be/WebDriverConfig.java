@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class WebDriverConfig {
 	@Bean
 	public WebDriver webDriver() {
-		File chromeDriverFile = new File("C:\\Users\\campus2H044\\Desktop\\chromedriver-win64\\chromedriver.exe");
+		// Chromedriver 경로 (리눅스 환경에 맞게 수정)
+		File chromeDriverFile = new File("/usr/local/bin/chromedriver");
 
 		// ChromeDriverService 설정
 		ChromeDriverService service = new ChromeDriverService.Builder()
@@ -23,7 +24,7 @@ public class WebDriverConfig {
 
 		// ChromeOptions 설정
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless"); // 필요시 브라우저 숨김
+		options.addArguments("--headless"); // EC2는 GUI가 없으므로 headless 모드 필수
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
 
