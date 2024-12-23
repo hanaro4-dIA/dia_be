@@ -89,7 +89,7 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "404", description = "상담 요청을 찾을 수 없음"),
 		@ApiResponse(responseCode = "500", description = "이미 승인된 요청입니다")
 	})
-	public ResponseEntity<String> approveReserves(@RequestParam Long id, HttpServletRequest request) {
+	public ResponseEntity<?> approveReserves(@RequestParam Long id, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -103,7 +103,7 @@ public class PbReserveController {
 
 		try {
 			pbReserveService.approveReserve(id);
-			return ResponseEntity.ok("상담 요청이 승인되었습니다.");
+			return ResponseEntity.ok(HttpStatus.OK);
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
