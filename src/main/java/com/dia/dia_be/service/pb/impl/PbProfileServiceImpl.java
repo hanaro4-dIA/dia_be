@@ -16,6 +16,7 @@ import com.dia.dia_be.dto.pb.profileDTO.ResponseProfileDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
+import com.dia.dia_be.global.S3.S3Url;
 import com.dia.dia_be.repository.HashtagRepository;
 import com.dia.dia_be.repository.PbRepository;
 import com.dia.dia_be.service.pb.intf.PbProfileService;
@@ -67,8 +68,8 @@ public class PbProfileServiceImpl implements PbProfileService {
 				hashtagRepository.save(newHashtag);
 			}
 		}
-		Pb updatedPb = pb.update(imgUrl == null ? pb.getImageUrl() : imgUrl, introduce);
-		pbRepository.save(pb); // 변경 사항 저장
+		Pb updatedPb = pb.update(imgUrl == null ? pb.getImageUrl() : S3Url.S3_URL + imgUrl, introduce);
+		pbRepository.save(updatedPb);
 		return ResponseEditProfileDTO.from(updatedPb);
 	}
 
