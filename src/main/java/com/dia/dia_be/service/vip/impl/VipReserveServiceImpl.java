@@ -80,7 +80,9 @@ public class VipReserveServiceImpl implements VipReserveService {
 	@Override
 	public List<ResponseReserveDTO> getReserves(Long customerId) {
 		List<Consulting> reserves = StreamSupport.stream(consultingRepository.findAll(
-					qConsulting.customer.id.eq(customerId).and(qConsulting.hopeDate.after(LocalDate.now().minusDays(1))))
+					qConsulting.customer.id.eq(customerId)
+						.and(qConsulting.hopeDate.goe(LocalDate.now()))
+						.and(qConsulting.journal.complete.eq(false)))
 				.spliterator(),
 			false).toList();
 		return reserves.stream()
