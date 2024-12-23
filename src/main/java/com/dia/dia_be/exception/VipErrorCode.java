@@ -27,6 +27,7 @@ public enum VipErrorCode implements ErrorCode {
 	// 500
 	RESERVE_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "상담 예약 생성에 실패했습니다."),
 	FAST_RESERVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "빠른 상담 요청에 실패했습니다."),
+	FAST_RESERVE_DENIED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "이미 요청된 빠른 상담이 있습니다."),
 	NOTIFICATION_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "알림 삭제에 실패했습니다.");
 
 	private final HttpStatus httpStatus;
