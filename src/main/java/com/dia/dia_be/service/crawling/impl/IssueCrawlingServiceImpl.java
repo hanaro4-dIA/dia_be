@@ -1,26 +1,6 @@
 package com.dia.dia_be.service.crawling.impl;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-
-import com.dia.dia_be.domain.Issue;
-import com.dia.dia_be.domain.JournalKeyword;
-import com.dia.dia_be.dto.crawling.IssueDTO;
-import com.dia.dia_be.repository.IssueRepository;
-import com.dia.dia_be.repository.JournalKeywordRepository;
-import com.dia.dia_be.service.crawling.intf.IssueCrawlingService;
-
-@Service
+/*@Service
 public class IssueCrawlingServiceImpl implements IssueCrawlingService {
 
 	private final WebDriver webDriver;
@@ -165,3 +145,4 @@ public class IssueCrawlingServiceImpl implements IssueCrawlingService {
 		}
 	}
 }
+*/

@@ -1,12 +1,6 @@
 package com.dia.dia_be.service.crawling;
 
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.dia.dia_be.service.crawling.intf.IssueCrawlingService;
-
-@Component
+/*@Component
 public class IssueCrawlingScheduler {
 
 	private final IssueCrawlingService issueCrawlingService;
@@ -27,3 +21,4 @@ public class IssueCrawlingScheduler {
 		}
 	}
 }
+*/
