@@ -12,6 +12,7 @@ import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.QConsulting;
 import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
+import com.dia.dia_be.dto.vip.reserveDTO.ReserveWebSocketDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveInfoDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
@@ -111,5 +112,13 @@ public class VipReserveServiceImpl implements VipReserveService {
 		}
 		consultingRepository.delete(consultingToDelete);
 		return consultingToDelete.getId();
+	}
+
+	@Override
+	public ReserveWebSocketDTO getReserveByIdIfNotApproved(Long reserveId) {
+		Consulting reserve = consultingRepository.findByIdAndApproveFalse(reserveId)
+			.orElseThrow(() -> new IllegalStateException("Reserve not found or already approved."));
+
+		return ReserveWebSocketDTO.from(reserve);
 	}
 }

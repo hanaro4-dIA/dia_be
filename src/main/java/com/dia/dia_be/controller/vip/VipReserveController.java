@@ -49,6 +49,9 @@ public class VipReserveController {
 		@Parameter(name = "title", description = "상담 제목", example = "퇴직연금에 가입하고 싶어요."),
 		@Parameter(name = "content", description = "상담 내용", example = "퇴직이 가까워져옵니다...")
 	})
+	public ResponseEntity<Long> addReserve(@RequestBody RequestReserveDTO requestReserveDTO) {
+		final Long customerId = 1L;
+		Long consultationId = vipReserveService.addReserve(customerId, requestReserveDTO);
 	public ResponseEntity<?> addReserve(@RequestBody RequestReserveDTO requestReserveDTO, HttpServletRequest request) {
 		HttpSession session = sessionManager.getSession(request);
 		if (session == null) {
@@ -61,6 +64,9 @@ public class VipReserveController {
 			return new ResponseEntity<>("Can't find user data in session", HttpStatus.FOUND);
 		}
 
+		requestConsultationHandler.requestConsultation(vipReserveService.getReserveByIdIfNotApproved(consultationId));
+
+		return ResponseEntity.ok(consultationId);
 		try {
 			return ResponseEntity.ok(vipReserveService.addReserve(loginDTO.getCustomerId(), requestReserveDTO));
 		} catch (Exception e) {

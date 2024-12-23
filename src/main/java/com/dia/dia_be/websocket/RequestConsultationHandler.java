@@ -1,7 +1,5 @@
 package com.dia.dia_be.websocket;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Component;
@@ -10,7 +8,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
+import com.dia.dia_be.dto.vip.reserveDTO.ReserveWebSocketDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
@@ -23,15 +21,13 @@ public class RequestConsultationHandler extends TextWebSocketHandler {
 		sessions.add(session);
 	}
 
-	public void requestConsultation(Long customerId, RequestReserveDTO requestReserveDTO) {
+	public void requestConsultation(ReserveWebSocketDTO reserveDTO) {
 		sessions.forEach(session -> {
 			try {
-				Map<String, Object> payload = new HashMap<>();
-				payload.put("customerId", customerId);
-				payload.put("requestReserveDTO", requestReserveDTO);
-
-				String message = objectMapper.writeValueAsString(payload);
+				String message = objectMapper.writeValueAsString(reserveDTO);
+				System.out.println("Sending WebSocket message: " + message); // 디버깅 로그
 				session.sendMessage(new TextMessage(message));
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
