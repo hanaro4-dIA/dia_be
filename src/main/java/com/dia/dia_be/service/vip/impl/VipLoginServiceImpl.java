@@ -12,7 +12,7 @@ import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.VipErrorCode;
 import com.dia.dia_be.repository.CustomerRepository;
 import com.dia.dia_be.repository.PbRepository;
-import com.dia.dia_be.dto.vip.profileDTO.LoginForm;
+import com.dia.dia_be.dto.vip.loginDTO.VipLoginForm;
 import com.dia.dia_be.service.vip.intf.VipLoginService;
 
 @Service
@@ -27,12 +27,13 @@ public class VipLoginServiceImpl implements VipLoginService {
 	}
 
 	@Override
-	public void checkLogin(LoginForm loginForm) {
-		Optional<Customer> customer = customerRepository.findCustomerByEmailAndPassword(loginForm.getId(),
-			loginForm.getPw());
+	public Customer checkLogin(VipLoginForm vipLoginForm) {
+		Optional<Customer> customer = customerRepository.findCustomerByEmailAndPassword(vipLoginForm.getId(),
+			vipLoginForm.getPw());
 		if(customer.isEmpty()) {
 			throw new GlobalException(VipErrorCode.CUSTOMER_NOT_FOUND);
 		}
+		return customer.get();
 	}
 
 	@Override

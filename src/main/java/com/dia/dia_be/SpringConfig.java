@@ -15,12 +15,13 @@ public class SpringConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings (CorsRegistry registry){
 		registry.addMapping("/**")
-				.allowedOriginPatterns("*") // 안에 해당 주소를 넣어도 됨
-				.allowedHeaders("*")
-				.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS" , "PATCH")
-				.exposedHeaders("Authorization", "RefreshToken")
-				.allowCredentials(true);
+			.allowedOriginPatterns("*")  // 특정 도메인을 지정해도 됨
+			.allowedHeaders("*")
+			.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "PATCH")
+			.exposedHeaders("Authorization", "RefreshToken", "Set-Cookie")  // 🔹 Set-Cookie 추가
+			.allowCredentials(true);  // 쿠키 전송 허용
 	}
+
 
 	@Bean
 	public OpenAPI openAPI() {
