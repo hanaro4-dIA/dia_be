@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,8 +30,10 @@ public class VipCategoryControllerTest {
 	private SessionManager sessionManager;
 	private MockHttpSession createMockSessionWithLoginDTO(long vipId) {
 		MockHttpSession session = new MockHttpSession();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
 		session.setAttribute(VipSessionConst.LOGIN_VIP, new VipLoginDTO(vipId));
-		sessionManager.sessionCreated(session);
+		sessionManager.createSession(session,response);
 		return session;
 	}
 

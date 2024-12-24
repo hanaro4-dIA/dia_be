@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,8 +36,9 @@ public class VipNotificationControllerTest {
 		MockHttpSession session = new MockHttpSession();
 		VipLoginDTO loginDTO = new VipLoginDTO(1L);
 		session.setAttribute(VipSessionConst.LOGIN_VIP, loginDTO);
-		sessionManager.sessionCreated(session);  // 세션이 실제로 생성되도록 설정
+		MockHttpServletResponse response = new MockHttpServletResponse();
 
+		sessionManager.createSession(session,response);
 		// JSESSIONID 쿠키를 명시적으로 추가
 		Cookie jsessionCookie = new Cookie("JSESSIONID", session.getId());
 		jsessionCookie.setPath("/");  // 쿠키 경로 설정
@@ -59,8 +61,9 @@ public class VipNotificationControllerTest {
 		MockHttpSession session = new MockHttpSession();
 		VipLoginDTO loginDTO = new VipLoginDTO(1L);
 		session.setAttribute(VipSessionConst.LOGIN_VIP, loginDTO);
-		sessionManager.sessionCreated(session);  // 세션이 실제로 생성되도록 설정
+		MockHttpServletResponse response = new MockHttpServletResponse();
 
+		sessionManager.createSession(session,response);
 		// JSESSIONID 쿠키를 명시적으로 추가
 		Cookie jsessionCookie = new Cookie("JSESSIONID", session.getId());
 		jsessionCookie.setPath("/");  // 쿠키 경로 설정
@@ -82,8 +85,9 @@ public class VipNotificationControllerTest {
 		MockHttpSession session = new MockHttpSession();
 		VipLoginDTO loginDTO = new VipLoginDTO(1L);
 		session.setAttribute(VipSessionConst.LOGIN_VIP, loginDTO);
-		sessionManager.sessionCreated(session);  // 세션이 실제로 생성되도록 설정
+		MockHttpServletResponse response = new MockHttpServletResponse();
 
+		sessionManager.createSession(session,response);
 		// JSESSIONID 쿠키를 명시적으로 추가
 		Cookie jsessionCookie = new Cookie("JSESSIONID", session.getId());
 		jsessionCookie.setPath("/");  // 쿠키 경로 설정
