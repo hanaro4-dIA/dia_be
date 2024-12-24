@@ -11,18 +11,18 @@ import com.dia.dia_be.domain.Issue;
 
 public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPredicateExecutor<Issue> {
 	@Query(value = """
-		SELECT DISTINCT I.*
-		  FROM JOURNAL_KEYWORD JK
-		  LEFT OUTER
-		  JOIN KEYWORD K
-		    ON JK.KEYWORD_ID = K.ID
-		  LEFT OUTER
-		  JOIN ISSUE I
-		    ON K.ID = I.KEYWORD_ID
-		 WHERE JK.CUSTOMER_ID = :customerId
-		   AND I.ID IS NOT NULL
-		 ORDER BY I.ID DESC
-		 LIMIT 4
+		select distinct i.*
+		  from journal_keyword jk
+		  left outer
+		  join keyword k
+		    on jk.keyword_id = k.id
+		  left outer
+		  join issue i
+		    on k.id = i.keyword_id
+		 where jk.customer_id = :customerId
+		   and i.id is not null
+		 order by i.id desc
+		 limit 4
 		""", nativeQuery = true)
 	List<Issue> findRecommendedIssues(@Param("customerId") Long customerId);
 
