@@ -21,9 +21,12 @@ public interface PbJournalService {
 
 	public ResponseTemporarySavedJournalDTO getTemporarySavedJournal(Long id, boolean status);
 
+	public void deleteScript(Long journalId, Long scriptId, Long scriptSequence);
+
 	ScriptListWithKeywordsResponseDTO createScriptsAndKeyword(Long customerId, Long journalId, String filePath);
 
 	ScriptListResponseDTO getScripts(Long journalId);
 
 	ScriptListWithKeywordsResponseDTO editScriptsAndKeyword(Long customerId, Long journalId, ScriptListRequestDTO scriptListRequestDTO);
+
 }

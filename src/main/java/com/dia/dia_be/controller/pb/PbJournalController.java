@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -332,5 +333,33 @@ public class PbJournalController {
 		}
 
 		return ResponseEntity.ok().body(pbJournalService.getScripts(journal_id));
+	}
+
+	@DeleteMapping("/{journalId}/script")
+	@Tag(name = "script 삭제하기", description = "STT 컴포넌트 특정 script 삭제")
+	@Operation(summary = "script 삭제")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
+			content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
+	})
+	public ResponseEntity<?> deleteScript(@PathVariable("journalId")Long journalId, @RequestParam Long scriptId, @RequestParam Long scriptSequence, HttpServletRequest request){
+			// 세션 확인 코드 추가
+			HttpSession session = request.getSession(false);
+			if (session == null) { // 세션이 없으면 홈으로 이동
+				return new ResponseEntity<>(null, HttpStatus.FOUND);
+			}
+
+			LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
+			if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+				return new ResponseEntity<>(null, HttpStatus.FOUND);
+			}
+
+			try{
+				pbJournalService.deleteScript(journalId, scriptId, scriptSequence);
+				return ResponseEntity.ok().build();
+			}catch (Exception e){
+				return ResponseEntity.status(400).body(e.getMessage());
+			}
 	}
 }
