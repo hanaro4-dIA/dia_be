@@ -14,7 +14,7 @@ public class WebDriverConfig {
 	@Bean
 	public WebDriver webDriver() {
 		// Chromedriver 경로 (리눅스 환경에 맞게 수정)
-		File chromeDriverFile = new File("/usr/local/bin/chromedriver");
+		File chromeDriverFile = new File("~/chromedriver-linux64/chromedriver");
 
 		// ChromeDriverService 설정
 		ChromeDriverService service = new ChromeDriverService.Builder()
