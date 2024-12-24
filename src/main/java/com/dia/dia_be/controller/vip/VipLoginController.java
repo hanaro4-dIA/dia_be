@@ -54,7 +54,7 @@ public class VipLoginController {
 		VipLoginDTO loginDTO = new VipLoginDTO(customer.getId());
 		HttpSession session = request.getSession(true);
 		session.setAttribute(VipSessionConst.LOGIN_VIP, loginDTO);
-		sessionManager.sessionCreated(session);
+		sessionManager.createSession(session,response);
 		return ResponseEntity.ok().body(loginDTO);
 	}
 
@@ -64,7 +64,7 @@ public class VipLoginController {
 		HttpSession session = sessionManager.getSession(request);
 		session.removeAttribute(VipSessionConst.LOGIN_VIP);
 		session.invalidate(); //관련된 모든 session 속성 삭제
-		sessionManager.sessionDestroyed(session);
+		sessionManager.destroySession(session);
 		return ResponseEntity.ok().body("logout success");
 	}
 
