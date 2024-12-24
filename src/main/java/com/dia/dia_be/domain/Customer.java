@@ -1,87 +1,106 @@
 package com.dia.dia_be.domain;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Customer {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "INT UNSIGNED")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "INT UNSIGNED")
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pb_id")
-    private Pb pb;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pb_id")
+	private Pb pb;
 
+	@Column(nullable = false, updatable = false)
+	private LocalDate date;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDate date;
+	@Column(columnDefinition = "INT UNSIGNED")
+	private int count;
 
-    @Column(columnDefinition = "INT UNSIGNED")
-    private int count;
+	@Column(columnDefinition = "VARCHAR(50)")
+	private String memo;
 
-    @Column(columnDefinition = "VARCHAR(50)")
-    private String memo;
+	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
+	private String email;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
-    private String email;
+	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(30)")
+	private String password;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(30)")
-    private String password;
+	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
+	private String name;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
-    private String name;
+	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
+	private String tel;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(20)")
-    private String tel;
+	@Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(30)")
+	private String address;
 
-    @Column(nullable = false, updatable = false, columnDefinition = "VARCHAR(30)")
-    private String address;
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<JournalKeyword> journalKeyword = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Journal_keyword> journal_keyword = new ArrayList<>();
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	private List<Consulting> consulting = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Consulting> consulting = new ArrayList<>();
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	private List<Notification> notification = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Notification> notification = new ArrayList<>();
+	private Customer(LocalDate date, Long id, int count, String memo, String email, String password, String name,
+		String tel, String address) {
+		this.date = date;
+		this.id = id;
+		this.count = count;
+		this.memo = memo;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.tel = tel;
+		this.address = address;
+	}
 
-    private Customer(LocalDate date, Long id, int count, String memo, String email, String password, String name, String tel, String address) {
-        this.date = date;
-        this.id = id;
-        this.count = count;
-        this.memo = memo;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.tel = tel;
-        this.address = address;
-    }
+	@Builder
+	public static Customer create(Pb pb, LocalDate date, Long id, int count, String memo, String email, String password,
+		String name, String tel, String address) {
+		Customer customer = new Customer(date, id, count, memo, email, password, name, tel, address);
+		customer.addPb(pb);
+		return customer;
+	}
 
-    @Builder
-    public static Customer create(Pb pb, LocalDate date, Long id, int count, String memo, String email, String password, String name, String tel, String address) {
-        Customer customer= new Customer(date, id, count, memo, email, password, name, tel, address);
-        customer.addPb(pb);
-        return customer;
-    }
+	public Customer update(String memo) {
+		this.memo = memo;
+		return this;
+	}
 
-    private void addPb(Pb pb) {
-        this.pb = pb;
-        pb.getCustomer().add(this);
-    }
+	public Customer plusCount() {
+		this.count += 1;
+		return this;
+	}
 
-
+	private void addPb(Pb pb) {
+		this.pb = pb;
+		pb.getCustomer().add(this);
+	}
 
 }

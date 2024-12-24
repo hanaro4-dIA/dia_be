@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ import lombok.Setter;
 @Getter
 @Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
+@Builder
 public class Journal {
 
 	@Id
@@ -30,29 +33,39 @@ public class Journal {
 	@Column(columnDefinition = "INT UNSIGNED")
 	private Long id;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(500)")
+	@Column(columnDefinition = "TEXT")
 	private String contents;
 
-	@Column(nullable = false, columnDefinition = "TINYINT(1)")
-	private Boolean complete;
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+	private boolean complete;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "consulting_id")
 	private Consulting consulting;
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Script> script = new ArrayList<>();
+	private final List<Script> script = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_product> journal_product = new ArrayList<>();
+	private final List<JournalProduct> journalProduct = new ArrayList<>();
 
 	@OneToMany(mappedBy = "journal", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Journal_keyword> journal_keyword = new ArrayList<>();
+	private final List<JournalKeyword> journalKeyword = new ArrayList<>();
 
-	@Builder
-	public Journal(String contents, Boolean complete) {
+	public Journal update(String contents) {
+		this.contents = contents;
+		return this;
+	}
+
+	public Journal update(boolean complete) {
+		this.complete = complete;
+		return this;
+	}
+
+	public Journal update(String contents, boolean complete) {
 		this.contents = contents;
 		this.complete = complete;
+		return this;
 	}
 
 	protected void setConsulting(Consulting consulting) {
