@@ -24,4 +24,7 @@ public interface JournalRepository extends JpaRepository<Journal, Long>, Queryds
 	@Query("SELECT j FROM Journal j WHERE j.id = :id AND j.complete = :status")
 	public Optional<Journal> findByIdAndCompleteFalse(Long id, boolean status);
 
+	@Modifying
+	@Query("DELETE Script s WHERE s.id = :scriptId AND s.journal.id = :journalId AND s.scriptSequence = :scriptSequence")
+	public void deleteScriptById(@Param("journalId") Long journalId, @Param("scriptId") Long scriptId, @Param("scriptSequence") Long scriptSequence);
 }

@@ -32,6 +32,7 @@ import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
 import com.dia.dia_be.dto.pb.keywordDTO.ResponseKeywordDTO;
+import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
 import com.dia.dia_be.global.clovaSpeech.ClovaSpeechService;
@@ -455,5 +456,15 @@ public class PbJournalServiceImpl implements PbJournalService {
 		Journal journal = journalRepository.findByIdAndCompleteFalse(id, status)
 			.orElseThrow(() -> new GlobalException(PbErrorCode.JOURNAL_NOT_FOUND));
 		return ResponseTemporarySavedJournalDTO.from(journal);
+	}
+
+	@Override
+	@Transactional
+	public void deleteScript(Long journalId, Long scriptId, Long scriptSequence) {
+		try{
+			journalRepository.deleteScriptById(journalId, scriptId, scriptSequence);
+		}catch (Exception e){
+			throw new GlobalException(CommonErrorCode.BAD_REQUEST);
+		}
 	}
 }
