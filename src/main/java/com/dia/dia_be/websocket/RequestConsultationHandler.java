@@ -10,11 +10,17 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.dia.dia_be.dto.vip.reserveDTO.ReserveWebSocketDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Component
 public class RequestConsultationHandler extends TextWebSocketHandler {
 	private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper;
+
+	public RequestConsultationHandler() {
+		this.objectMapper = new ObjectMapper();
+		this.objectMapper.registerModule(new JavaTimeModule()); // Java 8 날짜/시간 모듈 등록
+	}
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) {

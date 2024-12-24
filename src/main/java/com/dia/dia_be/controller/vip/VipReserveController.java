@@ -49,13 +49,12 @@ public class VipReserveController {
 		@Parameter(name = "title", description = "상담 제목", example = "퇴직연금에 가입하고 싶어요."),
 		@Parameter(name = "content", description = "상담 내용", example = "퇴직이 가까워져옵니다...")
 	})
-
 	public ResponseEntity<?> addReserve(@RequestBody RequestReserveDTO requestReserveDTO, HttpServletRequest request) {
 		HttpSession session = sessionManager.getSession(request);
 		final Long customerId = 1L;
 		Long consultationId = vipReserveService.addReserve(customerId, requestReserveDTO);
 
-		if (session == null) {
+		/*if (session == null) {
 			return new ResponseEntity<>("No session found", HttpStatus.FOUND);
 		}
 
@@ -63,7 +62,7 @@ public class VipReserveController {
 		VipLoginDTO loginDTO = (VipLoginDTO)session.getAttribute(VipSessionConst.LOGIN_VIP);
 		if (loginDTO == null) {
 			return new ResponseEntity<>("Can't find user data in session", HttpStatus.FOUND);
-		}
+		}*/
 
 		requestConsultationHandler.requestConsultation(vipReserveService.getReserveByIdIfNotApproved(consultationId));
 
