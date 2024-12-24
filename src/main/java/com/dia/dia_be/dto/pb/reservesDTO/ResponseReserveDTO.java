@@ -31,6 +31,7 @@ public class ResponseReserveDTO {
 	private LocalTime reserveTime;
 	private boolean approve;
 	private Long categoryId;
+	private String categoryName;
 	private Long customerId;
 	private String customerName;
 	private boolean isUpcoming;
@@ -46,9 +47,10 @@ public class ResponseReserveDTO {
 			.reserveTime(consulting.getReserveTime())
 			.approve(consulting.isApprove())
 			.categoryId(consulting.getCategory().getId())
+			.categoryName(consulting.getCategory().getName())
 			.customerId(consulting.getCustomer().getId())
 			.customerName(consulting.getCustomer().getName())
-			.isUpcoming(consulting.getHopeDate().atTime(consulting.getHopeTime()).isAfter(LocalDateTime.now())? true:false)
+			.isUpcoming(consulting.getHopeDate().atTime(consulting.getHopeTime()).isAfter(LocalDateTime.now()))
 			.build();
 	}
 
