@@ -2,18 +2,18 @@ package com.dia.dia_be;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class SpringConfig implements WebMvcConfigurer {
 
 	@Override
-	public void addCorsMappings (CorsRegistry registry){
+	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
 			.allowedOriginPatterns("*")  // 특정 도메인을 지정해도 됨
 			.allowedHeaders("*")
@@ -21,7 +21,6 @@ public class SpringConfig implements WebMvcConfigurer {
 			.exposedHeaders("Authorization", "RefreshToken", "Set-Cookie")  // 🔹 Set-Cookie 추가
 			.allowCredentials(true);  // 쿠키 전송 허용
 	}
-
 
 	@Bean
 	public OpenAPI openAPI() {
