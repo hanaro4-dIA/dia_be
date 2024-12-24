@@ -15,21 +15,21 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Queryds
 
 	@Query(
 		value = """
-			SELECT DISTINCT P.*
-			  FROM CONSULTING C
-			  LEFT OUTER
-			  JOIN JOURNAL J
-			    ON C.ID = J.CONSULTING_ID
-			  LEFT OUTER
-			  JOIN JOURNAL_PRODUCT JP
-			    ON J.ID = JP.JOURNAL_ID
-			  LEFT OUTER
-			  JOIN PRODUCT P
-			    ON JP.PRODUCT_ID = P.ID
-			 WHERE C.CUSTOMER_ID = :customerId
-			   AND JP.PRODUCT_ID IS NOT NULL
-			 ORDER BY P.ID DESC
-			 LIMIT 4
+			 select distinct p.*
+			   from consulting c
+			   left outer
+			   join journal j
+			     on c.id = j.consulting_id
+			   left outer
+			   join journal_product jp
+			     on j.id = jp.journal_id
+			   left outer
+			   join product p
+			     on jp.product_id = p.id
+			  where c.customer_id = :customerId
+			    and jp.product_id is not null
+			  order by p.id desc
+			  limit 4
 			"""
 		, nativeQuery = true)
 	List<Product> findRecommendedProducts(@Param("customerId") Long customerId);
