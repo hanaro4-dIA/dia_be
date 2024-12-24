@@ -24,6 +24,7 @@ import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveDTO;
 import com.dia.dia_be.global.session.SessionManager;
 import com.dia.dia_be.service.vip.intf.VipReserveService;
+import com.dia.dia_be.websocket.RequestConsultationHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.Cookie;
@@ -45,6 +46,9 @@ public class VipReserveControllerTest {
 
 	@Autowired
 	private VipReserveService vipReserveService;
+
+	@Autowired
+	private RequestConsultationHandler requestConsultationHandler;
 
 	@Test
 	void addReserveTest() throws Exception {

@@ -1,5 +1,7 @@
 package com.dia.dia_be.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -12,15 +14,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dia.dia_be.domain.Category;
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.Pb;
+import com.dia.dia_be.service.vip.impl.VipReserveServiceImpl;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 public class ConsultingRepositoryTest {
 	@Autowired
 	ConsultingRepository consultingRepository;
@@ -36,6 +42,9 @@ public class ConsultingRepositoryTest {
 
 	@Autowired
 	CategoryRepository categoryRepository;
+
+	@MockBean
+	VipReserveServiceImpl vipReserveService;
 
 	Category category;
 	Pb pb;
@@ -117,7 +126,7 @@ public class ConsultingRepositoryTest {
 	}
 
 	@Test
-	void updateTitleAndCategoryIdTest() throws Exception{
+	void updateTitleAndCategoryIdTest() throws Exception {
 		String newTitle = "테스트용 상담 타이틀";
 		Long newCategoryId = 2L;
 		consultingRepository.updateTitleAndCategory(1L, newTitle, newCategoryId);
@@ -128,7 +137,7 @@ public class ConsultingRepositoryTest {
 		Assertions.assertThat(consulting.getTitle()).isEqualTo(newTitle);
 	}
 
-  @Test
+	@Test
 	@DisplayName("특정 날짜와 PB ID에 대해 승인된 상담만 가져오는지 테스트")
 	void findByHopeDateAndApproveTrueAndCustomer_Pb_IdTest() {
 
@@ -162,9 +171,31 @@ public class ConsultingRepositoryTest {
 		consultingRepository.save(pastConsulting);
 		Journal beforeJournal = pastConsulting.getJournal().update("not finish", false);
 		Journal journal = journalRepository.save(beforeJournal);
-		List<Consulting> notCompletedConsultings = consultingRepository.findByApproveAndJournal_Complete(true,false);
+		List<Consulting> notCompletedConsultings = consultingRepository.findByApproveAndJournal_Complete(true, false);
 		Assertions.assertThat(notCompletedConsultings).isNotEmpty();
 		Assertions.assertThat(notCompletedConsultings.stream().allMatch(Consulting::isApprove)).isTrue();
 		Assertions.assertThat(notCompletedConsultings.contains(beforeJournal));
 	}
+
+	@Test
+	void getReserveByIdIfNotApproved_shouldReturnReserve() {
+		// Given: 데이터 가져오기
+		Optional<Consulting> consultingOptional = consultingRepository.findById(11L);
+
+		// 데이터가 없으면 테스트 실패
+		assertTrue(consultingOptional.isPresent(), "Consulting with ID 11L not found in the database.");
+		Consulting consulting = consultingOptional.get();
+
+		// 데이터 확인
+		System.out.println("Fetched Consulting ID: " + consulting.getId());
+		System.out.println("Fetched Consulting Title: " + consulting.getTitle());
+
+		// When
+		Optional<Consulting> result = consultingRepository.findByIdAndApproveFalse(consulting.getId());
+
+		// Then
+		assertTrue(result.isPresent(), "Expected consulting to be present, but it was not.");
+		assertEquals(consulting.getTitle(), result.get().getTitle());
+	}
+
 }
