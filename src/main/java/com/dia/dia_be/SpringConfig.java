@@ -32,7 +32,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
 	private Info info() {
 		return new Info()
-			.version("0.1.0")
+			.version("0.0.7")
 			.title("dIA API")
 			.description("하나은행 디지털하나로 개발4기 1차 프로젝트 dIA팀 API");
 	}

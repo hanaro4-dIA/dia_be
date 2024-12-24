@@ -1,6 +1,15 @@
 package com.dia.dia_be;
 
-/*@Configuration
+import java.io.File;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class WebDriverConfig {
 	@Bean
 	public WebDriver webDriver() {
@@ -22,4 +31,4 @@ public class WebDriverConfig {
 		// WebDriver 반환
 		return new ChromeDriver(service, options);
 	}
-}*/
+}
