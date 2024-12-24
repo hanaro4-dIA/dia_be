@@ -3,6 +3,7 @@ package com.dia.dia_be.service.vip.intf;
 import java.util.List;
 
 import com.dia.dia_be.dto.vip.reserveDTO.RequestReserveDTO;
+import com.dia.dia_be.dto.vip.reserveDTO.ReserveWebSocketDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveDTO;
 import com.dia.dia_be.dto.vip.reserveDTO.ResponseReserveInfoDTO;
 
@@ -17,5 +18,7 @@ public interface VipReserveService {
 	public ResponseReserveDTO getReserveByConsultingId(Long customerId, Long consultingId);
 
 	public Long deleteReserve(Long customerId, Long consultingId);
+
+	ReserveWebSocketDTO getReserveByIdIfNotApproved(Long reserveId);
 
 }
