@@ -54,7 +54,7 @@ public class VipReserveController {
 		final Long customerId = 1L;
 		Long consultationId = vipReserveService.addReserve(customerId, requestReserveDTO);
 
-		/*if (session == null) {
+		if (session == null) {
 			return new ResponseEntity<>("No session found", HttpStatus.FOUND);
 		}
 
@@ -62,7 +62,7 @@ public class VipReserveController {
 		VipLoginDTO loginDTO = (VipLoginDTO)session.getAttribute(VipSessionConst.LOGIN_VIP);
 		if (loginDTO == null) {
 			return new ResponseEntity<>("Can't find user data in session", HttpStatus.FOUND);
-		}*/
+		}
 
 		requestConsultationHandler.requestConsultation(vipReserveService.getReserveByIdIfNotApproved(consultationId));
 

@@ -14,12 +14,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Component
 public class RequestConsultationHandler extends TextWebSocketHandler {
-	private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
+	private final CopyOnWriteArrayList<WebSocketSession> sessions;
 	private final ObjectMapper objectMapper;
 
 	public RequestConsultationHandler() {
 		this.objectMapper = new ObjectMapper();
 		this.objectMapper.registerModule(new JavaTimeModule()); // Java 8 날짜/시간 모듈 등록
+		this.sessions = new CopyOnWriteArrayList<>();
 	}
 
 	@Override
