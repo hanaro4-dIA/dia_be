@@ -222,7 +222,7 @@ public class PbJournalController {
 	@GetMapping("/{id}/status")
 	public ResponseEntity<?> getTemporarySavedJournal(
 		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("id") Long id,
-		@RequestParam boolean complete,
+		@Parameter(description = "상담 완료 여부", required = true, example = "true") @RequestParam boolean complete,
 		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);

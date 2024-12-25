@@ -3,6 +3,7 @@ package com.dia.dia_be.dto.pb.hashtagDTO;
 import com.dia.dia_be.domain.Hashtag;
 import com.dia.dia_be.domain.Pb;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +15,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// 부활
 public class RequestHashtagDTO {
+	@Schema(description = "해시태그명", example = "해시")
 	private String name;
 
 	public static RequestHashtagDTO of(String name) {

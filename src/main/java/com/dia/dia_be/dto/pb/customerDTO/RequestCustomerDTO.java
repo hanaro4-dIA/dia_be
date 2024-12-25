@@ -1,10 +1,8 @@
 package com.dia.dia_be.dto.pb.customerDTO;
 
-import java.time.LocalDate;
-
 import com.dia.dia_be.domain.Customer;
-import com.dia.dia_be.domain.Pb;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +16,7 @@ import lombok.Setter;
 @Builder
 public class RequestCustomerDTO {
 
+	@Schema(description = "메모", example = "memo example")
 	private String memo;
 
 	// 엔티티로 변환하는 메서드

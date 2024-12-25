@@ -70,14 +70,13 @@ public class PbProfileController {
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
-
-		Long pbId = 1L;
-		ResponseProfileDTO profile = pbProfileService.getProfile(pbId);
+		ResponseProfileDTO profile = pbProfileService.getProfile(loginDTO.getPbId());
 		return new ResponseEntity<>(profile, HttpStatus.OK);
 	}
 
 	@Parameters({
-		@Parameter(name = "hashTagList", description = "PB의 해시태그 리스트", example = "[자산관리,금융컨설팅,포트폴리오]")
+		@Parameter(name = "file", description = "이미지URL", example = "https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%86%90%ED%9D%A5%EB%AF%BC.jpg"),
+		@Parameter(name = "introduce", description = "PB 소개 문구", example = "소개 문구 예시입니다.")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseProfileDTO.class))),
@@ -87,7 +86,8 @@ public class PbProfileController {
 	public ResponseEntity<ResponseEditProfileDTO> updateProfile(
 		@RequestParam(required = false) MultipartFile file,
 		@RequestParam(required = false) String introduce,
-		@RequestParam List<String> hashtags, HttpServletRequest request) {
+		@Parameter(name = "hashtags", description = "PB의 해시태그 리스트", example = "[\"자산관리\",\"금융컨설팅\",\"포트폴리오\"]") @RequestParam List<String> hashtags,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -99,8 +99,6 @@ public class PbProfileController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		Long pbId = 1L;
-
 		String imgUrl = null;
 		if (file != null) {
 			try {
@@ -110,7 +108,8 @@ public class PbProfileController {
 			}
 		}
 
-		return ResponseEntity.ok().body(pbProfileService.updateProfile(pbId, introduce, imgUrl, hashtags));
+		return ResponseEntity.ok()
+			.body(pbProfileService.updateProfile(loginDTO.getPbId(), introduce, imgUrl, hashtags));
 	}
 
 	@ApiResponses(value = {

@@ -68,7 +68,7 @@ public class PbNotificationController {
 	@GetMapping("/search")
 	@Operation(summary = "특정 고객들 쪽지 조회", description = "특정 고객 ID들에 대해 보낸 쪽지를 조회합니다.")
 	@Parameters({
-		@Parameter(name = "id", description = "조회할 고객들 ID 목록", example = "[1, 2, 3]")
+		@Parameter(name = "id", description = "조회할 고객들 ID 목록", example = "[1, 4, 7]")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "쪽지 조회 성공", content = @Content(mediaType = "application/json")),
@@ -123,7 +123,7 @@ public class PbNotificationController {
 	@PostMapping("/send")
 	@Operation(summary = "쪽지 전송", description = "여러 고객에게 쪽지를 전송합니다.")
 	@Parameters({
-		@Parameter(name = "customerIds", description = "쪽지를 보낼 고객 ID 목록", example = "[1, 2]")
+		@Parameter(name = "customerIds", description = "쪽지를 보낼 고객 ID 목록", example = "[1, 4, 7]")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "쪽지 전송 성공", content = @Content(mediaType = "application/json")),

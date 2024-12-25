@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/vip/reserves")
-@Tag(name = "상담 예약", description = "VIP 상담 예약 API")
+@Tag(name = "VIP - 상담 예약", description = "VIP 상담 예약 API")
 public class VipReserveController {
 
 	private final VipReserveService vipReserveService;
