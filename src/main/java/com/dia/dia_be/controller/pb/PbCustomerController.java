@@ -30,8 +30,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pb/customers")
-// @RequestMapping("/1/customers")
-@Tag(name = "PbCustomer", description = "Customer API")
+@Tag(name = "PB - 고객 관리", description = "고객 정보 처리 관련 API")
 public class PbCustomerController {
 
 	private final PbCustomerService pbCustomerService;
@@ -47,14 +46,14 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "200", description = "Customer 리스트 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "서버 오류")
 	})
-	public ResponseEntity<List<ResponseCustomerDTO>> getCustomerList( HttpServletRequest request ) {
+	public ResponseEntity<List<ResponseCustomerDTO>> getCustomerList(HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -73,14 +72,15 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "200", description = "검색 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public ResponseEntity<List<ResponseCustomerDTO>> searchCustomer(@RequestParam(name = "name") String name, HttpServletRequest request) {
+	public ResponseEntity<List<ResponseCustomerDTO>> searchCustomer(@RequestParam(name = "name") String name,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -97,14 +97,15 @@ public class PbCustomerController {
 		@ApiResponse(responseCode = "200", description = "Customer 정보 조회 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "Customer가 존재하지 않음")
 	})
-	public ResponseEntity<ResponseCustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId, HttpServletRequest request) {
+	public ResponseEntity<ResponseCustomerDTO> getCustomerDetail(@PathVariable("customerId") Long customerId,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -133,7 +134,7 @@ public class PbCustomerController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -142,6 +143,5 @@ public class PbCustomerController {
 		// ResponseCustomerDTO updatedCustomer = pbCustomerService.updateCustomerMemo(1L, requestDto.getMemo());
 		return ResponseEntity.ok(updatedCustomer);
 	}
-
 
 }

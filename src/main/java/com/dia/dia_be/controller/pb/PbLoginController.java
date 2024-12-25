@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("pb/login")
+@Tag(name = "사용자 인증 및 계정 관리", description = "회원가입, 로그인, 로그아웃 관련 API 모음")
 public class PbLoginController {
 
 	private final PbProfileService pbProfileService;
@@ -39,8 +41,9 @@ public class PbLoginController {
 		@ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "로그인 실패")
 	})
-	public ResponseEntity<LoginResponseDTO> pbLogin(@RequestBody @Valid final LoginForm loginForm, HttpServletRequest request) {
-		Pb pb = pbProfileService.login(loginForm.getId(),loginForm.getPw());
+	public ResponseEntity<LoginResponseDTO> pbLogin(@RequestBody @Valid final LoginForm loginForm,
+		HttpServletRequest request) {
+		Pb pb = pbProfileService.login(loginForm.getId(), loginForm.getPw());
 		LoginDTO loginDTO = new LoginDTO(pb.getId());
 
 		HttpSession session = request.getSession(true);

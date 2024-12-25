@@ -27,7 +27,6 @@ import com.dia.dia_be.dto.pb.journalDTO.RequestJournalDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
-import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
 import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
@@ -35,6 +34,7 @@ import com.dia.dia_be.service.pb.intf.PbProductService;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -44,6 +44,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pb/journals")
+@Tag(name = "PB - 상담 일지", description = "상담 일지 관련 API")
 public class PbJournalController {
 
 	private final PbJournalService pbJournalService;
@@ -58,7 +59,6 @@ public class PbJournalController {
 	}
 
 	@GetMapping()
-	@Tag(name = "상담 일지 가져오기", description = "상담 일지 조회 API")
 	@Operation(summary = "상담 일지 리스트 조회")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
@@ -85,14 +85,15 @@ public class PbJournalController {
 	}
 
 	@GetMapping("/{id}")
-	@Tag(name = "상담 일지 가져오기", description = "상담 일지 조회 API")
 	@Operation(summary = "ID 기반 특정 상담 일지 리스트 조회")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "특정 상담 일지 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getJournal(@PathVariable("id") Long id, HttpServletRequest request) {
+	public ResponseEntity<?> getJournal(
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("id") Long id,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -112,14 +113,15 @@ public class PbJournalController {
 	}
 
 	@GetMapping("/reserves/{reserve_id}/content")
-	@Tag(name = "상담 일지 가져오기", description = "상담 일지 조회 API")
 	@Operation(summary = "상담 일지 내 요청 상담 내용 상세 조회")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "요청 상담 내용 상세 조회에 실패했습니다.")
 	})
-	public ResponseEntity<?> getConsultingContent(@PathVariable("reserve_id") Long id, HttpServletRequest request) {
+	public ResponseEntity<?> getConsultingContent(
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("reserve_id") Long id,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -139,7 +141,6 @@ public class PbJournalController {
 	}
 
 	@PostMapping()
-	@Tag(name = "상담 일지 저장하기", description = "상담 일지 임시 저장 API")
 	@Operation(summary = "상담 일지 임시 저장")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
@@ -163,7 +164,6 @@ public class PbJournalController {
 	}
 
 	@PostMapping("/transfer")
-	@Tag(name = "상담 일지 저장하기", description = "상담 일지 전송 API")
 	@Operation(summary = "상담 일지 저장 및 전송 상태 변경")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
@@ -186,14 +186,15 @@ public class PbJournalController {
 	}
 
 	@GetMapping("/products")
-	@Tag(name = "상담 일지 작성 중 태그 기반 상품 검색", description = "상품 검색 API")
 	@Operation(summary = "태그 기반 상품 검색")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "500", description = "요청에 실패했습니다.")
 	})
-	public ResponseEntity<?> getProducts(@RequestParam String tag, HttpServletRequest request) {
+	public ResponseEntity<?> getProducts(
+		@Parameter(description = "태그명", required = true, example = "예금") @RequestParam String tag,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -212,7 +213,6 @@ public class PbJournalController {
 		}
 	}
 
-	@Tag(name = "임시 저장 상담 일지 조회", description = "임시 저장 상담 일지 조회 API")
 	@Operation(summary = "임시 저장 상담 일지 조회")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
@@ -220,7 +220,9 @@ public class PbJournalController {
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
 	@GetMapping("/{id}/status")
-	public ResponseEntity<?> getTemporarySavedJournal(@PathVariable("id") Long id, @RequestParam boolean complete,
+	public ResponseEntity<?> getTemporarySavedJournal(
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("id") Long id,
+		@RequestParam boolean complete,
 		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
@@ -243,7 +245,6 @@ public class PbJournalController {
 	//keyword python server 구현 후 연결
 
 	@PostMapping("{journal_id}/transcripts")
-	@Tag(name = "통화 녹음을 텍스트로 변환 및 키워드 추출", description = "stt and keyword API")
 	@Operation(summary = "통화 녹음을 텍스트로 변환 및 키워드 추출")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
@@ -251,7 +252,7 @@ public class PbJournalController {
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
 	public ResponseEntity<ScriptListWithKeywordsResponseDTO> createScriptsAndKeyword(
-		@PathVariable("journal_id") Long journal_id,
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("journal_id") Long journal_id,
 		@RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest req) {
 		// 세션 확인 코드 추가
 		HttpSession session = req.getSession(false);
@@ -284,11 +285,11 @@ public class PbJournalController {
 			throw new GlobalException(RECORD_SAVE_FAILED);
 		}
 
-		return ResponseEntity.ok().body(pbJournalService.createScriptsAndKeyword(loginDTO.getPbId(), journal_id, filePath));
+		return ResponseEntity.ok()
+			.body(pbJournalService.createScriptsAndKeyword(loginDTO.getPbId(), journal_id, filePath));
 	}
 
 	@PutMapping("{journal_id}/transcripts")
-	@Tag(name = "스크립트 수정 및 키워드 재추출", description = "stt and keyword API")
 	@Operation(summary = "스크립트 수정 및 키워드 재추출")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
@@ -296,8 +297,8 @@ public class PbJournalController {
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
 	public ResponseEntity<ScriptListWithKeywordsResponseDTO> editScriptsAndKeyword(
-		@PathVariable("journal_id") Long journal_id,
-		@RequestBody ScriptListRequestDTO scriptListRequestDTO,HttpServletRequest request) {
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("journal_id") Long journal_id,
+		@RequestBody ScriptListRequestDTO scriptListRequestDTO, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -308,18 +309,19 @@ public class PbJournalController {
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
-		return ResponseEntity.ok().body(pbJournalService.editScriptsAndKeyword(loginDTO.getPbId(),journal_id, scriptListRequestDTO));
+		return ResponseEntity.ok()
+			.body(pbJournalService.editScriptsAndKeyword(loginDTO.getPbId(), journal_id, scriptListRequestDTO));
 	}
 
 	@GetMapping("/{journal_id}/scripts")
-	@Tag(name = "저장된 script 가져오기", description = "상담일지 작성 화면에서 script 부분")
 	@Operation(summary = "script 가져오기")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
-	public ResponseEntity<ScriptListResponseDTO> getScripts(@PathVariable("journal_id") Long journal_id,
+	public ResponseEntity<ScriptListResponseDTO> getScripts(
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("journal_id") Long journal_id,
 		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
@@ -336,30 +338,33 @@ public class PbJournalController {
 	}
 
 	@DeleteMapping("/{journalId}/script")
-	@Tag(name = "script 삭제하기", description = "STT 컴포넌트 특정 script 삭제")
 	@Operation(summary = "script 삭제")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.",
 			content = @Content(mediaType = "application/json")),
 		@ApiResponse(responseCode = "404", description = "요청에 실패했습니다.")
 	})
-	public ResponseEntity<?> deleteScript(@PathVariable("journalId")Long journalId, @RequestParam Long scriptId, @RequestParam Long scriptSequence, HttpServletRequest request){
-			// 세션 확인 코드 추가
-			HttpSession session = request.getSession(false);
-			if (session == null) { // 세션이 없으면 홈으로 이동
-				return new ResponseEntity<>(null, HttpStatus.FOUND);
-			}
+	public ResponseEntity<?> deleteScript(
+		@Parameter(description = "상담일지ID", required = true, example = "1") @PathVariable("journalId") Long journalId,
+		@Parameter(description = "스크립트ID", required = true, example = "1") @RequestParam Long scriptId,
+		@Parameter(description = "스크립트순서", required = true, example = "1") @RequestParam Long scriptSequence,
+		HttpServletRequest request) {
+		// 세션 확인 코드 추가
+		HttpSession session = request.getSession(false);
+		if (session == null) { // 세션이 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
 
-			LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
-			if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
-				return new ResponseEntity<>(null, HttpStatus.FOUND);
-			}
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
+		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
+			return new ResponseEntity<>(null, HttpStatus.FOUND);
+		}
 
-			try{
-				pbJournalService.deleteScript(journalId, scriptId, scriptSequence);
-				return ResponseEntity.ok().build();
-			}catch (Exception e){
-				return ResponseEntity.status(400).body(e.getMessage());
-			}
+		try {
+			pbJournalService.deleteScript(journalId, scriptId, scriptSequence);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(400).body(e.getMessage());
+		}
 	}
 }
