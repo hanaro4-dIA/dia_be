@@ -51,9 +51,6 @@ public class VipReserveController {
 	})
 	public ResponseEntity<?> addReserve(@RequestBody RequestReserveDTO requestReserveDTO, HttpServletRequest request) {
 		HttpSession session = sessionManager.getSession(request);
-		final Long customerId = 1L;
-		Long consultationId = vipReserveService.addReserve(customerId, requestReserveDTO);
-
 		if (session == null) {
 			return new ResponseEntity<>("No session found", HttpStatus.FOUND);
 		}
@@ -64,9 +61,10 @@ public class VipReserveController {
 			return new ResponseEntity<>("Can't find user data in session", HttpStatus.FOUND);
 		}
 
-		requestConsultationHandler.requestConsultation(vipReserveService.getReserveByIdIfNotApproved(consultationId));
-
 		try {
+			Long consultationId = vipReserveService.addReserve(loginDTO.getCustomerId(), requestReserveDTO);
+			requestConsultationHandler.requestConsultation(
+				vipReserveService.getReserveByIdIfNotApproved(consultationId));
 			return ResponseEntity.ok(consultationId);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
