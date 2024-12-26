@@ -12,11 +12,13 @@ import com.dia.dia_be.dto.pb.loginDTO.LoginDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("pb/logout")
+@Tag(name = "사용자 인증 및 계정 관리", description = "회원가입, 로그인, 로그아웃 관련 API 모음")
 public class PbLogoutController {
 
 	@PostMapping()

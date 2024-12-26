@@ -30,6 +30,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/pb/reserves")
+@Tag(name = "PB - 상담 요청", description = "PB의 상담 요청 관리 API")
 public class PbReserveController {
 
 	private final PbReserveService pbReserveService;
@@ -39,7 +40,6 @@ public class PbReserveController {
 	}
 
 	@GetMapping
-	@Tag(name = "들어온 상담 요청 관리", description = "PB의 상담 요청 관리 API")
 	@Operation(summary = "들어온 상담 요청 조회", description = "들어온 상담 요청 조회 및 캘린더 내 전체 상담 일정 조회")
 	@Parameters({
 		@Parameter(name = "status", description = "상담 요청 승인 여부 상태", example = "false"),
@@ -49,18 +49,18 @@ public class PbReserveController {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseReserveDTO.class))),
 		@ApiResponse(responseCode = "404", description = "검색 결과 없음")
 	})
-	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status, @RequestParam(required = false) String type, HttpServletRequest request) {
+	public ResponseEntity<List<ResponseReserveDTO>> getReserves(@RequestParam boolean status,
+		@RequestParam(required = false) String type, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO = (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
-
 
 		List<ResponseReserveDTO> reserves;
 
@@ -77,9 +77,7 @@ public class PbReserveController {
 		return new ResponseEntity<>(reserves, HttpStatus.OK);
 	}
 
-
 	@PutMapping
-	@Tag(name = "들어온 상담 요청 관리", description = "PB의 상담 요청 관리 API")
 	@Operation(summary = "상담 요청 승인", description = "아직 승인받지 않은 상담 요청을 승인 상태로 변경")
 	@Parameters({
 		@Parameter(name = "id", description = "승인할 상담 요청의 ID", example = "11")
@@ -97,7 +95,7 @@ public class PbReserveController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO =  (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
@@ -110,7 +108,6 @@ public class PbReserveController {
 		}
 	}
 
-	@Tag(name = "전체 상담 일정 캘린더", description = "PB의 상담 일정 캘린더 API")
 	@Operation(summary = "특정날짜 상담 일정", description = "특정날짜 상담 일정 조회")
 	@Parameters({
 		@Parameter(name = "date", description = "상담날짜", example = "2024-12-15")
@@ -123,14 +120,15 @@ public class PbReserveController {
 	})
 	@GetMapping(params = {"date", "pbId"})
 	public ResponseEntity<List<ResponseReserveByDateDTO>> getReservesByDate(@RequestParam LocalDate date,
-		@RequestParam Long pbId, HttpServletRequest request) {
+		@Parameter(description = "PB의 ID", required = true, example = "1") @RequestParam Long pbId,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
 
-		LoginDTO loginDTO = (LoginDTO) session.getAttribute(PbSessionConst.LOGIN_PB);
+		LoginDTO loginDTO = (LoginDTO)session.getAttribute(PbSessionConst.LOGIN_PB);
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(HttpStatus.FOUND);
 		}
