@@ -57,26 +57,26 @@ insert into pb(id,login_id,password,name,image_url,introduce,office,career,tel,a
 고객 맞춤형 세무 및 상속 자문','02-558-0111','0');
 
 /*********************customer***********************/
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(1,'1','강재준','email1@example.com','password1','010-9945-5020','서울특별시 강남구','2023.10.01','10','강남구 거주, 안정적 자산 관리 필요.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(1,'1','강재준','email1@example.com','password1','010-9945-5020','서울특별시 강남구','2023.10.01','8','강남구 거주, 안정적 자산 관리 필요.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(2,'2','김미진','email2@example.com','password2','010-2222-2222','경기도 성남시 분당구','2023.03.11','0','분당 신혼부부, 장기적 재무 설계 추천.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(3,'3','길유정','email3@example.com','password3','010-3333-3333','부산광역시 해운대구','2023.09.22','0','해운대 거주, 자녀 교육 자금 상담 요청.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(4,'1','김현수','email4@example.com','password4','010-4444-4444','서울특별시 서초구','2024.11.11','0','서초구 거주, 투자형 금융상품에 관심.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(5,'2','장다연','email5@example.com','password5','010-5555-5555','전라남도 여수시','2023.12.14','0','여수 사업가, 지역 특화 투자 정보 제공.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(6,'3','김은서','email6@example.com','password6','010-6666-6666','서울특별시 마포구','2024.03.04','0','마포구 직장인, 중소형 투자 상품 추천.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(7,'1','최강희','email7@example.com','password7','010-1234-5678','제주시','2023.05.11','2','제주도 거주, 부동산 투자 관련 상담 필요.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(7,'1','최강희','email7@example.com','password7','010-1234-5678','제주시','2023.05.11','1','제주도 거주, 부동산 투자 관련 상담 필요.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(8,'2','전성호','email8@example.com','password8','010-1234-5679','경기도 부천시','2024.05.30','0','부천 거주, 노후 대비 연금 상품 관심.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(9,'3','강민관','email9@example.com','password9','010-1234-5680','경기도 부천시','2024.08.19','0','부천 신혼부부, 대출 및 자산 증식 필요.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(10,'1','김예나','email10@example.com','password10','010-1234-5681','서울특별시 마포구','2023.10.17','1','마포구 대학원생, 소액 저축 및 재무 관리.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(10,'1','김예나','email10@example.com','password10','010-1234-5681','서울특별시 마포구','2023.10.17','0','마포구 대학원생, 소액 저축 및 재무 관리.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(11,'2','김인선','email11@example.com','password11','010-1234-5682','경기도 수원시','2023.10.18','0','수원 거주, 자녀 학자금 마련 상담 요청.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(12,'3','남승혁','email12@example.com','password12','010-1234-5683','경기도 일산','2023.01.19','0','일산 거주, 안정적 투자 상품 추천 필요.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(13,'1','남인우','email13@example.com','password13','010-1234-5684','서울특별시 천호','2023.10.20','1','천호 근무, 고위험 고수익 투자 관심.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(14,'1','문규빈','email14@example.com','password14','010-1234-5685','미국 캘리포니아','2023.02.21','1','캘리포니아 거주, 해외 자산 관리 필요.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(13,'1','남인우','email13@example.com','password13','010-1234-5684','서울특별시 천호','2023.10.20','0','천호 근무, 고위험 고수익 투자 관심.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(14,'1','문규빈','email14@example.com','password14','010-1234-5685','미국 캘리포니아','2023.02.21','0','캘리포니아 거주, 해외 자산 관리 필요.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(15,'2','문서아','email15@example.com','password15','010-1234-5686','경기도 성남시 분당구','2023.03.22','0','분당 직장인, 대출 관리 및 저축 추천.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(16,'2','문해빈','email16@example.com','password16','010-1234-5687','이탈리아 나폴리','2023.04.23','0','나폴리 거주, 글로벌 금융상품 정보 제공.');
 insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(17,'2','박시온','email17@example.com','password17','010-1234-5688','인천 남동구','2023.05.24','0','인천 직장인, 중기 자산 형성 상담 필요.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(18,'1','박준용','email18@example.com','password18','010-1234-5689','경기도 성남시 분당구','2023.06.25','1','분당 거주, 가족 재무 통합 관리 요청.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(19,'1','이규호','email19@example.com','password19','010-1234-5690','서울특별시 광진구','2023.07.26','1','광진구 사업가, 부동산 투자 관련 정보 제공.');
-insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(20,'1','임형석','email20@example.com','password20','010-1234-5691','경기도 동탄시','2023.08.27','1','동탄 직장인, 연금 및 소득 안정화 필요.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(18,'1','박준용','email18@example.com','password18','010-1234-5689','경기도 성남시 분당구','2023.06.25','0','분당 거주, 가족 재무 통합 관리 요청.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(19,'1','이규호','email19@example.com','password19','010-1234-5690','서울특별시 광진구','2023.07.26','0','광진구 사업가, 부동산 투자 관련 정보 제공.');
+insert into customer(id,pb_id,name,email,password,tel,address,date,count,memo) values(20,'1','임형석','email20@example.com','password20','010-1234-5691','경기도 동탄시','2023.08.27','0','동탄 직장인, 연금 및 소득 안정화 필요.');
 
 /*******************keyword******************/
 insert into keyword(id,title,content) values(1,'가맹점수수료','가맹점수수료는 가맹점이 신용카드, 직불카드 또는 선불카드 소지자의 재화와 용역 구입대금을 은행 또는 신용카드회사로부터 대신 지급 받고 이에 대한 대가로 은행이나 신용카드사에 지불하는 금액을 의미한다. 일반적인 재화와 용역의 거래는 소비자가 구매의사를 표시한 후 대금을 지불하면 거래가 이루어진다. 그러나 신용카드에 의한 거래는 신용카드, 직불카드 또는 선불카드 소지자가 가맹점에서 재화나 용역을 구매하고자 하는 의사를 밝히고 신용카드로 결제하면 신용카드사는 이들을 대신하여 소정기한이 지난 후 총 거래대금에서 일정비율의 가맹점수수료를 선취하고 난 금액을 가맹점에 지급하고 있다. 현재 가맹점수수료율은 가맹점이 부담하는 것이 합당한 비용(적격비용)만을 반영하여 각 카드사에서 가맹점별로 산정하고 있다.');
@@ -1181,11 +1181,11 @@ insert into journal(id,consulting_id,contents,complete) values(4,'4','상담 내
 
 6. 개인종합자산관리계좌
 [여러 업권의 다양한 금융상품을 한 계좌에 모아 투자하면서 세제혜택도 받을 수 있는 종합 자산관리 계좌이다. 편입할 수 있는 상품은 예,적금, 공모펀드, 리츠(REITS) 등이며, 유형별로는 신탁형과 일임형, 가입대상별로는 서민형, 일반형 등으로 구분된다. 근로, 사업소득이 있는 근로자, 자영업자, 농어민으로서 직전연도 금융소득종합과세대상자가 아닌 경우 가입이 가능하다. 연간 2,000만원씩 총 1억원까지 납입이 가능하며 세제혜택을 받기 위한 의무 가입기간은 서민형 등은 3년, 일반형은 5년이다. 가입기간 도중 계좌에서 발생한 이익과 손실을 통산한 순이익에 대하여 서민형은 250만원, 일반형은 200만원까지 비과세하고 비과세 한도를 초과하는 순이익은 저율(9.9%)로 분리과세하는 세제혜택이 있다.]','1');
-insert into journal(id,consulting_id,contents,complete) values(5,'5','상담을 완료하였음','0');
-insert into journal(id,consulting_id,contents,complete) values(6,'6','상담을 완료하였음','0');
-insert into journal(id,consulting_id,contents,complete) values(7,'7','상담을 완료하였음','0');
-insert into journal(id,consulting_id,contents,complete) values(8,'8','상담을 완료하였음','0');
-insert into journal(id,consulting_id,contents,complete) values(9,'9','상담을 완료하였음','0');
+insert into journal(id,consulting_id,contents,complete) values(5,'5','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(6,'6','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(7,'7','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(8,'8','상담을 완료하였음','1');
+insert into journal(id,consulting_id,contents,complete) values(9,'9','상담을 완료하였음','1');
 insert into journal(id,consulting_id,contents,complete) values(10,'10',null,'0');
 insert into journal(id,consulting_id,contents,complete) values(11,'11',null,'0');
 insert into journal(id,consulting_id,contents,complete) values(12,'12',null,'0');

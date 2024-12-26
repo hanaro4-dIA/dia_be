@@ -29,7 +29,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,6 +38,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/pb")
 @RestController
+@Tag(name = "PB - 프로필", description = "프로필 처리 관련 API")
 public class PbProfileController {
 
 	private final PbProfileService pbProfileService;
@@ -70,17 +70,13 @@ public class PbProfileController {
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
-
-		Long pbId = 1L;
-		ResponseProfileDTO profile = pbProfileService.getProfile(pbId);
+		ResponseProfileDTO profile = pbProfileService.getProfile(loginDTO.getPbId());
 		return new ResponseEntity<>(profile, HttpStatus.OK);
 	}
 
-	@Tag(name = "PB 프로필 업데이트", description = "PB의 프로필 업데이트 API")
 	@Parameters({
-		@Parameter(name = "introduce", description = "PB의 한줄 소개"),
-		@Parameter(name = "file", description = "PB의 프로필 이미지, 변경 없을 시에는 전달X"),
-		@Parameter(name = "hashTagList", description = "PB의 해시태그 리스트")
+		@Parameter(name = "file", description = "이미지URL", example = "https://mydiabucket.s3.ap-northeast-2.amazonaws.com/static/%EC%86%90%ED%9D%A5%EB%AF%BC.jpg"),
+		@Parameter(name = "introduce", description = "PB 소개 문구", example = "소개 문구 예시입니다.")
 	})
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseProfileDTO.class))),
@@ -90,7 +86,8 @@ public class PbProfileController {
 	public ResponseEntity<ResponseEditProfileDTO> updateProfile(
 		@RequestParam(required = false) MultipartFile file,
 		@RequestParam(required = false) String introduce,
-		@RequestParam List<String> hashtags, HttpServletRequest request) {
+		@Parameter(name = "hashtags", description = "PB의 해시태그 리스트", example = "[\"자산관리\",\"금융컨설팅\",\"포트폴리오\"]") @RequestParam List<String> hashtags,
+		HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);
 		if (session == null) { // 세션이 없으면 홈으로 이동
@@ -102,8 +99,6 @@ public class PbProfileController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		Long pbId = 1L;
-
 		String imgUrl = null;
 		if (file != null) {
 			try {
@@ -113,19 +108,16 @@ public class PbProfileController {
 			}
 		}
 
-		return ResponseEntity.ok().body(pbProfileService.updateProfile(pbId, introduce, imgUrl, hashtags));
+		return ResponseEntity.ok()
+			.body(pbProfileService.updateProfile(loginDTO.getPbId(), introduce, imgUrl, hashtags));
 	}
 
-	@Tag(name = "PB 상담 가능여부 업데이트", description = "PB의 상담 가능 업데이트 API")
 	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "반환 성공"),
 		@ApiResponse(responseCode = "400", description = "요청 본문이 비어 있거나 잘못된 형식입니다.")
 	})
 	@PutMapping("/availability")
 	public ResponseEntity<RequestAvailabilityDTO> updateAvailability(
-		@Parameter(description = "상담 가능 여부를 업데이트하기 위한 요청 데이터", required = true,
-			content = @Content(mediaType = "application/json",
-				examples = @ExampleObject(name = "updateAvailabilityExample",
-					value = "{ \"pbId\": 1, \"availability\": true }")))
 		@RequestBody RequestAvailabilityDTO availabilityDTO, HttpServletRequest request) {
 		// 세션 확인 코드 추가
 		HttpSession session = request.getSession(false);

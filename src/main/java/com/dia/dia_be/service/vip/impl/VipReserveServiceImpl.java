@@ -58,7 +58,7 @@ public class VipReserveServiceImpl implements VipReserveService {
 			customerRepository.findById(customerId).orElseThrow(() -> new GlobalException(CommonErrorCode.BAD_REQUEST))
 			, requestReserveDTO.getTitle()
 			, requestReserveDTO.getDate()
-			, requestReserveDTO.getTime()
+			, LocalTime.parse(requestReserveDTO.getTime())
 			, LocalDate.now()
 			, LocalTime.now()
 			, requestReserveDTO.getContent()

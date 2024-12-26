@@ -20,11 +20,14 @@ import lombok.Setter;
 @Builder
 public class RequestNotificationDTO {
 
-	@Schema(hidden = true) // Swagger에서 숨기기
+	@Schema(hidden = true)
 	private List<Long> customerIds;
 
+	@Schema(description = "알림 제목", example = "알림 제목입니다.")
 	private String title;
+	@Schema(description = "알림 내용", example = "알림 내용입니다.")
 	private String content;
+	@Schema(description = "날짜", example = "2024-12-25")
 	private LocalDate date;
 
 	public static RequestNotificationDTO of(Notification notification) {

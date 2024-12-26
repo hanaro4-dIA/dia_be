@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class ResponseJournalDTO {
 	private Long id;
 	private Long customerId;
+	private boolean complete;
 	private String categoryName;
 	private LocalDate hopeDate;
 	@JsonFormat(pattern = "HH:mm")
@@ -34,6 +35,7 @@ public class ResponseJournalDTO {
 		return ResponseJournalDTO.builder()
 			.id(journal.getId())
 			.customerId(journal.getConsulting().getCustomer().getId())
+			.complete(journal.isComplete())
 			.categoryName(journal.getConsulting().getCategory().getName())
 			.hopeDate(journal.getConsulting().getHopeDate())
 			.hopeTime(journal.getConsulting().getHopeTime())

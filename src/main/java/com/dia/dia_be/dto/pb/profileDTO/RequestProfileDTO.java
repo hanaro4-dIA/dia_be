@@ -30,10 +30,10 @@ public class RequestProfileDTO {
 			.build();
 	}
 
-	public static RequestProfileDTO from(Pb pb){
+	public static RequestProfileDTO from(Pb pb) {
 		return RequestProfileDTO.builder()
-				.imageUrl(pb.getImageUrl())
-				.hashTagList(pb.getHashtag().stream()
+			.imageUrl(pb.getImageUrl())
+			.hashTagList(pb.getHashtag().stream()
 				.map(RequestHashtagDTO::from)
 				.toList()).build();
 	}

@@ -14,12 +14,15 @@ import com.dia.dia_be.global.session.SessionManager;
 import com.dia.dia_be.service.vip.intf.VipNotificationService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@Tag(name = "VipNotification", description = "Notification API")
+@Tag(name = "VIP - 알림", description = "알림 load, read, delete")
 @RequestMapping("/vip/notifications")
 public class VipNotificationController {
 
@@ -31,10 +34,12 @@ public class VipNotificationController {
 		this.sessionManager = sessionManager;
 	}
 
-	// GET {{base_url}}/vip/notifications
-	// 해당 customer(=VIP)의 모든 알림을 가져옴
 	@GetMapping
 	@Operation(summary = "특정 VIP의 알림 내용을 가져오는 API")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "알림 리스트 반환 성공", content = @Content(mediaType = "application/json")),
+		@ApiResponse(responseCode = "500", description = "잘못된 요청으로 인한 반환 실패")
+	})
 	public ResponseEntity<?> getNotifications(HttpServletRequest request) {
 		HttpSession session = sessionManager.getSession(request);
 		if (session == null) {
@@ -54,11 +59,12 @@ public class VipNotificationController {
 		}
 	}
 
-	// GET {{base_url}}/vip/notifications
-	// 해당 customerId의 전체 알림 삭제
-
 	@DeleteMapping
 	@Operation(summary = "특정 VIP의 모든 알림 삭제 API")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "삭제 성공"),
+		@ApiResponse(responseCode = "500", description = "삭제 실패")
+	})
 	public ResponseEntity<String> deleteAllNotifications(HttpServletRequest request) {
 		HttpSession session = sessionManager.getSession(request);
 		if (session == null) {
@@ -79,11 +85,12 @@ public class VipNotificationController {
 		}
 	}
 
-	// GET {{base_url}}/vip/notifications
-	// 해당 customerId의 전체 알림 읽음 처리
-
 	@PatchMapping
 	@Operation(summary = "특정 VIP의 모든 알림 읽음 처리 API")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "읽음 처리 성공"),
+		@ApiResponse(responseCode = "500", description = "읽음 처리 실패")
+	})
 	public ResponseEntity<String> markAllNotificationsAsRead(HttpServletRequest request) {
 		HttpSession session = sessionManager.getSession(request);
 		if (session == null) {
