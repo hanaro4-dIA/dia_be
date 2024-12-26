@@ -66,9 +66,10 @@ public class VipReserveControllerTest {
 
 		final String url = "/vip/reserves";
 
-		RequestReserveDTO sampleDTO = new RequestReserveDTO(LocalDate.now().plusDays(1), LocalTime.of(14, 0),
+		RequestReserveDTO sampleDTO = new RequestReserveDTO(LocalDate.now().plusDays(1), "14:00",
 			2L,
 			"상담제목1", "상담내용");
+
 		mockMvc.perform(
 				post(url).content(objectMapper.writeValueAsString(sampleDTO))
 					.contentType(MediaType.APPLICATION_JSON)
