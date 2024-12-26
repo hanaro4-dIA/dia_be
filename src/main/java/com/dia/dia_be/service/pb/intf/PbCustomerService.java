@@ -10,7 +10,7 @@ public interface PbCustomerService {
 
 	ResponseCustomerDTO getCustomerDetail(Long customerId);
 
-	List<ResponseCustomerDTO> searchCustomer(String name);
+	List<ResponseCustomerDTO> searchCustomer(Long pbId, String name);
 
 	ResponseCustomerDTO updateCustomerMemo(Long customerId, String memo);
 

@@ -16,7 +16,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, Query
 	@NonNull
 	List<Customer> findAll();
 
-	List<Customer> findByNameContaining(String name);
+	List<Customer> findByPb_idAndNameContaining(Long id, String name);
 
 	List<Customer> findByPbId(Long pbId);
 
