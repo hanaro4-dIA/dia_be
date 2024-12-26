@@ -1,4 +1,4 @@
-/*package com.dia.dia_be;
+package com.dia.dia_be;
 
 import java.io.File;
 
@@ -32,4 +32,3 @@ public class WebDriverConfig {
 		return new ChromeDriver(service, options);
 	}
 }
-*/
