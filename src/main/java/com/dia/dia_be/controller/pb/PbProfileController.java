@@ -129,7 +129,8 @@ public class PbProfileController {
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
-
+		// 요청 데이터 로그 출력
+		System.out.println("Received DTO: " + availabilityDTO);
 		RequestAvailabilityDTO updateAvailability = pbProfileService.updateAvailability(availabilityDTO);
 		pbAvailabilityHandler.notifyClients(updateAvailability);
 		return ResponseEntity.ok().body(updateAvailability);
