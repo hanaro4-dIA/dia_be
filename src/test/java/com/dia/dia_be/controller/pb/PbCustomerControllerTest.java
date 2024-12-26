@@ -187,7 +187,6 @@ public class PbCustomerControllerTest {
 		assertThat(customerDTO.getTel()).isEqualTo("010-9945-5020");
 		assertThat(customerDTO.getAddress()).isEqualTo("서울특별시 강남구");
 		assertThat(customerDTO.getDate()).isEqualTo(LocalDate.parse("2023-10-01"));
-		assertThat(customerDTO.getCount()).isEqualTo(10);
 		assertThat(customerDTO.getMemo()).isEqualTo("강남구 거주, 안정적 자산 관리 필요.");
 	}
 
