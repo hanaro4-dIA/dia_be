@@ -412,8 +412,8 @@ public class PbJournalServiceImpl implements PbJournalService {
 			.collect(Collectors.toList());
 
 		// 최종 결과 출력
-		System.out.println("Result JSON Array:");
-		System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+		log.info("Result JSON Array:");
+		log.info(Arrays.toString(scriptResponseDTOList.toArray()));
 
 		for (ResponseKeywordDTO responseKeywordDTO : responseKeywordDTOList) {
 			Keyword keyword = keywordRepository.findById(responseKeywordDTO.getId()).get();

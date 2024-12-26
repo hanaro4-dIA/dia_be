@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 import com.dia.dia_be.service.crawling.intf.IssueCrawlingService;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class IssueCrawlingScheduler {
 
 	private final IssueCrawlingService issueCrawlingService;
@@ -19,12 +21,12 @@ public class IssueCrawlingScheduler {
 	@Transactional
 	@Scheduled(cron = "0 25 15 * * *") // 매일 오전 6시에 실행
 	public void scheduleCrawling() {
-		System.out.println("크롤링 스케줄러 시작");
+		log.info("크롤링 스케줄러 시작");
 		try {
 			issueCrawlingService.saveIssue();
-			System.out.println("크롤링 및 저장 완료");
+			log.info("크롤링 및 저장 완료");
 		} catch (Exception e) {
-			System.err.println("크롤링 중 오류 발생: " + e.getMessage());
+			log.info("크롤링 중 오류 발생: " + e.getMessage());
 		}
 	}
 }
