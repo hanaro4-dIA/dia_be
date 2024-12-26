@@ -1203,7 +1203,7 @@ insert into script(id,journal_id,script_sequence,speaker,content) values(3,'1','
 insert into script(id,journal_id,script_sequence,speaker,content) values(4,'1','4','VIP','손실된 금액을 최대한 복구하고, 향후에는 안정적인 수익을 추구하고 싶습니다.');
 insert into script(id,journal_id,script_sequence,speaker,content) values(5,'1','5','PB','이해했습니다. 현재 비상 상황에서 안정적인 예금 상품과 분산 투자가 유리합니다. 추가적으로, 금융기관의 신뢰도와 상품의 유동성을 꼼꼼히 점검해야 합니다.');
 insert into script(id,journal_id,script_sequence,speaker,content) values(6,'1','6','PB','손님께 적합한 두 가지 상품을 추천드리겠습니다. 3·6·9 정기예금은 짧은 주기로 금리가 갱신되며, 경제 상황에 따라 유리한 금리 혜택을 누릴 수 있는 상품입니다. 고단위 플러스(금리연동형)는 금리에 따라 수익률이 달라지며, 안전성과 수익성을 동시에 고려할 수 있습니다. 이 두 상품은 가장매매 리스크를 최소화하면서, 안정적인 자산 관리를 지원할 수 있는 구조로 설계되었습니다.');
-insert into script(id,journal_id,script_sequence,speaker,content) values(7,'1','7','PB','추천 상품에 따라 자산을 배분하고, 추가적으로 개인퇴직계좌를 활용해 세제 혜택과 안정성을 강화할 수 있습니다. 또한, 현 상황에서 시장 리스크를 줄이기 위해 글로벌 자산 투자로 포트폴리오를 다각화하는 것도 검토해 보시는 것이 좋겠습니다.');
+insert into script(id,journal_id,script_sequence,speaker,content) values(7,'1','7','PB','하고, 추가적으로 개인퇴직계좌를 활용해 세제 혜택과 안정성을 강화할 수 있습니다. 또한, 현 상황에서 시장 리스크를 줄이기 위해 글로벌 자산 투자로 포트폴리오를 다각화하는 것도 검토해 보시는 것이 좋겠습니다.');
 insert into script(id,journal_id,script_sequence,speaker,content) values(8,'1','8','VIP','괜찮은 제안 같아요. 하지만 지금 바로 결정을 내리기는 어렵네요.');
 insert into script(id,journal_id,script_sequence,speaker,content) values(9,'1','9','PB','충분히 이해합니다. 고민하시면서 추가적인 질문이나 필요사항이 있으시면 언제든지 연락 주세요.');
 insert into script(id,journal_id,script_sequence,speaker,content) values(10,'1','10','PB','오늘 말씀드린 전략이 손님의 자산 안정화에 도움이 되기를 바랍니다. 다음 상담 일정은 언제로 잡을까요?');

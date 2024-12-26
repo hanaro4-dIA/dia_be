@@ -1,5 +1,6 @@
 package com.dia.dia_be.service.pb.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +49,10 @@ import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class PbJournalServiceImpl implements PbJournalService {
 
 	private final JournalRepository journalRepository;
@@ -276,6 +280,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 		// 	+ "  \"events\": [],\n"
 		// 	+ "  \"eventTypes\": []\n"
 		// 	+ "}\n";
+		log.info(sttResult);
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
 		List<ResponseKeywordDTO> responseKeywordDTOList = new LinkedList<>();
 		try {
@@ -306,7 +311,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 			//flask서버로 키워드 추출요청
 			RestTemplate restTemplate = new RestTemplate();
 			String flaskUrl = "http://localhost:5000/extract_keywords";
-
+			log.info(flaskUrl);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			Map<String, String> requestBody = new HashMap<>();
@@ -327,6 +332,8 @@ public class PbJournalServiceImpl implements PbJournalService {
 				.collect(Collectors.toList());
 
 			// 최종 결과 출력
+			log.info("Result JSON Array:");
+			log.info(Arrays.toString(scriptResponseDTOList.toArray()));
 			//System.out.println("Result JSON Array:");
 			//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
 
@@ -405,8 +412,8 @@ public class PbJournalServiceImpl implements PbJournalService {
 			.collect(Collectors.toList());
 
 		// 최종 결과 출력
-		//System.out.println("Result JSON Array:");
-		//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
+		System.out.println("Result JSON Array:");
+		System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
 
 		for (ResponseKeywordDTO responseKeywordDTO : responseKeywordDTOList) {
 			Keyword keyword = keywordRepository.findById(responseKeywordDTO.getId()).get();

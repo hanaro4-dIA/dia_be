@@ -1,6 +1,13 @@
 package com.dia.dia_be.service.crawling;
 
-/*@Component
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import com.dia.dia_be.service.crawling.intf.IssueCrawlingService;
+
+import jakarta.transaction.Transactional;
+
+@Component
 public class IssueCrawlingScheduler {
 
 	private final IssueCrawlingService issueCrawlingService;
@@ -10,7 +17,7 @@ public class IssueCrawlingScheduler {
 	}
 
 	@Transactional
-	@Scheduled(cron = "0 0 6 * * *") // 매일 오전 6시에 실행
+	@Scheduled(cron = "0 15 15 * * *") // 매일 오전 6시에 실행
 	public void scheduleCrawling() {
 		System.out.println("크롤링 스케줄러 시작");
 		try {
@@ -21,4 +28,3 @@ public class IssueCrawlingScheduler {
 		}
 	}
 }
-*/
