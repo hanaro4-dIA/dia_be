@@ -19,7 +19,7 @@ public class IssueCrawlingScheduler {
 	}
 
 	@Transactional
-	@Scheduled(cron = "0 25 15 * * *") // 매일 오전 6시에 실행
+	@Scheduled(cron = "0 35 6 * * *") // 매일 오전 6시에 실행
 	public void scheduleCrawling() {
 		log.info("크롤링 스케줄러 시작");
 		try {
