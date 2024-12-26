@@ -1,26 +1,17 @@
 package com.dia.dia_be.service.pb.impl;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import com.dia.dia_be.domain.Consulting;
 import com.dia.dia_be.domain.Customer;
 import com.dia.dia_be.domain.Journal;
 import com.dia.dia_be.domain.JournalKeyword;
 import com.dia.dia_be.domain.JournalProduct;
-import com.dia.dia_be.domain.Keyword;
 import com.dia.dia_be.domain.Product;
 import com.dia.dia_be.domain.Script;
 import com.dia.dia_be.domain.Speaker;
@@ -32,7 +23,6 @@ import com.dia.dia_be.dto.pb.journalDTO.ScriptListResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptListWithKeywordsResponseDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptRequestDTO;
 import com.dia.dia_be.dto.pb.journalDTO.ScriptResponseDTO;
-import com.dia.dia_be.dto.pb.keywordDTO.ResponseKeywordDTO;
 import com.dia.dia_be.exception.CommonErrorCode;
 import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.exception.PbErrorCode;
@@ -45,6 +35,7 @@ import com.dia.dia_be.repository.JournalRepository;
 import com.dia.dia_be.repository.KeywordRepository;
 import com.dia.dia_be.repository.ProductRepository;
 import com.dia.dia_be.repository.ScriptRepository;
+import com.dia.dia_be.service.flask.FlaskService;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,13 +55,14 @@ public class PbJournalServiceImpl implements PbJournalService {
 	private final CustomerRepository customerRepository;
 	private final JournalKeywordRepository journalKeywordRepository;
 	private final KeywordRepository keywordRepository;
+	private final FlaskService flaskService;
 
 	public PbJournalServiceImpl(JournalRepository journalRepository, ClovaSpeechService clovaSpeechService,
 		ScriptRepository scriptRepository, ConsultingRepository consultingRepository,
 		JournalProductRepository journalProductRepository, ProductRepository productRepository,
 		CustomerRepository customerRepository,
 		JournalKeywordRepository journalKeywordRepository,
-		KeywordRepository keywordRepository) {
+		KeywordRepository keywordRepository, FlaskService flaskService) {
 		this.journalRepository = journalRepository;
 		this.clovaSpeechService = clovaSpeechService;
 		this.scriptRepository = scriptRepository;
@@ -80,6 +72,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 		this.customerRepository = customerRepository;
 		this.journalKeywordRepository = journalKeywordRepository;
 		this.keywordRepository = keywordRepository;
+		this.flaskService = flaskService;
 	}
 
 	@Override
@@ -282,7 +275,7 @@ public class PbJournalServiceImpl implements PbJournalService {
 		// 	+ "}\n";
 		log.info(sttResult);
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
-		List<ResponseKeywordDTO> responseKeywordDTOList = new LinkedList<>();
+
 		try {
 			// ObjectMapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -308,47 +301,22 @@ public class PbJournalServiceImpl implements PbJournalService {
 				}
 			}
 
-			//flask서버로 키워드 추출요청
-			RestTemplate restTemplate = new RestTemplate();
-			String flaskUrl = "http://localhost:5000/extract_keywords";
-			log.info(flaskUrl);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			Map<String, String> requestBody = new HashMap<>();
-			requestBody.put("text", rootNode.get("text").asText());
-
-			HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-			ResponseEntity<Map> response = restTemplate.postForEntity(flaskUrl, requestEntity, Map.class);
-
-			// 키워드 데이터를 List<Map<String, Object>>로 캐스팅 후 바로 List<ResponseKeywordDTO>로 변환
-			responseKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
-				.get("responseKeywordDTOList"))
-				.stream()
-				.map(keywordData -> ResponseKeywordDTO.builder()
-					.id(((Number)keywordData.get("id")).longValue())
-					.title((String)keywordData.get("title"))
-					.content((String)keywordData.get("content"))
-					.build())
-				.collect(Collectors.toList());
-
 			// 최종 결과 출력
 			log.info("Result JSON Array:");
 			log.info(Arrays.toString(scriptResponseDTOList.toArray()));
 			//System.out.println("Result JSON Array:");
 			//System.out.println(Arrays.toString(scriptResponseDTOList.toArray()));
 
-			for (ResponseKeywordDTO responseKeywordDTO : responseKeywordDTOList) {
-				Keyword keyword = keywordRepository.findById(responseKeywordDTO.getId()).get();
-				JournalKeyword beforeJournalKeyword = JournalKeyword.create(keyword, journal, customer);
-				journalKeywordRepository.save(beforeJournalKeyword);
-			}
+			// Flask 서버로 키워드 요청 (비동기)
+			String text = rootNode.get("text").asText();
+			flaskService.sendTextToFlask(text, journalId, customerId).subscribe();
 
-			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
+			return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList);
 	}
 
 	@Override
@@ -376,7 +344,6 @@ public class PbJournalServiceImpl implements PbJournalService {
 
 		//새로 만들어 넣기
 		List<ScriptResponseDTO> scriptResponseDTOList = new LinkedList<>();
-		List<ResponseKeywordDTO> responseKeywordDTOList;
 		StringBuilder text = new StringBuilder();
 
 		for (ScriptRequestDTO scriptRequestDTO : scriptListRequestDTO.getScriptRequestDTOList()) {
@@ -387,40 +354,14 @@ public class PbJournalServiceImpl implements PbJournalService {
 			scriptResponseDTOList.add(ScriptResponseDTO.from(addScript));
 		}
 
-		//flask 코드 추가
-		//flask서버로 키워드 추출요청
-		RestTemplate restTemplate = new RestTemplate();
-		String flaskUrl = "http://localhost:5000/extract_keywords";
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		Map<String, String> requestBody = new HashMap<>();
-		requestBody.put("text", text.toString());
-
-		HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-		ResponseEntity<Map> response = restTemplate.postForEntity(flaskUrl, requestEntity, Map.class);
-
-		// 키워드 데이터를 List<Map<String, Object>>로 캐스팅 후 바로 List<ResponseKeywordDTO>로 변환
-		responseKeywordDTOList = ((List<Map<String, Object>>)response.getBody()
-			.get("responseKeywordDTOList"))
-			.stream()
-			.map(keywordData -> ResponseKeywordDTO.builder()
-				.id(((Number)keywordData.get("id")).longValue())
-				.title((String)keywordData.get("title"))
-				.content((String)keywordData.get("content"))
-				.build())
-			.collect(Collectors.toList());
-
 		// 최종 결과 출력
 		log.info("Result JSON Array:");
 		log.info(Arrays.toString(scriptResponseDTOList.toArray()));
 
-		for (ResponseKeywordDTO responseKeywordDTO : responseKeywordDTOList) {
-			Keyword keyword = keywordRepository.findById(responseKeywordDTO.getId()).get();
-			JournalKeyword beforeJournalKeyword = JournalKeyword.create(keyword, journal, customer);
-			journalKeywordRepository.save(beforeJournalKeyword);
-		}
-		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList, responseKeywordDTOList);
+		//비동기 요청
+		flaskService.sendTextToFlask(text.toString(), journalId, customerId).subscribe();
+
+		return ScriptListWithKeywordsResponseDTO.of(scriptResponseDTOList);
 	}
 
 	@Override

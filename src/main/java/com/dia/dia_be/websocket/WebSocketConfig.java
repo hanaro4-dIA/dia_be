@@ -14,5 +14,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 		registry.addHandler(new PbAvailabilityHandler(), "/ws/availability").setAllowedOrigins("*");
 		registry.addHandler(new RequestConsultationHandler(), "/ws/consultation")
 			.setAllowedOrigins("*");
+		registry.addHandler(new JournalKeywordHandler(), "/ws/journalkeyword")
+			.setAllowedOrigins("*");
 	}
 }
