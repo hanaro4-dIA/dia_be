@@ -51,11 +51,11 @@ public class PbCustomerServiceImpl implements PbCustomerService {
 	}
 
 	@Override
-	public List<ResponseCustomerDTO> searchCustomer(String name) {
+	public List<ResponseCustomerDTO> searchCustomer(Long pbId, String name) {
 		if (name == null || name.trim().isEmpty()) {
 			throw new GlobalException(PbErrorCode.INVALID_CUSTOMER_SEARCH);
 		}
-		List<Customer> customers = customerRepository.findByNameContaining(name);
+		List<Customer> customers = customerRepository.findByPb_idAndNameContaining(pbId,name);
 		if (customers.isEmpty()) {
 			throw new GlobalException(PbErrorCode.CUSTOMER_NOT_FOUND);
 		}

@@ -85,7 +85,7 @@ public class PbCustomerController {
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
 
-		List<ResponseCustomerDTO> customers = pbCustomerService.searchCustomer(name);
+		List<ResponseCustomerDTO> customers = pbCustomerService.searchCustomer(loginDTO.getPbId(), name);
 		return ResponseEntity.ok(customers);
 	}
 
