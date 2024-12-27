@@ -32,6 +32,7 @@ import com.dia.dia_be.exception.GlobalException;
 import com.dia.dia_be.service.pb.intf.PbJournalService;
 import com.dia.dia_be.service.pb.intf.PbProductService;
 import com.dia.dia_be.service.pb.intf.PbReserveService;
+import com.dia.dia_be.websocket.JournalKeywordHandler;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -50,12 +51,14 @@ public class PbJournalController {
 	private final PbJournalService pbJournalService;
 	private final PbReserveService pbReserveService;
 	private final PbProductService pbProductService;
+	private final JournalKeywordHandler journalKeywordHandler;
 
 	public PbJournalController(PbJournalService pbJournalService, PbReserveService pbReserveService,
-		PbProductService pbProductService) {
+		PbProductService pbProductService, JournalKeywordHandler journalKeywordHandler) {
 		this.pbJournalService = pbJournalService;
 		this.pbReserveService = pbReserveService;
 		this.pbProductService = pbProductService;
+		this.journalKeywordHandler = journalKeywordHandler;
 	}
 
 	@GetMapping()
@@ -309,6 +312,10 @@ public class PbJournalController {
 		if (loginDTO == null) { // 세션에 회원 데이터가 없으면 홈으로 이동
 			return new ResponseEntity<>(null, HttpStatus.FOUND);
 		}
+
+		//웹소켓 시작
+		journalKeywordHandler.getJournalKeyword(journal_id);
+
 		return ResponseEntity.ok()
 			.body(pbJournalService.editScriptsAndKeyword(loginDTO.getPbId(), journal_id, scriptListRequestDTO));
 	}
