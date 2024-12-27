@@ -33,16 +33,25 @@ public class JournalKeywordHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) {
-		sessions.add(session); // 클라이언트 세션 추가
+		sessions.add(session);
+		System.out.println("WebSocket  journalkeyword  연결 성공: " + session.getId());// 클라이언트 세션 추가
 	}
 
 	public void getJournalKeyword(Long journalId) {
 		sessions.forEach(session -> {
 			try {
-				// 1. journalId를 기반으로 키워드 검색
+				// 로그 추가
+				System.out.println("Received journalId: " + journalId);
+
+				// 1. 데이터베이스에서 키워드 조회
 				List<JournalKeyword> journalKeywordList = journalKeywordRepository.findALLByJournalId(journalId);
 
-				// 2. 각 키워드의 추가 정보를 조회하여 DTO 리스트 생성
+				// 2. 키워드 데이터가 비어 있을 경우 로그 출력
+				if (journalKeywordList.isEmpty()) {
+					System.out.println("No keywords found for journalId: " + journalId);
+				}
+
+				// 3. DTO 변환 및 전송
 				List<ResponseKeywordDTO> keywordDTOList = journalKeywordList.stream()
 					.map(journalKeyword -> {
 						Keyword keyword = keywordRepository.findById(journalKeyword.getKeyword().getId())
@@ -55,10 +64,7 @@ public class JournalKeywordHandler extends TextWebSocketHandler {
 					})
 					.collect(Collectors.toList());
 
-				// 3. ResponseListJournalKeywordDTO 생성
 				ResponseListJournalKeywordDTO responseDTO = ResponseListJournalKeywordDTO.of(keywordDTOList);
-
-				// 4. 클라이언트로 데이터 전송
 				session.sendMessage(new TextMessage(objectMapper.writeValueAsString(responseDTO)));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -69,7 +75,8 @@ public class JournalKeywordHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-		sessions.remove(session); // 세션 제거
+		sessions.remove(session);
+		System.out.println("WebSocket journalkeyword 연결 종료: " + session.getId());// 세션 제거
 	}
 
 }
