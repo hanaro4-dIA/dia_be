@@ -2,6 +2,9 @@ package com.dia.dia_be.websocket;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -33,50 +36,50 @@ public class JournalKeywordHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) {
+		sessions.removeIf(existingSession -> existingSession.getRemoteAddress().equals(session.getRemoteAddress()));
 		sessions.add(session);
-		System.out.println("WebSocket  journalkeyword  연결 성공: " + session.getId());// 클라이언트 세션 추가
+		System.out.println("WebSocket  journalkeyword  연결 성공: " + session.getId());//클라이언트 세션
 	}
 
 	public void getJournalKeyword(Long journalId) {
-		sessions.forEach(session -> {
-			try {
-				// 로그 추가
-				System.out.println("Received journalId: " + journalId);
+		ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-				// 1. 데이터베이스에서 키워드 조회
+		executorService.scheduleAtFixedRate(() -> {
+			try {
 				List<JournalKeyword> journalKeywordList = journalKeywordRepository.findALLByJournalId(journalId);
 
-				// 2. 키워드 데이터가 비어 있을 경우 로그 출력
-				if (journalKeywordList.isEmpty()) {
-					System.out.println("No keywords found for journalId: " + journalId);
+				if (!journalKeywordList.isEmpty()) {
+					List<ResponseKeywordDTO> keywordDTOList = journalKeywordList.stream()
+						.map(journalKeyword -> {
+							Keyword keyword = keywordRepository.findById(journalKeyword.getKeyword().getId())
+								.orElseThrow(() -> new RuntimeException("Keyword not found"));
+							return ResponseKeywordDTO.builder()
+								.id(keyword.getId())
+								.title(keyword.getTitle())
+								.content(keyword.getContent())
+								.build();
+						})
+						.collect(Collectors.toList());
+
+					ResponseListJournalKeywordDTO responseDTO = ResponseListJournalKeywordDTO.of(keywordDTOList);
+
+					for (WebSocketSession session : sessions) {
+						session.sendMessage(new TextMessage(objectMapper.writeValueAsString(responseDTO)));
+					}
+
+					//폴링중지
+					executorService.shutdown();
 				}
-
-				// 3. DTO 변환 및 전송
-				List<ResponseKeywordDTO> keywordDTOList = journalKeywordList.stream()
-					.map(journalKeyword -> {
-						Keyword keyword = keywordRepository.findById(journalKeyword.getKeyword().getId())
-							.orElseThrow(() -> new RuntimeException("Keyword not found"));
-						return ResponseKeywordDTO.builder()
-							.id(keyword.getId())
-							.title(keyword.getTitle())
-							.content(keyword.getContent())
-							.build();
-					})
-					.collect(Collectors.toList());
-
-				ResponseListJournalKeywordDTO responseDTO = ResponseListJournalKeywordDTO.of(keywordDTOList);
-				session.sendMessage(new TextMessage(objectMapper.writeValueAsString(responseDTO)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		});
-
+		}, 0, 2, TimeUnit.SECONDS); //2초 간격
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
 		sessions.remove(session);
-		System.out.println("WebSocket journalkeyword 연결 종료: " + session.getId());// 세션 제거
+		System.out.println("WebSocket journalkeyword 연결 종료: " + session.getId());//세션 제거
 	}
 
 }
