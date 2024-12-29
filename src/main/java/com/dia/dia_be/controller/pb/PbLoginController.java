@@ -18,7 +18,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -42,12 +44,22 @@ public class PbLoginController {
 		@ApiResponse(responseCode = "500", description = "로그인 실패")
 	})
 	public ResponseEntity<LoginResponseDTO> pbLogin(@RequestBody @Valid final LoginForm loginForm,
-		HttpServletRequest request) {
+		HttpServletRequest request, HttpServletResponse response) {
 		Pb pb = pbProfileService.login(loginForm.getId(), loginForm.getPw());
 		LoginDTO loginDTO = new LoginDTO(pb.getId());
 
 		HttpSession session = request.getSession(true);
 		session.setAttribute(PbSessionConst.LOGIN_PB, loginDTO);
+		session.setAttribute("SameSite", "None");  // 크로스 도메인 요청 허용
+
+		Cookie cookie = new Cookie("JSESSIONID", session.getId());
+		cookie.setPath("/");
+		cookie.setHttpOnly(true);
+		cookie.setSecure(true);
+		cookie.setMaxAge(7 * 24 * 60 * 60);  // 7일 유지
+		cookie.setAttribute("SameSite", "None");  // 크로스 도메인 요청 허용
+		response.addCookie(cookie);
+
 		return ResponseEntity.ok().body(new LoginResponseDTO("Login successful"));
 	}
 }
