@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 		registry.addHandler(new PbAvailabilityHandler(), "/wss/availability").setAllowedOrigins("*"); //https
 		registry.addHandler(new RequestConsultationHandler(), "/wss/consultation")
 			.setAllowedOrigins("*");
-		registry.addHandler(journalKeywordHandler, "/ws/journalkeyword")
+		registry.addHandler(journalKeywordHandler, "/wss/journalkeyword")
 			.setAllowedOrigins("*");
 	}
 }
