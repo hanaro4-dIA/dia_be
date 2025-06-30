@@ -5,6 +5,8 @@
 
 ### 🏆 1차 프로젝트 종합 1위 우수프로젝트상 수상
 
+[유튜브 시연 영상 바로가기](https://www.youtube.com/watch?v=q66A-Tz5t5w) <br/>
+
 [vip 사이트 바로가기](https://dia-vip-fe.vercel.app/) <br/>
 
 [pb 사이트 바로가기](https://dia-pb-fe.vercel.app/)
@@ -12,7 +14,8 @@
 ## 목차
 - [ 개요 ](#개요)
 - [ 기술 스택 ](#기술-스택)
-- [ 기능 소개 ](#기능-소개)
+- [ 주요 기능 소개 ](#주요-기능-소개)
+- [ 기능 시연 GIF ](#기능-시연-GIF)
 - [ 팀원 ](#팀원)
 
 <br>
@@ -30,7 +33,7 @@
 
 <br>
 
-## 기능 소개
+## 주요 기능 소개
 
 ### VIP
 1. PB가 상담 가능 상황일 때 '즉시' 상담 가능한 빠른 상담 기능
@@ -47,6 +50,90 @@
 5. 금융용어 사전 제공 기능
 
 <br>
+
+
+## 기능 시연 GIF
+
+### PB 화면
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/bc10cf01-ea0b-4748-90b8-d49582320196"></td>
+    <td><img src="https://github.com/user-attachments/assets/37f34c47-cbb9-45bb-a4a2-fac340d3f275"></td>
+  </tr>
+  <tr>
+    <td>메인 페이지</td>
+    <td>PB 빠른상담</td>
+  </tr>
+
+ <tr>
+    <td><img src="https://github.com/user-attachments/assets/4369b135-2350-4f02-bec0-7e0a0ebaa086"></td>
+    <td><img src="https://github.com/user-attachments/assets/f12c943d-0b73-4f3d-8e49-f0fef2eeff20"></td>
+  </tr>
+  <tr>
+    <td>손님 정보 확인</td>
+    <td>일지 작성</td>
+  </tr>
+
+   <tr>
+    <td><img src="https://github.com/user-attachments/assets/a72e6967-ca95-4703-a3c8-8e09fdac7755"></td>
+    <td><img src="https://github.com/user-attachments/assets/3ab0db4b-7b57-452b-902c-bce8ce9fa100"></td>
+  </tr>
+  <tr>
+    <td>쪽지 작성</td>
+    <td>쪽지 확인</td>
+  </tr>
+
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/3da19622-1797-4705-8dc5-9e0a1395f15e"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>키워드 DB 확인</td>
+    <td></td>
+  </tr>
+</table>
+
+<br>
+
+### VIP 화면
+
+<table>
+   <tr>
+    <td><img src="https://github.com/user-attachments/assets/8033b6ab-a985-4742-8b71-5eb3cbac0b02"></td>
+    <td><img src="https://github.com/user-attachments/assets/88827466-ea74-47bd-a459-c2cb12356d3e"></td>
+   </tr>
+   <tr>
+    <td>로그인 및 회원가입</td>
+    <td>메인 페이지</td>
+   </tr>
+
+   <tr>
+    <td><img src="https://github.com/user-attachments/assets/acc00618-2b9e-46c1-9a30-7cb188247e34"></td>
+    <td><img src="https://github.com/user-attachments/assets/ac95d168-31b3-41f4-b74a-e05e79062b16"></td>
+   </tr>
+   <tr>
+    <td>VIP 빠른 상담 신청</td>
+    <td>VIP 자세한 상담 신청</td>
+   </tr>
+
+   <tr>
+    <td><img src="https://github.com/user-attachments/assets/ac81a028-4f76-49d8-8890-7129f9983c36"></td>
+    <td><img src="https://github.com/user-attachments/assets/6ec0dc83-1dfc-48ac-b632-e83b2984b016"></td>
+   </tr>
+   <tr>
+    <td>상담 내역 확인</td>
+    <td>상담 내역 상세 보기 - 상품 정보 보기</td>
+   </tr>
+
+   <tr>
+    <td><img src="https://github.com/user-attachments/assets/f3a1d445-d69b-48c6-87a2-7eab574715fe"></td>
+    <td><img src="https://github.com/user-attachments/assets/0f3fdd92-34f1-4ec1-9a41-0364a8ce30ec"></td>
+   </tr>
+   <tr>
+    <td>상담 내역 상세 보기 - PDF로 다운로드 하기</td>
+    <td>쪽지 확인</td>
+   </tr>
+</table>
 
 ## 팀원
 <table>
